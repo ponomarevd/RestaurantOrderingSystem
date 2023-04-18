@@ -59,7 +59,8 @@
                 x:Name="RootNavigation"
                 Grid.RowSpan="2"
                 Grid.Column="0"
-                Footer="{Binding ViewModel.NavigationFooter, Mode=TwoWay}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
                 Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
             <Frame

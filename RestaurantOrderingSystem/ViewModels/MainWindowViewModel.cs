@@ -21,9 +21,6 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
-        private ObservableCollection<INavigationControl> _navigationFooter = new();
-
-        [ObservableProperty]
         private ObservableCollection<MenuItem> _trayMenuItems = new();
 
         public MainWindowViewModel(INavigationService navigationService)
@@ -46,6 +43,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageType = typeof(Views.Pages.HomePage),
                     ToolTip = "Главная"
                 },
+
                 new NavigationItem()
                 {
                     Content = "Меню",
@@ -54,6 +52,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageType = typeof(Views.Pages.MenuPage),
                     ToolTip = "Меню"
                 },
+
                 new NavigationItem()
                 {
                     Content = "Столики",
@@ -62,6 +61,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageType = typeof(Views.Pages.TablePage),
                     ToolTip = "Столики"
                 },
+
                 new NavigationItem()
                 {
                     Content = "Акции",
@@ -69,18 +69,6 @@ namespace RestaurantOrderingSystem.ViewModels
                     Icon = SymbolRegular.ShoppingBagPercent20,
                     PageType = typeof(Views.Pages.PromotionsPage),
                     ToolTip = "Акции"
-                }
-            };
-
-            NavigationFooter = new ObservableCollection<INavigationControl>
-            {
-                new NavigationItem()
-                {
-                    Content = "Вход",
-                    PageTag = "login",
-                    Icon = SymbolRegular.Person16,
-                    PageType = typeof(Views.Pages.LoginPage),
-                    ToolTip = "Вход в аккаунт"
                 },
 
                 new NavigationItem()
@@ -90,6 +78,15 @@ namespace RestaurantOrderingSystem.ViewModels
                     Icon = SymbolRegular.Cart16,
                     PageType = typeof(Views.Pages.CartPage),
                     ToolTip = "Корзина"
+                },
+
+                new NavigationItem()
+                {
+                    Content = "Вход",
+                    PageTag = "login",
+                    Icon = SymbolRegular.Person16,
+                    PageType = typeof(Views.Pages.LoginPage),
+                    ToolTip = "Вход в аккаунт"
                 }
             };
 
