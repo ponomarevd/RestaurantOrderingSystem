@@ -16,10 +16,16 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Image
+            Grid.ColumnSpan="2"
+            Width="490"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            FontSize="50"
-            Text="Главная страница" />
+            Source="/Assets/vegetables.png" />
     </Grid>
 </ui:UiPage>

@@ -28,8 +28,11 @@
         <ui:TitleBar
             Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
             Grid.Row="0"
-            FontSize="14"
+            Width="1100"
+            CanMaximize="False"
+            FontSize="16"
             Icon="pack://application:,,,/Assets/applicationIcon-256.png"
+            ShowMaximize="False"
             UseSnapLayout="True">
             <ui:TitleBar.Tray>
                 <ui:NotifyIcon Icon="pack://application:,,,/Assets/applicationIcon-256.png" />
@@ -42,31 +45,14 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-            <ui:Breadcrumb
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="24"
-                Navigation="{Binding ElementName=RootNavigation, Mode=OneWay}" />
-
             <ui:NavigationStore
                 x:Name="RootNavigation"
-                Grid.RowSpan="2"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
                 Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
-            <Frame
-                x:Name="RootFrame"
-                Grid.Row="1"
-                Grid.Column="1" />
+            <Frame x:Name="RootFrame" Grid.Column="1" />
         </Grid>
     </Grid>
 </ui:UiWindow>
