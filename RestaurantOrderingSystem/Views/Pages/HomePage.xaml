@@ -10,22 +10,54 @@
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     d:DataContext="{d:DesignInstance local:HomePage,
                                      IsDesignTimeCreatable=False}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="490"
+    d:DesignWidth="840"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="450" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Image
             Grid.ColumnSpan="2"
-            Width="490"
+            Width="430"
+            Margin="0,0,-15,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Source="/Assets/vegetables.png" />
+
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                FontSize="19"
+                FontWeight="DemiBold"
+                Foreground="#188851"
+                Text="Добро пожаловать в Global Food" />
+            <TextBlock
+                FontSize="27"
+                FontWeight="Bold"
+                Foreground="Black"
+                Text="Оригинальный вкус из Франции" />
+            <TextBlock
+                Width="432"
+                Margin="0,2,0,0"
+                FontSize="11"
+                FontWeight="Medium"
+                Foreground="#FF8C8686"
+                Text="Мы гарантируем свежую еду лучшего качества. Наши клиенты наслаждаются Французской кухней с необычным и утонченным вкусом."
+                TextWrapping="Wrap" />
+            <Button
+                Margin="0,15,0,0"
+                Background="#188851"
+                BorderThickness="0"
+                Content="Сделать заказ"
+                FontSize="13"
+                Foreground="#FFEAEAEA" />
+        </StackPanel>
     </Grid>
 </ui:UiPage>
