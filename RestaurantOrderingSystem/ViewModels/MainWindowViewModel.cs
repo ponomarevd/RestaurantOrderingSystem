@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
+using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
@@ -21,6 +23,9 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
+        private ObservableCollection<INavigationControl> _footerItems = new();
+
+        [ObservableProperty]
         private ObservableCollection<MenuItem> _trayMenuItems = new();
 
         public MainWindowViewModel(INavigationService navigationService)
@@ -33,6 +38,8 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             ApplicationTitle = "Global Food";
 
+            Accent.Apply(Color.FromRgb(24, 136, 81));
+
             NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem()
@@ -41,7 +48,8 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageTag = "home",
                     Icon = SymbolRegular.Home20,
                     PageType = typeof(Views.Pages.HomePage),
-                    ToolTip = "Главная"
+                    ToolTip = "Главная",
+                    IconForeground = Brushes.Black
                 },
 
                 new NavigationItem()
@@ -50,7 +58,8 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageTag = "menu",
                     Icon = SymbolRegular.Food16,
                     PageType = typeof(Views.Pages.MenuPage),
-                    ToolTip = "Меню"
+                    ToolTip = "Меню",
+                    IconForeground = Brushes.Black
                 },
 
                 new NavigationItem()
@@ -59,7 +68,8 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageTag = "tables",
                     Icon = SymbolRegular.Table32,
                     PageType = typeof(Views.Pages.TablePage),
-                    ToolTip = "Столики"
+                    ToolTip = "Столики",
+                    IconForeground = Brushes.Black
                 },
 
                 new NavigationItem()
@@ -68,16 +78,20 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageTag = "promotions",
                     Icon = SymbolRegular.ShoppingBagPercent20,
                     PageType = typeof(Views.Pages.PromotionsPage),
-                    ToolTip = "Акции"
-                },
+                    ToolTip = "Акции",
+                    IconForeground = Brushes.Black
+                }   
+            };
 
+            FooterItems = new ObservableCollection<INavigationControl>
+            {
                 new NavigationItem()
                 {
                     Content = "Корзина",
                     PageTag = "cart",
                     Icon = SymbolRegular.Cart16,
                     PageType = typeof(Views.Pages.CartPage),
-                    ToolTip = "Корзина"
+                    ToolTip = "Корзина",
                 },
 
                 new NavigationItem()
@@ -86,7 +100,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageTag = "login",
                     Icon = SymbolRegular.Person16,
                     PageType = typeof(Views.Pages.LoginPage),
-                    ToolTip = "Вход в аккаунт"
+                    ToolTip = "Вход в аккаунт",
                 }
             };
 

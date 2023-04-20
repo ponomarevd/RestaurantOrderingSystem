@@ -48,8 +48,7 @@
             <ui:NavigationStore
                 x:Name="RootNavigation"
                 Grid.Column="0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
+                Footer="{Binding ViewModel.FooterItems}"
                 Frame="{Binding ElementName=RootFrame, Mode=OneWay}"
                 Items="{Binding ViewModel.NavigationItems, Mode=TwoWay}" />
             <Frame x:Name="RootFrame" Grid.Column="1" />
