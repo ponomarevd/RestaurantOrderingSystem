@@ -7,17 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Главная"
-    d:Background="{DynamicResource ApplicationBackgroundBrush}"
     d:DataContext="{d:DesignInstance local:HomePage,
                                      IsDesignTimeCreatable=False}"
-    d:DesignHeight="490"
-    d:DesignWidth="840"
+    d:DesignHeight="520"
+    d:DesignWidth="940"
+    Background="White"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="450" />
+            <ColumnDefinition Width="550" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -34,34 +34,33 @@
             VerticalAlignment="Center"
             Orientation="Vertical">
             <TextBlock
-                FontSize="19"
+                FontSize="22"
                 FontWeight="DemiBold"
                 Foreground="#188851"
                 Text="Добро пожаловать в Global Food" />
             <TextBlock
-                FontSize="27"
+                FontSize="32"
                 FontWeight="Bold"
                 Foreground="Black"
                 Text="Оригинальный вкус из Франции" />
             <TextBlock
-                Width="432"
+                Width="auto"
                 Margin="0,10,0,0"
-                FontSize="11"
+                FontSize="15"
                 FontWeight="Medium"
                 Foreground="#FF8C8686"
                 Text="Мы гарантируем свежую еду лучшего качества. Наши клиенты наслаждаются Французской кухней с необычным и утонченным вкусом."
                 TextWrapping="Wrap" />
             <Button
-                Width="120"
-                Height="35"
                 Margin="0,15,0,0"
                 HorizontalAlignment="Left"
-                Background="#188851"
-                BorderThickness="0"
+                BorderBrush="#188851"
+                BorderThickness="1.5"
                 Content="Сделать заказ"
-                FontSize="13"
-                Foreground="#FFEAEAEA"
-                Style="{DynamicResource DefaultButtonStyle}" />
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="#188851"
+                Style="{StaticResource ToolBarButtonBaseStyle}" />
         </StackPanel>
     </Grid>
 </ui:UiPage>

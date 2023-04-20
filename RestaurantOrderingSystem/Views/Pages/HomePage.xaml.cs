@@ -1,4 +1,7 @@
-﻿using RestaurantOrderingSystem.ViewModels;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Models.DbTables;
+using RestaurantOrderingSystem.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml;
 using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.Views.Pages

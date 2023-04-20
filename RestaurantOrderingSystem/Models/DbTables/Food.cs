@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace RestaurantOrderingSystem.Models.DbTables
 {
     public class Food
     {
-        public int FoodId { get; set; }
+        public int FoodID { get; set; }
         public string FoodName { get; set; }
         public string FoodStar { get; set; }
         public string FoodVote { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace RestaurantOrderingSystem.Core
 {
     public class RestaurantDbContext : DbContext
     {
-        public DbSet<Food> Foods { get; set; }
-
-        /*public RestaurantDbContext() : base("Data Source=myServer;Initial Catalog=myDatabase;User ID=myUser;Password=myPassword")
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-        }*/
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-467GVQM\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
+        }
+        public DbSet<Food> Food { get; set; }
     }
 }

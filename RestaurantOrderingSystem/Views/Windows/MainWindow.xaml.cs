@@ -1,6 +1,12 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Models.DbTables;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -15,7 +21,6 @@ namespace RestaurantOrderingSystem.Views.Windows
         {
             get;
         }
-
         public MainWindow(ViewModels.MainWindowViewModel viewModel, IPageService pageService, INavigationService navigationService)
         {
             ViewModel = viewModel;
