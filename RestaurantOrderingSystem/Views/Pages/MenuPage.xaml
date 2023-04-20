@@ -5,21 +5,49 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:RestaurantOrderingSystem.Models.DbTables"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Меню"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     d:DataContext="{d:DesignInstance local:MenuPage,
                                      IsDesignTimeCreatable=False}"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="520"
+    d:DesignWidth="940"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="Меню" />
+        <ui:VirtualizingItemsControl
+            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+            ItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
+            VirtualizingPanel.CacheLengthUnit="Item">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type model:Food}">
+                    <StackPanel Width="200" Orientation="Vertical">
+                        <TextBlock Foreground="Black" Text="{Binding FoodID}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodName}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodStar}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodVote}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodPrice}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodDiscount}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodDescription}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodStatus}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodType}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodCategory}" />
+                        <TextBlock Foreground="Black" Text="{Binding FoodPrice}" />
+                        <Button
+                            Margin="0,15,0,0"
+                            HorizontalAlignment="Left"
+                            BorderBrush="#188851"
+                            BorderThickness="1.5"
+                            Content="Добавить"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#188851"
+                            Style="{StaticResource ToolBarButtonBaseStyle}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ui:VirtualizingItemsControl>
     </Grid>
 </ui:UiPage>
