@@ -17,37 +17,58 @@
     mc:Ignorable="d">
 
     <Grid>
+
         <ui:VirtualizingItemsControl
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
             ItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
             VirtualizingPanel.CacheLengthUnit="Item">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:Food}">
-                    <StackPanel Width="200" Orientation="Vertical">
-                        <TextBlock Foreground="Black" Text="{Binding FoodID}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodName}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodStar}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodVote}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodPrice}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodDiscount}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodDescription}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodStatus}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodType}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodCategory}" />
-                        <TextBlock Foreground="Black" Text="{Binding FoodPrice}" />
-                        <Button
-                            Margin="0,15,0,0"
-                            HorizontalAlignment="Left"
-                            BorderBrush="#188851"
-                            BorderThickness="1.5"
-                            Content="Добавить"
-                            FontSize="16"
-                            FontWeight="SemiBold"
-                            Foreground="#188851"
-                            Style="{StaticResource ToolBarButtonBaseStyle}" />
-                    </StackPanel>
+                    <Border
+                        Padding="5"
+                        Margin="10"
+                        Background="WhiteSmoke"
+                        BorderThickness="1.2"
+                        CornerRadius="35">
+                        <StackPanel Width="200" Orientation="Vertical">
+                            <Image
+                                Width="120"
+                                Height="120"
+                                HorizontalAlignment="Center"
+                                Source="{Binding FoodImage}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                Text="{Binding FoodName}" />
+                            <Button
+                                Margin="0,15,0,0"
+                                HorizontalAlignment="Center"
+                                BorderBrush="#188851"
+                                BorderThickness="1.5"
+                                Content="Добавить"
+                                FontSize="12"
+                                FontWeight="SemiBold"
+                                Foreground="#188851"
+                                Style="{StaticResource ToolBarButtonBaseStyle}" />
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ui:VirtualizingItemsControl>
+
+        <!--<Button
+            Margin="0,15,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            BorderBrush="#188851"
+            BorderThickness="1.5"
+            Command="{Binding ViewModel.ButtonClickCommand, Mode=OneWay}"
+            Content="Добавить"
+            FontSize="16"
+            FontWeight="SemiBold"
+            Foreground="#188851"
+            Style="{StaticResource ToolBarButtonBaseStyle}" />-->
     </Grid>
 </ui:UiPage>

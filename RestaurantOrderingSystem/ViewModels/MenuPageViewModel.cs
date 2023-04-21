@@ -1,9 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Metrics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,5 +41,17 @@ namespace RestaurantOrderingSystem.ViewModels
             if (!_isInitialized)
                 InitializeViewModel();
         }
+
+        /*[RelayCommand] //ДОБАВИТЬ КАРТИНКУ В БД
+        private void ButtonClick()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.ShowDialog();
+            byte[] imageB = File.ReadAllBytes(ofd.FileName);
+
+            var foodModel = _dbContext.Food.FirstOrDefault(x => x.FoodName == "Луковый суп");
+            foodModel.FoodImage = imageB;
+            _dbContext.SaveChangesAsync();
+        }*/
     }
 }
