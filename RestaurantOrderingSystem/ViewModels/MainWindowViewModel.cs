@@ -1,6 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
+using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -37,7 +41,6 @@ namespace RestaurantOrderingSystem.ViewModels
         private void InitializeViewModel()
         {
             ApplicationTitle = "Global Food";
-
             Accent.Apply(Color.FromRgb(24, 136, 81));
 
             NavigationItems = new ObservableCollection<INavigationControl>
