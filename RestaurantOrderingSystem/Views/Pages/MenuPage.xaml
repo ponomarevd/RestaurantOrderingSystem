@@ -17,11 +17,20 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="230" />
+        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Margin="7,0,7,0" Orientation="Horizontal">
+
+        <StackPanel
+            Grid.ColumnSpan="2"
+            Margin="7,0,7,0"
+            Orientation="Horizontal">
             <ui:AutoSuggestBox
                 Width="220"
                 BorderBrush="#188851"
@@ -30,17 +39,33 @@
                 MaxLength="15"
                 PlaceholderText="Поиск..." />
         </StackPanel>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="5"
+            Background="#188851">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="21"
+                Foreground="White"
+                Text="Тут будут фильтры" />
+        </Border>
         <ui:VirtualizingItemsControl
             Grid.Row="1"
+            Grid.Column="0"
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
             ItemsSource="{Binding ViewModel.MenuItems, Mode=OneWay}"
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
             VirtualizingPanel.CacheLengthUnit="Item">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:Food}">
                     <Border
                         Margin="7"
                         Padding="8"
-                        Background="WhiteSmoke">
+                        Background="WhiteSmoke"
+                        CornerRadius="15">
                         <StackPanel Width="200" Orientation="Vertical">
                             <Image
                                 Width="130"
@@ -78,8 +103,11 @@
                                 Margin="0,7,0,0"
                                 HorizontalAlignment="Center"
                                 FontSize="13"
-                                Foreground="Black"
-                                Text="{Binding FoodType}" />
+                                Foreground="Black">
+                                <Run Text="{Binding FoodType}" />
+                                <Run Text=" | " />
+                                <Run Text="{Binding FoodCategory}" />
+                            </TextBlock>
                             <TextBlock
                                 Margin="0,7,0,0"
                                 HorizontalAlignment="Center"
