@@ -14,7 +14,6 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string FoodStar { get; set; }
         public string FoodVote { get; set; }
         public int FoodPrice { get; set; }
-        public int FoodDiscount { get; set; }
         public string FoodDescription { get; set; }
         public string FoodStatus { get; set; }
         public string FoodType { get; set;}
