@@ -51,7 +51,7 @@
                 Foreground="#FF8C8686"
                 Text="Мы гарантируем свежую еду лучшего качества. Наши клиенты наслаждаются Французской кухней с необычным и утонченным вкусом."
                 TextWrapping="Wrap" />
-            <Button
+            <ui:NavigationItem
                 Margin="0,15,0,0"
                 HorizontalAlignment="Left"
                 BorderBrush="#188851"

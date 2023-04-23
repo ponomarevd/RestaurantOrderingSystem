@@ -67,24 +67,157 @@
             </ItemsControl.ItemsPanel>
         </ItemsControl>
 
-        <Border
+        <Grid
             Grid.Row="1"
             Grid.Column="1"
-            Margin="5"
-            Background="#188851">
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontSize="21"
-                Foreground="White"
-                Text="Тут будут фильтры" />
-        </Border>
+            Margin="5">
+            <StackPanel>
+                <TextBlock
+                    FontSize="23"
+                    FontWeight="SemiBold"
+                    Foreground="#188851"
+                    Text="Статус" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Популярное"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Обычное"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Удовлетворительное"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+
+                <Border
+                    Height="2"
+                    Margin="0,15,0,15"
+                    Background="#188851" />
+
+                <TextBlock
+                    FontSize="23"
+                    FontWeight="SemiBold"
+                    Foreground="#188851"
+                    Text="Цена" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="50 - 100 ₽"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="100 - 500 ₽"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="500 - 1000 ₽"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+
+                <Border
+                    Height="2"
+                    Margin="0,15,0,15"
+                    Background="#188851" />
+
+                <TextBlock
+                    FontSize="23"
+                    FontWeight="SemiBold"
+                    Foreground="#188851"
+                    Text="Тип" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Мясное"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0"
+                    HorizontalAlignment="Left"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Овощное"
+                    FontSize="14"
+                    FontWeight="Regular"
+                    Foreground="#FF756868" />
+                <Border
+                    Height="2"
+                    Margin="0,15,0,15"
+                    Background="#188851" />
+                <Button
+                    HorizontalAlignment="Center"
+                    Background="Transparent"
+                    BorderBrush="#188851"
+                    BorderThickness="1.5"
+                    Command="{Binding ViewModel.FilterButtonClickCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                    Content="Сбросить"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Foreground="#188851" />
+            </StackPanel>
+        </Grid>
 
         <ui:VirtualizingItemsControl
             Grid.Row="1"
             Grid.Column="0"
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-            ItemsSource="{Binding ViewModel.MenuItemsSecondary, Mode=OneWay}"
+            ItemsSource="{Binding ViewModel.MenuItemsSecondary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             ScrollViewer.CanContentScroll="False"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             VirtualizingPanel.CacheLengthUnit="Item">

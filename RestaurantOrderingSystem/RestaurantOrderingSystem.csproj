@@ -30,29 +30,16 @@
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
     <None Remove="Assets\vegetables.png" />
-    <None Remove="Fonts\Lato-Regular.ttf" />
-    <None Remove="Fonts\OpenSans-Regular.ttf" />
-    <None Remove="Fonts\OpenSans-Semibold.ttf" />
-    <None Remove="Fonts\SF-Pro-Display-Heavy.ttf" />
-    <None Remove="Fonts\SF-Pro-Display-Medium.ttf" />
-    <None Remove="Fonts\SF-Pro-Display-Regular.ttf" />
-    <None Remove="Fonts\SF-Pro-Display-Semibold.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Fonts\Lato-Regular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
     <Resource Include="Assets\vegetables.png" />
-    <Resource Include="Fonts\OpenSans-Regular.ttf" />
-    <Resource Include="Fonts\OpenSans-Semibold.ttf" />
-    <Resource Include="Fonts\SF-Pro-Display-Heavy.ttf" />
-    <Resource Include="Fonts\SF-Pro-Display-Medium.ttf" />
-    <Resource Include="Fonts\SF-Pro-Display-Regular.ttf" />
-    <Resource Include="Fonts\SF-Pro-Display-Semibold.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Assets\DB SQL\" />
   </ItemGroup>
 
 </Project>

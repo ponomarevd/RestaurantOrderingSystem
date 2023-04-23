@@ -29,9 +29,6 @@ namespace RestaurantOrderingSystem.ViewModels
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _footerItems = new();
 
-        [ObservableProperty]
-        private ObservableCollection<MenuItem> _trayMenuItems = new();
-
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)

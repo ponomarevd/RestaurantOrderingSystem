@@ -96,6 +96,44 @@ namespace RestaurantOrderingSystem.ViewModels
                 case "Вторые блюда":
                     MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Второе блюдо"));
                     break;
+                case "Закуски":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Закуска"));
+                    break;
+                case "Деликатесы":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Деликатес"));
+                    break;
+                case "Напитки":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Напиток"));
+                    break;
+                case "Популярное":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Популярное"));
+                    break;
+                case "Обычное":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Обычное"));
+                    break;
+                case "Удовлетворительное":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Удовлетворительное"));
+                    break;
+                case "50 - 100 ₽":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 50 && x.FoodPrice <= 100));
+                    break;
+                case "100 - 500 ₽":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 100 && x.FoodPrice <= 500));
+                    break;
+                case "500 - 1000 ₽":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 500 && x.FoodPrice <= 1000));
+                    break;
+                case "Мясное":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == "Мясное"));
+                    break;
+                case "Овощное":
+                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == "Овощное"));
+                    break;
+                case "Сбросить":
+                    MenuItemsSecondary = MenuItemsMain;
+                    break;
+                default:
+                    return;
             }
         }
 
@@ -114,14 +152,14 @@ namespace RestaurantOrderingSystem.ViewModels
                 ofd.ShowDialog();
                 byte[] imageB = File.ReadAllBytes(ofd.FileName);
 
-                var foodModel = _dbContext.Food.FirstOrDefault(x => x.FoodName == "Рататуй");
+                var foodModel = _dbContext.Food.FirstOrDefault(x => x.FoodName == "Улитки");
                 foodModel.FoodImage = imageB;
                 _dbContext.SaveChangesAsync();
             }
             catch (Exception)
             {
                 return;
-            }    
+            }
         }*/
     }
 }

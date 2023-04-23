@@ -1,17 +1,23 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Hosting;
+using RestaurantOrderingSystem.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Mvvm.Contracts;
+using Wpf.Ui.Mvvm.Services;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
-    public class HomePageViewModel : ObservableObject, INavigationAware
+    public partial class HomePageViewModel : ObservableObject, INavigationAware
     {
         public void OnNavigatedFrom()
         {
+            
         }
 
         public void OnNavigatedTo()
