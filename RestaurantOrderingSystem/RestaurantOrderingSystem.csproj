@@ -38,8 +38,4 @@
     <Resource Include="Assets\vegetables.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Assets\DB SQL\" />
-  </ItemGroup>
-
 </Project>
