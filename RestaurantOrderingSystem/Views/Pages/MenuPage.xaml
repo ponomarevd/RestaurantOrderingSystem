@@ -291,7 +291,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ui:VirtualizingItemsControl>
-
         <!--<Button
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"
