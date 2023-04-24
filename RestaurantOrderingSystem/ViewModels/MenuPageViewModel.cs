@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.ViewModels
@@ -19,6 +22,18 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<Food> _menuItemsMain;
 
         [ObservableProperty]
+        private string? _searchText;
+
+        [ObservableProperty]
+        private Visibility _progressRingVisibility = Visibility.Visible;
+
+        [ObservableProperty]
+        private bool _searchIsEnabled = false;
+
+        [ObservableProperty]
+        private bool _filtersIsEnabled = false;
+
+        [ObservableProperty]
         private ObservableCollection<ButtonItem>? _filterButtons;
 
         [ObservableProperty]
@@ -27,14 +42,20 @@ namespace RestaurantOrderingSystem.ViewModels
         {
         }
 
-        private void InitializeViewModel()
+        [RelayCommand]
+        private async void TextChanged()
         {
-            _dbContext = new RestaurantDbContext();
+            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(MenuItemsMain.Where(u => u.FoodName.ToLower().Contains(SearchText.ToLower())).ToList()));
+        }
 
-            MenuItemsMain = new ObservableCollection<Food>(_dbContext.Food.ToList());
-            MenuItemsSecondary = MenuItemsMain;
+        private async void InitializeViewModel()
+        {
+            _dbContext = await Task.Run(()=>new RestaurantDbContext());
 
-            FilterButtons = new ObservableCollection<ButtonItem>()
+            MenuItemsMain = await Task.Run(()=>new ObservableCollection<Food>(_dbContext.Food.ToList()));
+            MenuItemsSecondary = await Task.Run(()=>MenuItemsMain);
+
+            FilterButtons = await Task.Run(() => new ObservableCollection<ButtonItem>()
             {
                 new ButtonItem
                 {
@@ -66,9 +87,14 @@ namespace RestaurantOrderingSystem.ViewModels
                     Content = "Напитки",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 }
-            };
+            });
 
             _isInitialized = true;
+            ProgressRingVisibility = Visibility.Hidden;
+            SearchIsEnabled = true;
+            FiltersIsEnabled = true;
+ 
+            
         }
 
         [RelayCommand]

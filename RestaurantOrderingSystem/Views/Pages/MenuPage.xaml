@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:RestaurantOrderingSystem.Models.DbTables"
@@ -27,15 +28,29 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <ui:ProgressRing
+            Grid.RowSpan="2"
+            Grid.Column="0"
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
 
         <ui:AutoSuggestBox
             Grid.Column="1"
             Width="220"
+            Background="Transparent"
             BorderBrush="#188851"
             BorderThickness="1.3"
             IconForeground="#188851"
+            IsEnabled="{Binding ViewModel.SearchIsEnabled}"
             MaxLength="15"
-            PlaceholderText="Поиск..." />
+            PlaceholderText="Поиск..."
+            Text="{Binding ViewModel.SearchText, UpdateSourceTrigger=PropertyChanged}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TextChanged">
+                    <i:InvokeCommandAction Command="{Binding ViewModel.TextChangedCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ui:AutoSuggestBox>
 
 
         <ItemsControl
@@ -46,18 +61,20 @@
             ItemsSource="{Binding ViewModel.FilterButtons}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button
-                        Margin="3,0,3,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        BorderBrush="#188851"
-                        BorderThickness="1.5"
-                        Command="{Binding Command}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding Content}"
-                        FontSize="16"
-                        FontWeight="SemiBold"
-                        Foreground="#188851" />
+                    <Grid>
+                        <Button
+                            Margin="3,0,3,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding Command}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                            Content="{Binding Content}"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Foreground="#188851" />
+                    </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
@@ -70,7 +87,8 @@
         <Grid
             Grid.Row="1"
             Grid.Column="1"
-            Margin="5">
+            Margin="5"
+            IsEnabled="{Binding ViewModel.FiltersIsEnabled}">
             <StackPanel>
                 <TextBlock
                     FontSize="23"
@@ -222,7 +240,7 @@
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             VirtualizingPanel.CacheLengthUnit="Item">
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type model:Food}">
+                <DataTemplate>
                     <Border
                         Margin="7"
                         Padding="8"
@@ -239,7 +257,7 @@
                                         BlurRadius="24"
                                         Direction="225"
                                         ShadowDepth="1"
-                                        Color="#FFB6C2CB" />
+                                        Color="#FFBFBFBF" />
                                 </Image.Effect>
                             </Image>
                             <TextBlock
