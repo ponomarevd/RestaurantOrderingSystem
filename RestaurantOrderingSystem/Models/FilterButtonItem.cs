@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace RestaurantOrderingSystem.Models
 {
-    public class ButtonItem
+    public class FilterButtonItem
     {
         public string Content { get; set; }
         public RelayCommand<string> Command { get; set; }

@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:RestaurantOrderingSystem.Models.DbTables"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    x:Name="PGMenu"
     Title="Меню"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
     d:DataContext="{d:DesignInstance local:MenuPage,
@@ -232,6 +233,7 @@
         </Grid>
 
         <ui:VirtualizingItemsControl
+            x:Name="listViewMenu"
             Grid.Row="1"
             Grid.Column="0"
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
@@ -300,7 +302,8 @@
                                 HorizontalAlignment="Center"
                                 BorderBrush="#188851"
                                 BorderThickness="1.5"
-                                Content="В корзину"
+                                Command="{Binding ToCartButtonItem.Command}"
+                                Content="{Binding ToCartButtonItem.Content, UpdateSourceTrigger=PropertyChanged}"
                                 FontSize="14"
                                 FontWeight="SemiBold"
                                 Foreground="#188851" />

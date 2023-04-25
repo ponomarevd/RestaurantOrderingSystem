@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.ViewModels
@@ -31,10 +32,13 @@ namespace RestaurantOrderingSystem.ViewModels
         private bool _searchIsEnabled = false;
 
         [ObservableProperty]
+        private string _buttonContent = "В корзину";
+
+        [ObservableProperty]
         private bool _filtersIsEnabled = false;
 
         [ObservableProperty]
-        private ObservableCollection<ButtonItem>? _filterButtons;
+        private ObservableCollection<FilterButtonItem>? _filterButtons;
 
         [ObservableProperty]
         private ObservableCollection<Food>? _menuItemsSecondary;
@@ -53,36 +57,46 @@ namespace RestaurantOrderingSystem.ViewModels
             _dbContext = await Task.Run(()=>new RestaurantDbContext());
 
             MenuItemsMain = await Task.Run(()=>new ObservableCollection<Food>(_dbContext.Food.ToList()));
+
+            foreach (Food food in MenuItemsMain)
+            {
+                food.ToCartButtonItem = new ToCartButtonItem()
+                {
+                    Content = "В корзину",
+                    Command = new RelayCommand(ToCartClick)
+                };
+            }
+
             MenuItemsSecondary = await Task.Run(()=>MenuItemsMain);
 
-            FilterButtons = await Task.Run(() => new ObservableCollection<ButtonItem>()
+            FilterButtons = await Task.Run(() => new ObservableCollection<FilterButtonItem>()
             {
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Вся еда",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 },
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Первые блюда",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 },
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Вторые блюда",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 },
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Закуски",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 },
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Деликатесы",
                     Command = new RelayCommand<string>(FilterButtonClick)
                 },
-                new ButtonItem
+                new FilterButtonItem
                 {
                     Content = "Напитки",
                     Command = new RelayCommand<string>(FilterButtonClick)
@@ -98,9 +112,17 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void ToCartClick(string? obj)
+        private void ToCartClick()
         {
-            
+            /*switch (SelectedMenuItem.ToCartButtonItem.Content)
+            {
+                case "Убрать":
+                    SelectedMenuItem.ToCartButtonItem.Content = "В корзину";
+                    break;
+                case "В корзину":
+                    SelectedMenuItem.ToCartButtonItem.Content = "Убрать";
+                    break;
+            }*/
         }
 
         [RelayCommand]

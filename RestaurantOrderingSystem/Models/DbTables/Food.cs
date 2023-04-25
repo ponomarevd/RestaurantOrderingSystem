@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,5 +21,8 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string? FoodType { get; set;}
         public string? FoodCategory { get; set; }
         public byte[]? FoodImage { get; set; }
+
+        [NotMapped]
+        public ToCartButtonItem? ToCartButtonItem { get; set; }
     }
 }
