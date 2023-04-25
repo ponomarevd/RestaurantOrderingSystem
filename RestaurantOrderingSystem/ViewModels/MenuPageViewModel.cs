@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
@@ -8,7 +7,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using Wpf.Ui.Appearance;
+using System.Windows.Data;
+using System.Windows.Media;
 using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.ViewModels
@@ -63,7 +63,10 @@ namespace RestaurantOrderingSystem.ViewModels
                 food.ToCartButtonItem = new ToCartButtonItem()
                 {
                     Content = "В корзину",
-                    Command = new RelayCommand(ToCartClick)
+                    Command = new RelayCommand<string>(ToCartClick),
+                    ItemName = food.FoodName,
+                    BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851"),
+                    Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851")
                 };
             }
 
@@ -112,17 +115,25 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void ToCartClick()
+        private void ToCartClick(string parameter)
         {
-            /*switch (SelectedMenuItem.ToCartButtonItem.Content)
+            Food SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
+
+            switch (SelectedFoodModel.ToCartButtonItem.Content)
             {
                 case "Убрать":
-                    SelectedMenuItem.ToCartButtonItem.Content = "В корзину";
+                    SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
+                    SelectedFoodModel.ToCartButtonItem.BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851");
+                    SelectedFoodModel.ToCartButtonItem.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851");
+                    CollectionViewSource.GetDefaultView(MenuItemsSecondary).Refresh();
                     break;
                 case "В корзину":
-                    SelectedMenuItem.ToCartButtonItem.Content = "Убрать";
+                    SelectedFoodModel.ToCartButtonItem.Content = "Убрать";
+                    SelectedFoodModel.ToCartButtonItem.BorderBrush = Brushes.DarkRed;
+                    SelectedFoodModel.ToCartButtonItem.Foreground = Brushes.DarkRed;
+                    CollectionViewSource.GetDefaultView(MenuItemsSecondary).Refresh();
                     break;
-            }*/
+            }
         }
 
         [RelayCommand]

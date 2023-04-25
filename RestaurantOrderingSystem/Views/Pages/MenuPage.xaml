@@ -237,7 +237,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-            ItemsSource="{Binding ViewModel.MenuItemsSecondary, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding ViewModel.MenuItemsSecondary, UpdateSourceTrigger=PropertyChanged}"
             ScrollViewer.CanContentScroll="False"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
             VirtualizingPanel.CacheLengthUnit="Item">
@@ -300,13 +300,14 @@
                             <Button
                                 Margin="0,7,0,0"
                                 HorizontalAlignment="Center"
-                                BorderBrush="#188851"
+                                BorderBrush="{Binding ToCartButtonItem.BorderBrush}"
                                 BorderThickness="1.5"
                                 Command="{Binding ToCartButtonItem.Command}"
+                                CommandParameter="{Binding ToCartButtonItem.ItemName}"
                                 Content="{Binding ToCartButtonItem.Content, UpdateSourceTrigger=PropertyChanged}"
                                 FontSize="14"
                                 FontWeight="SemiBold"
-                                Foreground="#188851" />
+                                Foreground="{Binding ToCartButtonItem.Foreground}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
