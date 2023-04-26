@@ -3,8 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -115,9 +117,9 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void ToCartClick(string parameter)
+        private async void ToCartClick(string? parameter)
         {
-            Food SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
+            Food SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
 
             switch (SelectedFoodModel.ToCartButtonItem.Content)
             {
