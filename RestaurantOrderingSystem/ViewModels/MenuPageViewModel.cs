@@ -56,21 +56,30 @@ namespace RestaurantOrderingSystem.ViewModels
 
         private async void InitializeViewModel()
         {
-            _dbContext = await Task.Run(()=>new RestaurantDbContext());
-
-            MenuItemsMain = await Task.Run(()=>new ObservableCollection<Food>(_dbContext.Food.ToList()));
-
-            foreach (Food food in MenuItemsMain)
+            try
             {
-                food.ToCartButtonItem = new ToCartButtonItem()
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+
+                MenuItemsMain = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.ToList()));
+
+                foreach (Food food in MenuItemsMain)
                 {
-                    Content = "В корзину",
-                    Command = new RelayCommand<string>(ToCartClick),
-                    ItemName = food.FoodName,
-                    BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush,
-                    Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush
-                };
+                    food.ToCartButtonItem = new ToCartButtonItem()
+                    {
+                        Content = "В корзину",
+                        Command = new RelayCommand<string>(ToCartClick),
+                        ItemName = food.FoodName,
+                        BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush,
+                        Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush
+                    };
+                }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Неизвестная ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
 
             MenuItemsSecondary = await Task.Run(()=>MenuItemsMain);
 
