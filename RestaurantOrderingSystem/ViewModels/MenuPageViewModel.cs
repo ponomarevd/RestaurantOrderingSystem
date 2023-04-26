@@ -65,8 +65,8 @@ namespace RestaurantOrderingSystem.ViewModels
                     Content = "В корзину",
                     Command = new RelayCommand<string>(ToCartClick),
                     ItemName = food.FoodName,
-                    BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851"),
-                    Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851")
+                    BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush,
+                    Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush
                 };
             }
 
@@ -123,8 +123,8 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 case "Убрать":
                     SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
-                    SelectedFoodModel.ToCartButtonItem.BorderBrush = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851");
-                    SelectedFoodModel.ToCartButtonItem.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#188851");
+                    SelectedFoodModel.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+                    SelectedFoodModel.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
                     CollectionViewSource.GetDefaultView(MenuItemsSecondary).Refresh();
                     break;
                 case "В корзину":
