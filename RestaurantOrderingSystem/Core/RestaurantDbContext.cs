@@ -19,5 +19,8 @@ namespace RestaurantOrderingSystem.Core
             optionsBuilder.UseSqlServer(@"Data Source=WIN-5RHJKOR4UQF\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
         }
         public DbSet<Food> Food { get; set; }
+        public DbSet<Cart> Cart { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Role> Role { get; set; }
     }
 }

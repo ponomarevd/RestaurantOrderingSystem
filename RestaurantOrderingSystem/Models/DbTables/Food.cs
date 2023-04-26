@@ -22,11 +22,6 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string? FoodCategory { get; set; }
         public byte[]? FoodImage { get; set; }
 
-        //Связь с таблицей Cart
-        [ForeignKey("Cart")]
-        public int CartID { get; set; }
-        public Role? Cart { get; set; }
-
         [NotMapped]
         public ToCartButtonItem? ToCartButtonItem { get; set; }
     }

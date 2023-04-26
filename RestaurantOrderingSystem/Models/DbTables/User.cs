@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Wpf.Ui.Controls;
 
 namespace RestaurantOrderingSystem.Models.DbTables
 {
@@ -14,12 +15,11 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string? UserName { get; set; }
         public string? UserPassword { get; set; }
 
-        //Связь с таблицей Cart
-        public ICollection<Cart> Carts { get; set; }
-
-        //Связь с таблицей Role
-        [ForeignKey("Role")]
+        //Role Relationship
         public int RoleID { get; set; }
-        public Role? Role { get; set; }
+        public virtual Role? Role { get; set; }
+
+        //Cart Relationship
+        public virtual ICollection<Cart>? Carts { get; set; }
     }
 }

@@ -11,13 +11,14 @@ namespace RestaurantOrderingSystem.Models.DbTables
     {
         public int CartID { get; set; }
 
-        //Связь с таблицей User
-        [ForeignKey("User")]
+        //User Relationship
         public int UserID { get; set; }
-        public Role? Role { get; set; }
+        public virtual User? User { get; set; }
 
-        //Связь с таблицей Food
-        public ICollection<Food>? Foods { get; set; }
-        public int Count { get; set; }
+        public DateTime AddTime { get; set; }
+        public string Status { get; set; }
+
+        //FoodContain Relationship
+        public virtual ICollection<FoodContain>? FoodContain { get; set; }
     }
 }
