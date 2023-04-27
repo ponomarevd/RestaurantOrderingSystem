@@ -249,7 +249,7 @@
                         Margin="7"
                         Padding="8"
                         Background="#FEFEFE"
-                        BorderBrush="LightGray"
+                        BorderBrush="#ededed"
                         BorderThickness="1"
                         CornerRadius="15">
                         <Grid>
