@@ -37,7 +37,7 @@
         <ui:AutoSuggestBox
             Grid.Column="1"
             Width="220"
-            Background="Transparent"
+            Background="{DynamicResource ApplicationBackgroundBrush}"
             BorderBrush="#188851"
             BorderThickness="1.3"
             IconForeground="#188851"
@@ -245,7 +245,9 @@
                     <Border
                         Margin="7"
                         Padding="8"
-                        Background="WhiteSmoke"
+                        BorderBrush="LightGray"
+                        Background="#FEFEFE"
+                        BorderThickness="1"
                         CornerRadius="15">
                         <Grid>
                             <ui:SymbolIcon
