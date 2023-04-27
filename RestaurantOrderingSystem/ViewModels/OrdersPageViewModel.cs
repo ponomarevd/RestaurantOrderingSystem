@@ -8,7 +8,7 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
-    public class PromotionsPageViewModel : ObservableObject, INavigationAware
+    public class OrdersPageViewModel : ObservableObject, INavigationAware
     {
         public void OnNavigatedFrom()
         {

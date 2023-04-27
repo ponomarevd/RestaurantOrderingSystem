@@ -1,5 +1,4 @@
-﻿using RestaurantOrderingSystem.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,15 +17,15 @@ using Wpf.Ui.Common.Interfaces;
 namespace RestaurantOrderingSystem.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для PromotionsPage.xaml
+    /// Логика взаимодействия для OrdersPage.xaml
     /// </summary>
-    public partial class PromotionsPage : INavigableView<ViewModels.PromotionsPageViewModel>
+    public partial class OrdersPage : INavigableView<ViewModels.OrdersPageViewModel>
     {
-        public ViewModels.PromotionsPageViewModel ViewModel
+        public ViewModels.OrdersPageViewModel ViewModel
         {
             get;
         }
-        public PromotionsPage(PromotionsPageViewModel viewModel)
+        public OrdersPage(ViewModels.OrdersPageViewModel viewModel)
         {
             ViewModel = viewModel;
             InitializeComponent();

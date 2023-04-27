@@ -60,8 +60,8 @@ namespace RestaurantOrderingSystem
                 services.AddScoped<Views.Pages.MenuPage>();
                 services.AddScoped<ViewModels.MenuPageViewModel>();
 
-                services.AddScoped<Views.Pages.PromotionsPage>();
-                services.AddScoped<ViewModels.PromotionsPageViewModel>();
+                services.AddScoped<Views.Pages.OrdersPage>();
+                services.AddScoped<ViewModels.OrdersPageViewModel>();
 
                 services.AddScoped<Views.Pages.RegistrationPage>();
                 services.AddScoped<ViewModels.RegistrationPageViewModel>();

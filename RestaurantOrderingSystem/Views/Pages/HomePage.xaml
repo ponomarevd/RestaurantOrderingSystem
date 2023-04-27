@@ -7,11 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Главная"
+    d:Background="{DynamicResource ApplicationBackgroundBrush}"
     d:DataContext="{d:DesignInstance local:HomePage,
                                      IsDesignTimeCreatable=False}"
     d:DesignHeight="520"
     d:DesignWidth="940"
-    Background="White"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
@@ -51,11 +51,12 @@
                 Foreground="#FF8C8686"
                 Text="Мы гарантируем свежую еду лучшего качества. Наши клиенты наслаждаются Французской кухней с необычным и утонченным вкусом."
                 TextWrapping="Wrap" />
-            <ui:NavigationItem
+            <Button
                 Margin="0,15,0,0"
                 HorizontalAlignment="Left"
                 BorderBrush="#188851"
                 BorderThickness="1.5"
+                Command="{Binding ViewModel.GoToMenuCommand}"
                 Content="Сделать заказ"
                 FontSize="16"
                 FontWeight="SemiBold"

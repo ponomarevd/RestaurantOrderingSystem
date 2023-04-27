@@ -66,7 +66,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 {
                     Content = "Столики",
                     PageTag = "tables",
-                    Icon = SymbolRegular.Table32,
+                    Icon = SymbolRegular.Table48,
                     PageType = typeof(Views.Pages.TablePage),
                     ToolTip = "Столики",
                     IconForeground = Brushes.Black
@@ -74,13 +74,13 @@ namespace RestaurantOrderingSystem.ViewModels
 
                 new NavigationItem()
                 {
-                    Content = "Акции",
-                    PageTag = "promotions",
-                    Icon = SymbolRegular.ShoppingBagPercent20,
-                    PageType = typeof(Views.Pages.PromotionsPage),
-                    ToolTip = "Акции",
+                    Content = "Заказы",
+                    PageTag = "orders",
+                    Icon = SymbolRegular.Check20,
+                    PageType = typeof(Views.Pages.OrdersPage),
+                    ToolTip = "Заказы",
                     IconForeground = Brushes.Black
-                }   
+                }
             };
 
             FooterItems = new ObservableCollection<INavigationControl>

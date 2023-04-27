@@ -15,11 +15,53 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
 
-    <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="Вход" />
-    </Grid>
+    <Border
+        Width="350"
+        Height="250"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Background="White"
+        BorderBrush="LightGray"
+        BorderThickness="1.5">
+        <StackPanel>
+            <TextBlock
+                Margin="15,15,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="25"
+                FontWeight="SemiBold"
+                Text="ВХОД" />
+            <ui:TextBox
+                Width="310"
+                Margin="0,20,0,0"
+                Icon="Mail20"
+                PlaceholderText="Введите Email" />
+            <ui:TextBox
+                Width="310"
+                Margin="0,10,0,0"
+                Icon="Key16"
+                PlaceholderText="Введите пароль" />
+            <Button
+                Width="310"
+                Margin="0,15,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="#188851"
+                BorderThickness="1.5"
+                Content="Войти"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="#188851"
+                Style="{StaticResource ToolBarButtonBaseStyle}" />
+            <StackPanel
+                Margin="0,5,0,0"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock Text="Нет аккаунта? " />
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Foreground="#188851"
+                    Text="Создайте его" />
+            </StackPanel>
+        </StackPanel>
+    </Border>
 </ui:UiPage>
