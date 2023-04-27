@@ -135,7 +135,8 @@
                 <Border
                     Height="2"
                     Margin="0,15,0,15"
-                    Background="#188851" />
+                    Background="#188851"
+                    CornerRadius="1" />
 
                 <TextBlock
                     FontSize="23"
@@ -182,7 +183,8 @@
                 <Border
                     Height="2"
                     Margin="0,15,0,15"
-                    Background="#188851" />
+                    Background="#188851"
+                    CornerRadius="1" />
 
                 <TextBlock
                     FontSize="23"
@@ -216,7 +218,8 @@
                 <Border
                     Height="2"
                     Margin="0,15,0,15"
-                    Background="#188851" />
+                    Background="#188851"
+                    CornerRadius="1" />
                 <ui:Button
                     HorizontalAlignment="Center"
                     Background="Transparent"
@@ -245,8 +248,8 @@
                     <Border
                         Margin="7"
                         Padding="8"
-                        BorderBrush="LightGray"
                         Background="#FEFEFE"
+                        BorderBrush="LightGray"
                         BorderThickness="1"
                         CornerRadius="15">
                         <Grid>
