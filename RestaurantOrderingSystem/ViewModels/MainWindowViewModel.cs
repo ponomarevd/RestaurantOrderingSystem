@@ -28,6 +28,12 @@ namespace RestaurantOrderingSystem.ViewModels
         private string _applicationTitle = String.Empty;
 
         [ObservableProperty]
+        private bool _isCartFilled = false;
+
+        [ObservableProperty]
+        private bool _isLoginFilled = false;
+
+        [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
@@ -59,14 +65,21 @@ namespace RestaurantOrderingSystem.ViewModels
         private void OpenLoginGrid()
         {
             if(LoginUserControlVisibility == Visibility.Visible)
+            {
+                IsLoginFilled = false;
                 LoginUserControlVisibility = Visibility.Hidden;
+            }
             else
+            {
+                IsLoginFilled = true;
                 LoginUserControlVisibility = Visibility.Visible;
+            } 
         }
 
         [RelayCommand]
         private void OpenCart()
         {
+            IsCartFilled = true;
             navService = App.GetService<INavigationService>();
             navService.Navigate(typeof(Views.Pages.CartPage));
         }

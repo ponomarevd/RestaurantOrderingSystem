@@ -10,8 +10,15 @@ namespace RestaurantOrderingSystem.ViewModels
 {
     public class CartPageViewModel : ObservableObject, INavigationAware
     {
+        private MainWindowViewModel? _mainWindowViewModel;
+
+        public CartPageViewModel()
+        {
+            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+        }
         public void OnNavigatedFrom()
         {
+            _mainWindowViewModel.IsCartFilled = false;
         }
 
         public void OnNavigatedTo()

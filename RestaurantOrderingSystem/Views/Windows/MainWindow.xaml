@@ -52,7 +52,7 @@
                     Command="{Binding ViewModel.OpenCartCommand}"
                     FontSize="34"
                     Icon="Cart16"
-                    IconFilled="True" />
+                    IconFilled="{Binding ViewModel.IsCartFilled}" />
                 <Border
                     Width="16"
                     Height="18"
@@ -82,9 +82,10 @@
                 BorderBrush="Transparent"
                 Command="{Binding ViewModel.OpenLoginGridCommand}">
                 <ui:SymbolIcon
-                    Filled="True"
-                    FontSize="30"
-                    Symbol="Person48" />
+                    Margin="0,3,0,0"
+                    Filled="{Binding ViewModel.IsLoginFilled}"
+                    FontSize="32"
+                    Symbol="Person16" />
             </ui:Button>
         </StackPanel>
 

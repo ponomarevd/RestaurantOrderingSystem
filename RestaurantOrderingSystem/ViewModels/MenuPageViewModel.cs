@@ -62,6 +62,8 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             try
             {
+                _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
 
                 MenuItemsMain = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.ToList()));
@@ -134,7 +136,6 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             Food SelectedFoodModel;
             int Index = 0;
-            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
             try
             {
                 SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
