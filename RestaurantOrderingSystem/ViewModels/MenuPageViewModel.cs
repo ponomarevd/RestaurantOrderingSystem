@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
+using RestaurantOrderingSystem.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,12 +13,14 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Mvvm.Contracts;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
     public partial class MenuPageViewModel : ObservableObject, INavigationAware
     {
         private RestaurantDbContext? _dbContext;
+        private MainWindowViewModel? _mainWindowViewModel;
 
         private bool _isInitialized = false;
 
@@ -43,7 +46,8 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<FilterButtonItem>? _filterButtons;
 
         [ObservableProperty]
-        private ObservableCollection<Food>? _menuItemsSecondary;
+        private ObservableCollection<Food> _menuItemsSecondary;
+
         public void OnNavigatedFrom()
         {
         }
@@ -74,9 +78,9 @@ namespace RestaurantOrderingSystem.ViewModels
                     };
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Неизвестная ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             
@@ -128,21 +132,39 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private async void ToCartClick(string? parameter)
         {
-            Food SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
-
+            Food SelectedFoodModel;
+            int Index = 0;
+            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+            try
+            {
+                SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
+                Index = MenuItemsSecondary.IndexOf(SelectedFoodModel);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
             switch (SelectedFoodModel.ToCartButtonItem.Content)
             {
                 case "Убрать":
                     SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
                     SelectedFoodModel.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
                     SelectedFoodModel.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-                    CollectionViewSource.GetDefaultView(MenuItemsSecondary).Refresh();
+
+                    MenuItemsSecondary.RemoveAt(Index);
+                    MenuItemsSecondary.Insert(Index, SelectedFoodModel);
+                    _mainWindowViewModel.BadgeValue--;
                     break;
                 case "В корзину":
                     SelectedFoodModel.ToCartButtonItem.Content = "Убрать";
                     SelectedFoodModel.ToCartButtonItem.BorderBrush = Brushes.DarkRed;
                     SelectedFoodModel.ToCartButtonItem.Foreground = Brushes.DarkRed;
-                    CollectionViewSource.GetDefaultView(MenuItemsSecondary).Refresh();
+
+                    MenuItemsSecondary.RemoveAt(Index);
+                    MenuItemsSecondary.Insert(Index, SelectedFoodModel);
+                    _mainWindowViewModel.BadgeValue++;
                     break;
             }
         }

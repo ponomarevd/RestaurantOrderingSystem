@@ -33,6 +33,22 @@ namespace RestaurantOrderingSystem.ViewModels
         [ObservableProperty]
         private Visibility _loginUserControlVisibility = Visibility.Hidden;
 
+        private int _badgeValue;
+        public int BadgeValue
+        {
+            get
+            {
+                return _badgeValue;
+            }
+            set
+            {
+                _badgeValue = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(BadgeVisibility));
+            }
+        }
+        public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
+
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)

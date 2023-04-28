@@ -44,24 +44,48 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <ui:Button
-                Grid.Row="0"
-                Background="{DynamicResource ApplicationBackgroundBrush}"
-                BorderBrush="Transparent"
-                Command="{Binding ViewModel.OpenCartCommand}"
-                FontSize="25"
-                Icon="Cart16"
-                IconFilled="True" />
+            <Grid>
+                <ui:Button
+                    Grid.Row="0"
+                    Background="{DynamicResource ApplicationBackgroundBrush}"
+                    BorderBrush="Transparent"
+                    Command="{Binding ViewModel.OpenCartCommand}"
+                    FontSize="34"
+                    Icon="Cart16"
+                    IconFilled="True" />
+                <Border
+                    Width="16"
+                    Height="18"
+                    Margin="0,6,10,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Red"
+                    CornerRadius="5"
+                    Visibility="{Binding ViewModel.BadgeVisibility}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="{Binding ViewModel.BadgeValue}" />
+                </Border>
+            </Grid>
+
 
             <ui:Button
                 Grid.Row="0"
+                Width="60"
+                Height="50"
                 Margin="10,0,0,0"
                 Background="{DynamicResource ApplicationBackgroundBrush}"
                 BorderBrush="Transparent"
-                Command="{Binding ViewModel.OpenLoginGridCommand}"
-                FontSize="25"
-                Icon="Person12"
-                IconFilled="True" />
+                Command="{Binding ViewModel.OpenLoginGridCommand}">
+                <ui:SymbolIcon
+                    Filled="True"
+                    FontSize="30"
+                    Symbol="Person48" />
+            </ui:Button>
         </StackPanel>
 
 
