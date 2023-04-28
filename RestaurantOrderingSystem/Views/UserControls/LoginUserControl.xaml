@@ -1,0 +1,72 @@
+﻿<UserControl
+    x:Class="RestaurantOrderingSystem.Views.UserControls.LoginUserControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DesignHeight="240"
+    d:DesignWidth="230"
+    mc:Ignorable="d">
+    <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
+        <Border
+            BorderBrush="LightGray"
+            BorderThickness="1.5"
+            CornerRadius="10">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Label
+                    Width="200"
+                    Margin="0,20,0,0"
+                    Content="Email"
+                    Target="{Binding ElementName=Email}" />
+                <ui:TextBox
+                    x:Name="Email"
+                    Width="200"
+                    FontSize="14"
+                    PlaceholderText="example@mail.ru" />
+
+                <Label
+                    Width="200"
+                    Margin="0,10,0,0"
+                    Content="Пароль"
+                    Target="{Binding ElementName=Password}" />
+                <ui:PasswordBox
+                    x:Name="Password"
+                    Width="200"
+                    FontSize="14"
+                    PasswordChar="•" />
+
+                <Button
+                    Width="201"
+                    Margin="0,15,0,0"
+                    HorizontalAlignment="Center"
+                    Background="#188851"
+                    BorderBrush="Transparent"
+                    Content="Войти"
+                    FontSize="14"
+                    Foreground="White" />
+                <StackPanel
+                    Margin="30,10,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        Text="Нет аккаунта? " />
+                    <Button
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Content="Создайте его"
+                        Cursor="Hand"
+                        FontSize="10"
+                        FontWeight="SemiBold"
+                        Foreground="#188851"
+                        Style="{DynamicResource DefaultDragIndicatorStyleStyle}" />
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using RestaurantOrderingSystem.Core;
@@ -21,6 +22,7 @@ namespace RestaurantOrderingSystem.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private bool _isInitialized = false;
+        private INavigationService? navService;
 
         [ObservableProperty]
         private string _applicationTitle = String.Empty;
@@ -29,7 +31,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
-        private ObservableCollection<INavigationControl> _footerItems = new();
+        private Visibility _loginUserControlVisibility = Visibility.Hidden;
 
         public MainWindowViewModel(INavigationService navigationService)
         {
@@ -37,11 +39,27 @@ namespace RestaurantOrderingSystem.ViewModels
                 InitializeViewModel();
         }
 
+        [RelayCommand]
+        private void OpenLoginGrid()
+        {
+            if(LoginUserControlVisibility == Visibility.Visible)
+                LoginUserControlVisibility = Visibility.Hidden;
+            else
+                LoginUserControlVisibility = Visibility.Visible;
+        }
+
+        [RelayCommand]
+        private void OpenCart()
+        {
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.CartPage));
+        }
+
         private void InitializeViewModel()
         {
             ApplicationTitle = "Global Food";
             Accent.Apply(Color.FromRgb(24, 136, 81));
-            
+
 
             NavigationItems = new ObservableCollection<INavigationControl>
             {
@@ -83,27 +101,16 @@ namespace RestaurantOrderingSystem.ViewModels
                     PageType = typeof(Views.Pages.OrdersPage),
                     ToolTip = "Заказы",
                     IconForeground = Brushes.Black
-                }
-            };
+                },
 
-            FooterItems = new ObservableCollection<INavigationControl>
-            {
                 new NavigationItem()
                 {
+                    Visibility = Visibility.Hidden,
                     Content = "Корзина",
                     PageTag = "cart",
                     Icon = SymbolRegular.Cart16,
                     PageType = typeof(Views.Pages.CartPage),
                     ToolTip = "Корзина",
-                },
-
-                new NavigationItem()
-                {
-                    Content = "Вход",
-                    PageTag = "login",
-                    Icon = SymbolRegular.Person16,
-                    PageType = typeof(Views.Pages.LoginPage),
-                    ToolTip = "Вход в аккаунт",
                 }
             };
 

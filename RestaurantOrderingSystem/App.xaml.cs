@@ -55,17 +55,11 @@ namespace RestaurantOrderingSystem
                 services.AddScoped<Views.Pages.CartPage>();
                 services.AddScoped<ViewModels.CartPageViewModel>();
 
-                services.AddScoped<Views.Pages.LoginPage>();
-                services.AddScoped<ViewModels.LoginPageViewModel>();
-
                 services.AddScoped<Views.Pages.MenuPage>();
                 services.AddScoped<ViewModels.MenuPageViewModel>();
 
                 services.AddScoped<Views.Pages.OrdersPage>();
                 services.AddScoped<ViewModels.OrdersPageViewModel>();
-
-                services.AddScoped<Views.Pages.RegistrationPage>();
-                services.AddScoped<ViewModels.RegistrationPageViewModel>();
 
                 services.AddScoped<Views.Pages.TablePage>();
                 services.AddScoped<ViewModels.TablePageViewModel>();
