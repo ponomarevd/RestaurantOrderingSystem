@@ -25,7 +25,7 @@ namespace RestaurantOrderingSystem.Views.Windows
         {
             ViewModel = viewModel;
             DataContext = this;
-
+            
             InitializeComponent();
             SetPageService(pageService);
 

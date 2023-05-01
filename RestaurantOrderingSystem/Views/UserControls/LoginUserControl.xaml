@@ -3,28 +3,31 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    d:DesignHeight="240"
+    xmlns:vm="clr-namespace:RestaurantOrderingSystem.ViewModels"
+    d:DesignHeight="290"
     d:DesignWidth="230"
     mc:Ignorable="d">
-    <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
+    <Grid>
         <Border
+            Background="{DynamicResource ApplicationBackgroundBrush}"
             BorderBrush="LightGray"
             BorderThickness="1.5"
             CornerRadius="10">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Label
                     Width="200"
-                    Margin="0,20,0,0"
+                    Margin="0,10,0,0"
                     Content="Email"
-                    Target="{Binding ElementName=Email}" />
+                    Target="{Binding ElementName=Email, UpdateSourceTrigger=PropertyChanged}" />
                 <ui:TextBox
                     x:Name="Email"
                     Width="200"
                     FontSize="14"
-                    PlaceholderText="example@mail.ru" />
+                    MaxLength="100"
+                    PlaceholderText="example@mail.ru"
+                    Text="{Binding Email}" />
 
                 <Label
                     Width="200"
@@ -35,16 +38,30 @@
                     x:Name="Password"
                     Width="200"
                     FontSize="14"
+                    MaxLength="20"
                     PasswordChar="•" />
 
+                <CheckBox
+                    x:Name="AdminCheckBox"
+                    Margin="0,5,0,0"
+                    Checked="AdminCheckBox_Checked"
+                    Content="Я администратор"
+                    Foreground="Gray" />
+                <CheckBox
+                    x:Name="WorkerCheckBox"
+                    Checked="WorkerCheckBox_Checked"
+                    Content="Я работник"
+                    Foreground="Gray" />
                 <Button
                     Width="201"
-                    Margin="0,15,0,0"
+                    Margin="0,5,0,0"
                     HorizontalAlignment="Center"
                     Background="#188851"
                     BorderBrush="Transparent"
+                    Command="{Binding LoginCommand}"
                     Content="Войти"
-                    FontSize="14"
+                    Cursor="Hand"
+                    FontSize="16"
                     Foreground="White" />
                 <StackPanel
                     Margin="30,10,0,0"
@@ -52,7 +69,7 @@
                     Orientation="Horizontal">
                     <TextBlock
                         VerticalAlignment="Center"
-                        FontSize="10"
+                        FontSize="11"
                         Text="Нет аккаунта? " />
                     <Button
                         Padding="0"
@@ -61,7 +78,7 @@
                         BorderBrush="Transparent"
                         Content="Создайте его"
                         Cursor="Hand"
-                        FontSize="10"
+                        FontSize="11"
                         FontWeight="SemiBold"
                         Foreground="#188851"
                         Style="{DynamicResource DefaultDragIndicatorStyleStyle}" />

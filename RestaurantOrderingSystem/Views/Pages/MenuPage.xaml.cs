@@ -26,6 +26,7 @@ namespace RestaurantOrderingSystem.Views.Pages
     /// </summary>
     public partial class MenuPage : INavigableView<ViewModels.MenuPageViewModel>
     {
+        private MainWindowViewModel? _mainWindowViewModel;
         public ViewModels.MenuPageViewModel ViewModel
         {
             get;
@@ -34,6 +35,12 @@ namespace RestaurantOrderingSystem.Views.Pages
         {
             ViewModel = viewModel;
             InitializeComponent();
+            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+        }
+
+        private void BtnAddToCart_Click(object sender, RoutedEventArgs e)
+        {
+            AddSnackbar.Show();
         }
     }
 }

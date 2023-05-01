@@ -71,6 +71,7 @@
                             Command="{Binding Command}"
                             CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                             Content="{Binding Content}"
+                            Cursor="Hand"
                             FontSize="16"
                             FontWeight="SemiBold"
                             Foreground="#188851" />
@@ -104,6 +105,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Популярное"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -116,6 +118,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Обычное"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -128,6 +131,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Удовлетворительное"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -152,6 +156,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="50 - 100 ₽"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -164,6 +169,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="100 - 500 ₽"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -176,6 +182,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="500 - 1000 ₽"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -200,6 +207,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Мясное"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -212,6 +220,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Овощное"
+                    Cursor="Hand"
                     FontSize="14"
                     FontWeight="Regular"
                     Foreground="#FF756868" />
@@ -220,7 +229,7 @@
                     Margin="0,15,0,15"
                     Background="#188851"
                     CornerRadius="1" />
-                <ui:Button
+                <Button
                     HorizontalAlignment="Center"
                     Background="Transparent"
                     BorderBrush="#188851"
@@ -228,6 +237,7 @@
                     Command="{Binding ViewModel.FilterButtonClickCommand}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
                     Content="Сбросить"
+                    Cursor="Hand"
                     FontSize="16"
                     FontWeight="SemiBold"
                     Foreground="#188851" />
@@ -313,14 +323,17 @@
                                     Foreground="Black"
                                     Text="{Binding FoodPrice, StringFormat={}{0} ₽}" />
                                 <Button
+                                    x:Name="BtnAddToCart"
                                     Margin="0,7,0,0"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     BorderBrush="{Binding ToCartButtonItem.BorderBrush}"
                                     BorderThickness="1.5"
+                                    Click="BtnAddToCart_Click"
                                     Command="{Binding ToCartButtonItem.Command}"
                                     CommandParameter="{Binding ToCartButtonItem.ItemName}"
                                     Content="{Binding ToCartButtonItem.Content, UpdateSourceTrigger=PropertyChanged}"
+                                    Cursor="Hand"
                                     FontSize="14"
                                     FontWeight="SemiBold"
                                     Foreground="{Binding ToCartButtonItem.Foreground}" />
@@ -330,6 +343,19 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ui:VirtualizingItemsControl>
+
+        <ui:Snackbar
+            x:Name="AddSnackbar"
+            Grid.Row="1"
+            Appearance="{Binding ViewModel.SnackbarAppearance}"
+            FontSize="15"
+            Icon="Info12"
+            Timeout="1000">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="{Binding ViewModel.SnackbarMessage}" />
+        </ui:Snackbar>
         <!--<Button
             Grid.RowSpan="2"
             Grid.ColumnSpan="2"

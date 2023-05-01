@@ -48,6 +48,12 @@ namespace RestaurantOrderingSystem.ViewModels
         [ObservableProperty]
         private ObservableCollection<Food> _menuItemsSecondary;
 
+        [ObservableProperty]
+        private string? _snackbarMessage;
+
+        [ObservableProperty]
+        private string? _snackbarAppearance;
+
         public void OnNavigatedFrom()
         {
         }
@@ -127,46 +133,61 @@ namespace RestaurantOrderingSystem.ViewModels
             ProgressRingVisibility = Visibility.Hidden;
             SearchIsEnabled = true;
             FiltersIsEnabled = true;
- 
-            
         }
 
         [RelayCommand]
         private async void ToCartClick(string? parameter)
         {
-            Food SelectedFoodModel;
-            int Index = 0;
-            try
+            if (_mainWindowViewModel.IsUserAuthorized)
             {
-                SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
-                Index = MenuItemsSecondary.IndexOf(SelectedFoodModel);
+                Food SelectedFoodModel;
+                int Index = 0;
+                try
+                {
+                    SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
+                    Index = MenuItemsSecondary.IndexOf(SelectedFoodModel);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                switch (SelectedFoodModel.ToCartButtonItem.Content)
+                {
+                    case "Убрать":
+                        SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
+                        SelectedFoodModel.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+                        SelectedFoodModel.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+
+                        SnackbarMessage = "Товар успешно убран из корзины";
+                        SnackbarAppearance = "Caution";
+
+                        MenuItemsSecondary.RemoveAt(Index);
+                        MenuItemsSecondary.Insert(Index, SelectedFoodModel);
+
+                        _mainWindowViewModel.BadgeValue--;
+                        break;
+                    case "В корзину":
+                        SelectedFoodModel.ToCartButtonItem.Content = "Убрать";
+                        SelectedFoodModel.ToCartButtonItem.BorderBrush = Brushes.DarkRed;
+                        SelectedFoodModel.ToCartButtonItem.Foreground = Brushes.DarkRed;
+
+                        SnackbarMessage = "Товар успешно добавлен в корзину";
+                        SnackbarAppearance = "Success";
+
+                        MenuItemsSecondary.RemoveAt(Index);
+                        MenuItemsSecondary.Insert(Index, SelectedFoodModel);
+
+                        _mainWindowViewModel.BadgeValue++;
+                        break;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                SnackbarMessage = "Войдите в аккаунт";
+                SnackbarAppearance = "Danger";
                 return;
-            }
-            
-            switch (SelectedFoodModel.ToCartButtonItem.Content)
-            {
-                case "Убрать":
-                    SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
-                    SelectedFoodModel.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-                    SelectedFoodModel.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-
-                    MenuItemsSecondary.RemoveAt(Index);
-                    MenuItemsSecondary.Insert(Index, SelectedFoodModel);
-                    _mainWindowViewModel.BadgeValue--;
-                    break;
-                case "В корзину":
-                    SelectedFoodModel.ToCartButtonItem.Content = "Убрать";
-                    SelectedFoodModel.ToCartButtonItem.BorderBrush = Brushes.DarkRed;
-                    SelectedFoodModel.ToCartButtonItem.Foreground = Brushes.DarkRed;
-
-                    MenuItemsSecondary.RemoveAt(Index);
-                    MenuItemsSecondary.Insert(Index, SelectedFoodModel);
-                    _mainWindowViewModel.BadgeValue++;
-                    break;
             }
         }
 

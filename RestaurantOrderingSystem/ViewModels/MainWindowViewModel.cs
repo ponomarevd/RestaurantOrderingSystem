@@ -22,6 +22,8 @@ namespace RestaurantOrderingSystem.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private bool _isInitialized = false;
+        public int _userRole { get; set; }
+
         private INavigationService? navService;
 
         [ObservableProperty]
@@ -53,7 +55,24 @@ namespace RestaurantOrderingSystem.ViewModels
                 OnPropertyChanged(nameof(BadgeVisibility));
             }
         }
+
+        private bool _isUserAuthorized = false;
+        public bool IsUserAuthorized
+        {
+            get
+            {
+                return _isUserAuthorized;
+            }
+            set
+            {
+                _isUserAuthorized = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsCartVisible));
+            }
+        }
         public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
+        public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
+
 
         public MainWindowViewModel(INavigationService navigationService)
         {

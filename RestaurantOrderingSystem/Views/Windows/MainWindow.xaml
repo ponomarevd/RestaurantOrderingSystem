@@ -50,9 +50,11 @@
                     Background="{DynamicResource ApplicationBackgroundBrush}"
                     BorderBrush="Transparent"
                     Command="{Binding ViewModel.OpenCartCommand}"
+                    Cursor="Hand"
                     FontSize="34"
                     Icon="Cart16"
-                    IconFilled="{Binding ViewModel.IsCartFilled}" />
+                    IconFilled="{Binding ViewModel.IsCartFilled}"
+                    Visibility="{Binding ViewModel.IsCartVisible}" />
                 <Border
                     Width="16"
                     Height="18"
@@ -80,7 +82,8 @@
                 Margin="10,0,0,0"
                 Background="{DynamicResource ApplicationBackgroundBrush}"
                 BorderBrush="Transparent"
-                Command="{Binding ViewModel.OpenLoginGridCommand}">
+                Command="{Binding ViewModel.OpenLoginGridCommand}"
+                Cursor="Hand">
                 <ui:SymbolIcon
                     Margin="0,3,0,0"
                     Filled="{Binding ViewModel.IsLoginFilled}"
@@ -107,11 +110,10 @@
             <usercontrols:LoginUserControl
                 Grid.Column="1"
                 Width="230"
-                Height="240"
+                Height="300"
                 Margin="0,0,40,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                Background="{DynamicResource ApplicationBackgroundBrush}"
                 Visibility="{Binding ViewModel.LoginUserControlVisibility}" />
         </Grid>
     </Grid>
