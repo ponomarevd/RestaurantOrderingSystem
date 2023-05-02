@@ -44,10 +44,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private int _badgeValue;
         public int BadgeValue
         {
-            get
-            {
-                return _badgeValue;
-            }
+            get => _badgeValue;
             set
             {
                 _badgeValue = value;
@@ -59,10 +56,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private bool _isUserAuthorized = false;
         public bool IsUserAuthorized
         {
-            get
-            {
-                return _isUserAuthorized;
-            }
+            get => _isUserAuthorized;
             set
             {
                 _isUserAuthorized = value;
@@ -159,6 +153,15 @@ namespace RestaurantOrderingSystem.ViewModels
                     Icon = SymbolRegular.Cart16,
                     PageType = typeof(Views.Pages.CartPage),
                     ToolTip = "Корзина",
+                },
+
+                new NavigationItem()
+                {
+                    Visibility = Visibility.Hidden,
+                    Content = "Регистрация",
+                    PageTag = "registration",
+                    PageType = typeof(Views.Pages.RegistrationPage),
+                    ToolTip = "Регистрация",
                 }
             };
 

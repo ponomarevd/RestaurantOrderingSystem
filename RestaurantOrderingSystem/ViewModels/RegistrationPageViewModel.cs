@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +8,13 @@ using Wpf.Ui.Common.Interfaces;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
-    public partial class LoginUserControlViewModel : ObservableObject
+    public partial class RegistrationPageViewModel : ObservableObject, INavigationAware
     {
-        [ObservableProperty]
-        private string? _email;
+        public void OnNavigatedFrom()
+        {
+        }
 
-        [RelayCommand]
-        private void Login()
+        public void OnNavigatedTo()
         {
         }
     }
