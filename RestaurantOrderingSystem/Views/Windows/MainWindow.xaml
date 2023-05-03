@@ -53,6 +53,8 @@
                     FontSize="34"
                     Icon="Cart16"
                     IconFilled="{Binding ViewModel.IsCartFilled}"
+                    ToolTip="Корзина"
+                    ToolTipService.InitialShowDelay="1"
                     Visibility="{Binding ViewModel.IsCartVisible}" />
                 <Border
                     Width="16"
@@ -73,22 +75,40 @@
                 </Border>
             </Grid>
 
-
-            <ui:Button
+            <Grid
                 Grid.Row="0"
                 Width="60"
                 Height="50"
-                Margin="10,0,0,0"
-                Background="{DynamicResource ApplicationBackgroundBrush}"
-                BorderBrush="Transparent"
-                Command="{Binding ViewModel.OpenLoginGridCommand}"
-                Cursor="Hand">
-                <ui:SymbolIcon
-                    Margin="0,3,0,0"
-                    Filled="{Binding ViewModel.IsLoginFilled}"
-                    FontSize="32"
-                    Symbol="Person16" />
-            </ui:Button>
+                Margin="10,0,0,0">
+                <ui:Button
+                    Background="{DynamicResource ApplicationBackgroundBrush}"
+                    BorderBrush="Transparent"
+                    Command="{Binding ViewModel.OpenLoginGridCommand}"
+                    Cursor="Hand"
+                    ToolTip="Вход"
+                    ToolTipService.InitialShowDelay="1"
+                    Visibility="{Binding ViewModel.IsLoginBtnVisible}">
+                    <ui:SymbolIcon
+                        Margin="0,3,0,0"
+                        Filled="{Binding ViewModel.IsLoginFilled}"
+                        FontSize="32"
+                        Symbol="Person16" />
+                </ui:Button>
+                <ui:Button
+                    Background="{DynamicResource ApplicationBackgroundBrush}"
+                    BorderBrush="Transparent"
+                    Command="{Binding ViewModel.LogoutCommand}"
+                    Cursor="Hand"
+                    ToolTip="Выйти"
+                    ToolTipService.InitialShowDelay="1"
+                    Visibility="{Binding ViewModel.IsLogoutBtnVisible}">
+                    <ui:SymbolIcon
+                        Margin="0,3,0,0"
+                        FontSize="32"
+                        Symbol="ArrowExit20" />
+                </ui:Button>
+            </Grid>
+
         </StackPanel>
 
 
@@ -113,7 +133,7 @@
                 Margin="0,0,40,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                Visibility="{Binding ViewModel.LoginUserControlVisibility}">
+                Visibility="{Binding ViewModel.LoginGridVisibility}">
                 <Border
                     Background="{DynamicResource ApplicationBackgroundBrush}"
                     BorderBrush="LightGray"
@@ -130,7 +150,8 @@
                             Width="200"
                             FontSize="14"
                             MaxLength="100"
-                            PlaceholderText="example@mail.ru" />
+                            PlaceholderText="example@mail.ru"
+                            Text="{Binding ViewModel.EmailText}" />
 
                         <Label
                             Width="200"
@@ -151,6 +172,8 @@
                             HorizontalAlignment="Center"
                             Background="#188851"
                             BorderThickness="0"
+                            Command="{Binding ViewModel.LoginCommand}"
+                            CommandParameter="{Binding ElementName=Password}"
                             Content="Войти"
                             Cursor="Hand"
                             FontSize="15"
@@ -169,6 +192,7 @@
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 BorderBrush="Transparent"
+                                Command="{Binding ViewModel.GoToSignUpCommand}"
                                 Content="Создайте его"
                                 Cursor="Hand"
                                 FontSize="11"

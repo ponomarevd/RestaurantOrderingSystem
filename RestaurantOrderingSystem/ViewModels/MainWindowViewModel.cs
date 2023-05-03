@@ -8,8 +8,10 @@ using RestaurantOrderingSystem.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Markup;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Common;
@@ -21,8 +23,8 @@ namespace RestaurantOrderingSystem.ViewModels
 {
     public partial class MainWindowViewModel : ObservableObject
     {
+        private RestaurantDbContext _dbContext;
         private bool _isInitialized = false;
-        public int _userRole { get; set; }
 
         private INavigationService? navService;
 
@@ -39,7 +41,10 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
-        private Visibility _loginUserControlVisibility = Visibility.Hidden;
+        private Visibility _loginGridVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
+        private string _emailText;
 
         private int _badgeValue;
         public int BadgeValue
@@ -62,12 +67,14 @@ namespace RestaurantOrderingSystem.ViewModels
                 _isUserAuthorized = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsCartVisible));
+                OnPropertyChanged(nameof(IsLoginBtnVisible));
+                OnPropertyChanged(nameof(IsLogoutBtnVisible));
             }
         }
         public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
-
-
+        public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
+        public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)
@@ -77,16 +84,24 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private void OpenLoginGrid()
         {
-            if(LoginUserControlVisibility == Visibility.Visible)
+            if(LoginGridVisibility == Visibility.Visible)
             {
                 IsLoginFilled = false;
-                LoginUserControlVisibility = Visibility.Hidden;
+                LoginGridVisibility = Visibility.Hidden;
             }
             else
             {
                 IsLoginFilled = true;
-                LoginUserControlVisibility = Visibility.Visible;
+                LoginGridVisibility = Visibility.Visible;
             } 
+        }
+
+        [RelayCommand]
+        private void Logout()
+        {
+            IsUserAuthorized = false;
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.HomePage));
         }
 
         [RelayCommand]
@@ -97,13 +112,58 @@ namespace RestaurantOrderingSystem.ViewModels
             navService.Navigate(typeof(Views.Pages.CartPage));
         }
 
-        private void InitializeViewModel()
+        [RelayCommand]
+        private void Login(PasswordBox? passwordBox)
         {
-            ApplicationTitle = "Global Food";
-            Accent.Apply(Color.FromRgb(24, 136, 81));
+            try
+            {
+                User? userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
 
+                if(userModel != null)
+                {
+                    switch (userModel.RoleID)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            LoginGridVisibility = Visibility.Hidden;
+                            IsLoginFilled = false;
+                            EmailText = string.Empty;
+                            passwordBox.Password = string.Empty;
+                            IsUserAuthorized = true;
+                            break;
+                        case 3:
+                            break;
+                    }
+                }
+                else
+                    System.Windows.MessageBox.Show("Ошибка входа", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
 
-            NavigationItems = new ObservableCollection<INavigationControl>
+        [RelayCommand]
+        private void GoToSignUp()
+        {
+            LoginGridVisibility = Visibility.Hidden;
+            IsLoginFilled = false;
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.RegistrationPage));
+        }
+
+        private async void InitializeViewModel()
+        {
+            try
+            {
+                ApplicationTitle = "Global Food";
+                Accent.Apply(Color.FromRgb(24, 136, 81));
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+
+                NavigationItems = new ObservableCollection<INavigationControl>
             {
                 new NavigationItem()
                 {
@@ -165,7 +225,14 @@ namespace RestaurantOrderingSystem.ViewModels
                 }
             };
 
-            _isInitialized = true;
+                _isInitialized = true;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
         }
     }
 }
