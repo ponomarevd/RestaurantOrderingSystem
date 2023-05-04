@@ -130,7 +130,7 @@
                 Grid.Column="1"
                 Width="230"
                 Height="240"
-                Margin="0,0,40,0"
+                Margin="0,0,45,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Visibility="{Binding ViewModel.LoginGridVisibility}">
@@ -142,7 +142,7 @@
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Label
                             Width="200"
-                            Margin="0,10,0,0"
+                            Margin="0,5,0,0"
                             Content="Email"
                             Target="{Binding ElementName=Email, UpdateSourceTrigger=PropertyChanged}" />
                         <ui:TextBox
@@ -151,7 +151,7 @@
                             FontSize="14"
                             MaxLength="100"
                             PlaceholderText="example@mail.ru"
-                            Text="{Binding ViewModel.EmailText}" />
+                            Text="{Binding ViewModel.EmailText, UpdateSourceTrigger=PropertyChanged}" />
 
                         <Label
                             Width="200"
@@ -165,20 +165,24 @@
                             MaxLength="20"
                             PasswordChar="•" />
 
-                        <Button
+                        <ui:Button
+                            x:Name="BtnLogin"
                             Width="200"
                             Height="33"
                             Margin="0,15,0,0"
                             HorizontalAlignment="Center"
                             Background="#188851"
                             BorderThickness="0"
+                            Click="BtnLogin_Click"
                             Command="{Binding ViewModel.LoginCommand}"
                             CommandParameter="{Binding ElementName=Password}"
                             Content="Войти"
                             Cursor="Hand"
                             FontSize="15"
                             FontWeight="SemiBold"
-                            Foreground="White" />
+                            Foreground="White"
+                            MouseOverBackground="#2a9661"
+                            PressedBackground="#2a9661" />
                         <StackPanel
                             Margin="30,10,0,0"
                             HorizontalAlignment="Center"
@@ -204,5 +208,19 @@
                 </Border>
             </Grid>
         </Grid>
+        <ui:Snackbar
+            x:Name="LoginSnackbar"
+            Grid.Row="1"
+            Width="250"
+            Appearance="{Binding ViewModel.SnackbarAppearance}"
+            CloseButtonEnabled="False"
+            FontSize="15"
+            Icon="Info12"
+            Timeout="1000">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="{Binding ViewModel.SnackbarMessage}" />
+        </ui:Snackbar>
     </Grid>
 </ui:UiWindow>

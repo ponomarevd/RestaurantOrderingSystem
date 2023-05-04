@@ -64,5 +64,10 @@ namespace RestaurantOrderingSystem.Views.Windows
             // Make sure that closing this window will begin the process of closing the application.
             Application.Current.Shutdown();
         }
+
+        private async void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            await LoginSnackbar.ShowAsync();
+        }
     }
 }

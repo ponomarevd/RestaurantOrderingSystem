@@ -3,13 +3,16 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
 using RestaurantOrderingSystem.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -24,6 +27,7 @@ namespace RestaurantOrderingSystem.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private RestaurantDbContext _dbContext;
+        private MenuPageViewModel _menuPageViewModel;
         private bool _isInitialized = false;
 
         private INavigationService? navService;
@@ -44,7 +48,14 @@ namespace RestaurantOrderingSystem.ViewModels
         private Visibility _loginGridVisibility = Visibility.Hidden;
 
         [ObservableProperty]
-        private string _emailText;
+        private string _snackbarMessage = string.Empty;
+
+        [ObservableProperty]
+        private string _snackbarAppearance = "Danger";
+
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
+        private string _emailText = string.Empty;
 
         private int _badgeValue;
         public int BadgeValue
@@ -97,9 +108,22 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void Logout()
+        private async void Logout()
         {
+            foreach (Food food in _menuPageViewModel.MenuItemsMain)
+            {
+                if(food.ToCartButtonItem.Content == "Убрать")
+                {
+                    food.ToCartButtonItem.Content = "В корзину";
+                    food.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+                    food.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+                }
+            }
+
+            CollectionViewSource.GetDefaultView(_menuPageViewModel.MenuItemsMain).Refresh();
             IsUserAuthorized = false;
+            BadgeValue = 0;
+
             navService = App.GetService<INavigationService>();
             navService.Navigate(typeof(Views.Pages.HomePage));
         }
@@ -112,15 +136,18 @@ namespace RestaurantOrderingSystem.ViewModels
             navService.Navigate(typeof(Views.Pages.CartPage));
         }
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CheckFields))]
         private void Login(PasswordBox? passwordBox)
         {
             try
             {
                 User? userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
 
-                if(userModel != null)
+                if (userModel != null)
                 {
+                    SnackbarAppearance = "Success";
+                    SnackbarMessage = "Успешный вход!";
+
                     switch (userModel.RoleID)
                     {
                         case 1:
@@ -128,8 +155,10 @@ namespace RestaurantOrderingSystem.ViewModels
                         case 2:
                             LoginGridVisibility = Visibility.Hidden;
                             IsLoginFilled = false;
+
                             EmailText = string.Empty;
                             passwordBox.Password = string.Empty;
+
                             IsUserAuthorized = true;
                             break;
                         case 3:
@@ -137,13 +166,23 @@ namespace RestaurantOrderingSystem.ViewModels
                     }
                 }
                 else
-                    System.Windows.MessageBox.Show("Ошибка входа", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                {
+                    SnackbarAppearance = "Danger";
+                    SnackbarMessage = "Неверные данные!";
+                    return;
+                }
+                    
             }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+        }
+
+        private bool CheckFields()
+        {
+            return !(Regex.IsMatch(EmailText, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase) == false || EmailText == null || EmailText.Trim() == string.Empty);
         }
 
         [RelayCommand]
@@ -161,69 +200,52 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 ApplicationTitle = "Global Food";
                 Accent.Apply(Color.FromRgb(24, 136, 81));
+
+                _menuPageViewModel = App.GetService<MenuPageViewModel>();
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
 
                 NavigationItems = new ObservableCollection<INavigationControl>
-            {
-                new NavigationItem()
                 {
+                    new NavigationItem()
+                    {
                     Content = "Главная",
                     PageTag = "home",
                     Icon = SymbolRegular.Home20,
                     PageType = typeof(Views.Pages.HomePage),
                     ToolTip = "Главная",
                     IconForeground = Brushes.Black
-                },
+                    },
 
-                new NavigationItem()
-                {
-                    Content = "Меню",
-                    PageTag = "menu",
-                    Icon = SymbolRegular.Food16,
-                    PageType = typeof(Views.Pages.MenuPage),
-                    ToolTip = "Меню",
-                    IconForeground = Brushes.Black
-                },
+                    new NavigationItem()
+                    {
+                        Content = "Меню",
+                        PageTag = "menu",
+                        Icon = SymbolRegular.Food16,
+                        PageType = typeof(Views.Pages.MenuPage),
+                        ToolTip = "Меню",
+                        IconForeground = Brushes.Black
+                    },
 
-                new NavigationItem()
-                {
-                    Content = "Столики",
-                    PageTag = "tables",
-                    Icon = SymbolRegular.Table48,
-                    PageType = typeof(Views.Pages.TablePage),
-                    ToolTip = "Столики",
-                    IconForeground = Brushes.Black
-                },
+                    new NavigationItem()
+                    {
+                        Content = "Столики",
+                        PageTag = "tables",
+                        Icon = SymbolRegular.Table48,
+                        PageType = typeof(Views.Pages.TablePage),
+                        ToolTip = "Столики",
+                        IconForeground = Brushes.Black
+                    },
 
-                new NavigationItem()
-                {
-                    Content = "Заказы",
-                    PageTag = "orders",
-                    Icon = SymbolRegular.Check20,
-                    PageType = typeof(Views.Pages.OrdersPage),
-                    ToolTip = "Заказы",
-                    IconForeground = Brushes.Black
-                },
-
-                new NavigationItem()
-                {
-                    Visibility = Visibility.Hidden,
-                    Content = "Корзина",
-                    PageTag = "cart",
-                    Icon = SymbolRegular.Cart16,
-                    PageType = typeof(Views.Pages.CartPage),
-                    ToolTip = "Корзина",
-                },
-
-                new NavigationItem()
-                {
-                    Visibility = Visibility.Hidden,
-                    Content = "Регистрация",
-                    PageTag = "registration",
-                    PageType = typeof(Views.Pages.RegistrationPage),
-                    ToolTip = "Регистрация",
-                }
-            };
+                    new NavigationItem()
+                    {
+                        Content = "Заказы",
+                        PageTag = "orders",
+                        Icon = SymbolRegular.Check20,
+                        PageType = typeof(Views.Pages.OrdersPage),
+                        ToolTip = "Заказы",
+                        IconForeground = Brushes.Black
+                    }
+                };
 
                 _isInitialized = true;
             }
