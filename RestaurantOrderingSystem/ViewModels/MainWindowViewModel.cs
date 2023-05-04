@@ -26,19 +26,13 @@ namespace RestaurantOrderingSystem.ViewModels
         private INavigationService? navService;
 
         [ObservableProperty]
-        private string _applicationTitle = String.Empty;
-
-        [ObservableProperty]
-        private bool _isCartFilled = false;
-
-        [ObservableProperty]
-        private bool _isLoginFilled = false;
-
-        [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
         [ObservableProperty]
         private Visibility _loginGridVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
+        private string _applicationTitle = String.Empty;
 
         [ObservableProperty]
         private string _snackbarMessage = string.Empty;
@@ -46,10 +40,14 @@ namespace RestaurantOrderingSystem.ViewModels
         [ObservableProperty]
         private string _snackbarAppearance = "Danger";
 
-        [ObservableProperty]
-        [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
+        [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         private string _emailText = string.Empty;
 
+        [ObservableProperty]
+        private bool _isCartFilled = false;
+
+        [ObservableProperty]
+        private bool _isLoginFilled = false;
 
         private int _badgeValue;
         public int BadgeValue
@@ -101,12 +99,13 @@ namespace RestaurantOrderingSystem.ViewModels
                 {
                     new NavigationItem()
                     {
-                    Content = "Главная",
-                    PageTag = "home",
-                    Icon = SymbolRegular.Home20,
-                    PageType = typeof(Views.Pages.HomePage),
-                    ToolTip = "Главная",
-                    IconForeground = Brushes.Black
+                        Content = "Главная",
+                        PageTag = "home",
+                        Icon = SymbolRegular.Home20,
+                        PageType = typeof(Views.Pages.HomePage),
+                        ToolTip = "Главная",
+                        IconForeground = Brushes.Black,
+                        IsActive = true
                     },
 
                     new NavigationItem()
@@ -147,7 +146,6 @@ namespace RestaurantOrderingSystem.ViewModels
                 System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
         }
 
 
@@ -241,6 +239,7 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             LoginGridVisibility = Visibility.Hidden;
             IsLoginFilled = false;
+
             navService = App.GetService<INavigationService>();
             navService.Navigate(typeof(Views.Pages.RegistrationPage));
         }  

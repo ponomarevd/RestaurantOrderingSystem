@@ -27,22 +27,22 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<Food> _menuItemsMain;
 
         [ObservableProperty]
-        private string? _searchText;
+        private ObservableCollection<Food> _menuItemsSecondary;
 
         [ObservableProperty]
         private Visibility _progressRingVisibility = Visibility.Visible;
 
         [ObservableProperty]
-        private bool _interfaceIsEnabled = false;
-
-        [ObservableProperty]
-        private ObservableCollection<Food> _menuItemsSecondary;
+        private string? _searchText;
 
         [ObservableProperty]
         private string _snackbarMessage;
 
         [ObservableProperty]
         private string _snackbarAppearance;
+
+        [ObservableProperty]
+        private bool _interfaceIsEnabled = false;
 
         public void OnNavigatedFrom()
         {
@@ -110,54 +110,46 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             switch(parameter)
             {
-                case "Вся еда":
-                    MenuItemsSecondary = MenuItemsMain;
-                    break;
-                case "Первые блюда":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Первое блюдо"));
-                    break;
-                case "Вторые блюда":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Второе блюдо"));
-                    break;
-                case "Закуски":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Закуска"));
-                    break;
-                case "Деликатесы":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Деликатес"));
-                    break;
-                case "Напитки":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == "Напиток"));
-                    break;
-                case "Популярное":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Популярное"));
-                    break;
-                case "Обычное":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Обычное"));
-                    break;
-                case "Удовлетворительное":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == "Удовлетворительное"));
-                    break;
-                case "50 - 100 ₽":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 50 && x.FoodPrice <= 100));
-                    break;
-                case "100 - 500 ₽":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 100 && x.FoodPrice <= 500));
-                    break;
-                case "500 - 1000 ₽":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= 500 && x.FoodPrice <= 1000));
-                    break;
-                case "Мясное":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == "Мясное"));
-                    break;
-                case "Овощное":
-                    MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == "Овощное"));
-                    break;
-                case "Сбросить":
-                    MenuItemsSecondary = MenuItemsMain;
-                    break;
+                case "Вся еда": MenuItemsSecondary = MenuItemsMain; break;
+                case "Сбросить": MenuItemsSecondary = MenuItemsMain; break;
+
+                case "Первые блюда": GetFoodByCategory("Первое блюдо"); break;
+                case "Вторые блюда": GetFoodByCategory("Второе блюдо"); break;
+                case "Закуски": GetFoodByCategory("Закуска"); break;
+                case "Деликатесы": GetFoodByCategory("Деликатес"); break;
+                case "Напитки": GetFoodByCategory("Напиток"); break;
+
+                case "Популярное": GetFoodByStatus("Популярное"); break;
+                case "Обычное": GetFoodByStatus("Обычное"); break;
+                case "Удовлетворительное": GetFoodByStatus("Удовлетворительное"); break;
+
+                case "50 - 100 ₽": GetFoodByPrice(50 ,100); break;
+                case "100 - 500 ₽": GetFoodByPrice(100, 500); break;
+                case "500 - 1000 ₽": GetFoodByPrice(500, 1000); break;
+
+                case "Мясное": GetFoodByType("Мясное"); break;
+                case "Овощное": GetFoodByType("Овощное"); break;
+                
                 default:
                     return;
             }
+        }
+
+        private void GetFoodByCategory(string Value)
+        {
+            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == Value));
+        }
+        private void GetFoodByStatus(string Value)
+        {
+            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == Value));
+        }
+        private void GetFoodByPrice(int LeftValue, int RightValue)
+        {
+            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= LeftValue && x.FoodPrice <= RightValue));
+        }
+        private void GetFoodByType(string Value)
+        {
+            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == Value));
         }
 
 
