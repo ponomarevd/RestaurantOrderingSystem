@@ -21,8 +21,5 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string? FoodType { get; set;}
         public string? FoodCategory { get; set; }
         public byte[]? FoodImage { get; set; }
-
-        [NotMapped]
-        public ToCartButtonItem? ToCartButtonItem { get; set; }
     }
 }

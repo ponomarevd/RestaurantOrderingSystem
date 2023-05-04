@@ -1,11 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using RestaurantOrderingSystem.Core;
-using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
-using RestaurantOrderingSystem.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,8 +9,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Common;
@@ -29,7 +23,6 @@ namespace RestaurantOrderingSystem.ViewModels
         private RestaurantDbContext _dbContext;
         private MenuPageViewModel _menuPageViewModel;
         private bool _isInitialized = false;
-
         private INavigationService? navService;
 
         [ObservableProperty]
@@ -57,6 +50,7 @@ namespace RestaurantOrderingSystem.ViewModels
         [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         private string _emailText = string.Empty;
 
+
         private int _badgeValue;
         public int BadgeValue
         {
@@ -82,118 +76,17 @@ namespace RestaurantOrderingSystem.ViewModels
                 OnPropertyChanged(nameof(IsLogoutBtnVisible));
             }
         }
+
         public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
         public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
+
         public MainWindowViewModel(INavigationService navigationService)
         {
             if (!_isInitialized)
                 InitializeViewModel();
         }
-
-        [RelayCommand]
-        private void OpenLoginGrid()
-        {
-            if(LoginGridVisibility == Visibility.Visible)
-            {
-                IsLoginFilled = false;
-                LoginGridVisibility = Visibility.Hidden;
-            }
-            else
-            {
-                IsLoginFilled = true;
-                LoginGridVisibility = Visibility.Visible;
-            } 
-        }
-
-        [RelayCommand]
-        private async void Logout()
-        {
-            foreach (Food food in _menuPageViewModel.MenuItemsMain)
-            {
-                if(food.ToCartButtonItem.Content == "Убрать")
-                {
-                    food.ToCartButtonItem.Content = "В корзину";
-                    food.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-                    food.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-                }
-            }
-
-            CollectionViewSource.GetDefaultView(_menuPageViewModel.MenuItemsMain).Refresh();
-            IsUserAuthorized = false;
-            BadgeValue = 0;
-
-            navService = App.GetService<INavigationService>();
-            navService.Navigate(typeof(Views.Pages.HomePage));
-        }
-
-        [RelayCommand]
-        private void OpenCart()
-        {
-            IsCartFilled = true;
-            navService = App.GetService<INavigationService>();
-            navService.Navigate(typeof(Views.Pages.CartPage));
-        }
-
-        [RelayCommand(CanExecute = nameof(CheckFields))]
-        private void Login(PasswordBox? passwordBox)
-        {
-            try
-            {
-                User? userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
-
-                if (userModel != null)
-                {
-                    SnackbarAppearance = "Success";
-                    SnackbarMessage = "Успешный вход!";
-
-                    switch (userModel.RoleID)
-                    {
-                        case 1:
-                            break;
-                        case 2:
-                            LoginGridVisibility = Visibility.Hidden;
-                            IsLoginFilled = false;
-
-                            EmailText = string.Empty;
-                            passwordBox.Password = string.Empty;
-
-                            IsUserAuthorized = true;
-                            break;
-                        case 3:
-                            break;
-                    }
-                }
-                else
-                {
-                    SnackbarAppearance = "Danger";
-                    SnackbarMessage = "Неверные данные!";
-                    return;
-                }
-                    
-            }
-            catch (Exception ex)
-            {
-                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-        }
-
-        private bool CheckFields()
-        {
-            return !(Regex.IsMatch(EmailText, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase) == false || EmailText == null || EmailText.Trim() == string.Empty);
-        }
-
-        [RelayCommand]
-        private void GoToSignUp()
-        {
-            LoginGridVisibility = Visibility.Hidden;
-            IsLoginFilled = false;
-            navService = App.GetService<INavigationService>();
-            navService.Navigate(typeof(Views.Pages.RegistrationPage));
-        }
-
         private async void InitializeViewModel()
         {
             try
@@ -254,7 +147,102 @@ namespace RestaurantOrderingSystem.ViewModels
                 System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
+
         }
+
+
+        [RelayCommand]
+        private void OpenLoginGrid()
+        {
+            if(LoginGridVisibility == Visibility.Visible)
+            {
+                IsLoginFilled = false;
+                LoginGridVisibility = Visibility.Hidden;
+            }
+            else
+            {
+                IsLoginFilled = true;
+                LoginGridVisibility = Visibility.Visible;
+            } 
+        }
+
+
+        [RelayCommand]
+        private async void Logout()
+        {
+            IsUserAuthorized = false;
+            BadgeValue = 0;
+
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.HomePage));
+        }
+
+
+        [RelayCommand]
+        private void OpenCart()
+        {
+            IsCartFilled = true;
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.CartPage));
+        }
+
+
+        [RelayCommand(CanExecute = nameof(CheckFields))]
+        private void Login(PasswordBox? passwordBox)
+        {
+            try
+            {
+                User? userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
+
+                if (userModel != null)
+                {
+                    SnackbarAppearance = "Success";
+                    SnackbarMessage = "Успешный вход!";
+
+                    switch (userModel.RoleID)
+                    {
+                        case 1:
+                            break;
+                        case 2:
+                            LoginGridVisibility = Visibility.Hidden;
+                            IsLoginFilled = false;
+
+                            EmailText = string.Empty;
+                            passwordBox.Password = string.Empty;
+
+                            IsUserAuthorized = true;
+                            break;
+                        case 3:
+                            break;
+                    }
+                }
+                else
+                {
+                    SnackbarAppearance = "Danger";
+                    SnackbarMessage = "Неверные данные!";
+                    return;
+                }
+                    
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+        }
+        private bool CheckFields()
+        {
+            return !(Regex.IsMatch(EmailText, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase) == false || EmailText == null || EmailText.Trim() == string.Empty);
+        }
+
+
+        [RelayCommand]
+        private void GoToSignUp()
+        {
+            LoginGridVisibility = Visibility.Hidden;
+            IsLoginFilled = false;
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.RegistrationPage));
+        }  
     }
 }

@@ -21,7 +21,6 @@ namespace RestaurantOrderingSystem.ViewModels
     {
         private RestaurantDbContext? _dbContext;
         private MainWindowViewModel? _mainWindowViewModel;
-
         private bool _isInitialized = false;
 
         [ObservableProperty]
@@ -34,36 +33,25 @@ namespace RestaurantOrderingSystem.ViewModels
         private Visibility _progressRingVisibility = Visibility.Visible;
 
         [ObservableProperty]
-        private bool _searchIsEnabled = false;
-
-        [ObservableProperty]
-        private string _buttonContent = "В корзину";
-
-        [ObservableProperty]
-        private bool _filtersIsEnabled = false;
-
-        [ObservableProperty]
-        private ObservableCollection<FilterButtonItem>? _filterButtons;
+        private bool _interfaceIsEnabled = false;
 
         [ObservableProperty]
         private ObservableCollection<Food> _menuItemsSecondary;
 
         [ObservableProperty]
-        private string? _snackbarMessage;
+        private string _snackbarMessage;
 
         [ObservableProperty]
-        private string? _snackbarAppearance;
+        private string _snackbarAppearance;
 
         public void OnNavigatedFrom()
         {
         }
-
-        [RelayCommand]
-        private async void TextChanged()
+        public void OnNavigatedTo()
         {
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(MenuItemsMain.Where(u => u.FoodName.ToLower().Contains(SearchText.ToLower())).ToList()));
+            if (!_isInitialized)
+                InitializeViewModel();
         }
-
         private async void InitializeViewModel()
         {
             try
@@ -73,115 +61,40 @@ namespace RestaurantOrderingSystem.ViewModels
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
 
                 MenuItemsMain = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.ToList()));
-
-                foreach (Food food in MenuItemsMain)
-                {
-                    food.ToCartButtonItem = new ToCartButtonItem()
-                    {
-                        Content = "В корзину",
-                        Command = new RelayCommand<string>(ToCartClick),
-                        ItemName = food.FoodName,
-                        BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush,
-                        Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush
-                    };
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            
 
             MenuItemsSecondary = await Task.Run(()=>MenuItemsMain);
 
-            FilterButtons = await Task.Run(() => new ObservableCollection<FilterButtonItem>()
-            {
-                new FilterButtonItem
-                {
-                    Content = "Вся еда",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                },
-                new FilterButtonItem
-                {
-                    Content = "Первые блюда",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                },
-                new FilterButtonItem
-                {
-                    Content = "Вторые блюда",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                },
-                new FilterButtonItem
-                {
-                    Content = "Закуски",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                },
-                new FilterButtonItem
-                {
-                    Content = "Деликатесы",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                },
-                new FilterButtonItem
-                {
-                    Content = "Напитки",
-                    Command = new RelayCommand<string>(FilterButtonClick)
-                }
-            });
-
             _isInitialized = true;
             ProgressRingVisibility = Visibility.Hidden;
-            SearchIsEnabled = true;
-            FiltersIsEnabled = true;
+            InterfaceIsEnabled = true;
         }
 
+
         [RelayCommand]
-        private async void ToCartClick(string? parameter)
+        private async void TextChanged()
+        {
+            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(MenuItemsMain.Where(u => u.FoodName.ToLower().Contains(SearchText.ToLower())).ToList()));
+        }
+
+
+        [RelayCommand]
+        private void ToCartClick(string? parameter)
         {
             if (_mainWindowViewModel.IsUserAuthorized)
             {
                 Food SelectedFoodModel;
-                int Index = 0;
-                try
-                {
-                    SelectedFoodModel = await Task.Run(() => MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter));
-                    Index = MenuItemsSecondary.IndexOf(SelectedFoodModel);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
+                SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
 
-                switch (SelectedFoodModel.ToCartButtonItem.Content)
-                {
-                    case "Убрать":
-                        SelectedFoodModel.ToCartButtonItem.Content = "В корзину";
-                        SelectedFoodModel.ToCartButtonItem.BorderBrush = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
-                        SelectedFoodModel.ToCartButtonItem.Foreground = new BrushConverter().ConvertFrom("#188851") as SolidColorBrush;
+                _mainWindowViewModel.BadgeValue++;
 
-                        SnackbarMessage = "Товар успешно убран из корзины";
-                        SnackbarAppearance = "Caution";
-
-                        MenuItemsSecondary.RemoveAt(Index);
-                        MenuItemsSecondary.Insert(Index, SelectedFoodModel);
-
-                        _mainWindowViewModel.BadgeValue--;
-                        break;
-                    case "В корзину":
-                        SelectedFoodModel.ToCartButtonItem.Content = "Убрать";
-                        SelectedFoodModel.ToCartButtonItem.BorderBrush = Brushes.DarkRed;
-                        SelectedFoodModel.ToCartButtonItem.Foreground = Brushes.DarkRed;
-
-                        SnackbarMessage = "Товар успешно добавлен в корзину";
-                        SnackbarAppearance = "Success";
-
-                        MenuItemsSecondary.RemoveAt(Index);
-                        MenuItemsSecondary.Insert(Index, SelectedFoodModel);
-
-                        _mainWindowViewModel.BadgeValue++;
-                        break;
-                }
+                SnackbarMessage = "Товар успешно добавлен в корзину";
+                SnackbarAppearance = "Success";
             }
             else
             {
@@ -190,6 +103,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 return;
             }
         }
+
 
         [RelayCommand]
         private void FilterButtonClick(string? parameter)
@@ -246,11 +160,6 @@ namespace RestaurantOrderingSystem.ViewModels
             }
         }
 
-        public void OnNavigatedTo()
-        {
-            if (!_isInitialized)
-                InitializeViewModel();
-        }
 
         /*[RelayCommand] //ДОБАВИТЬ КАРТИНКУ В БД
         private void ButtonClick()
