@@ -12,11 +12,11 @@ namespace RestaurantOrderingSystem.Models.DbTables
 
         //Cart Relationship
         public int CartID { get; set; }
-        public virtual Cart? Cart { get; set; }
+        public Cart? Cart { get; set; }
 
         //Food Relationship
         public int FoodID { get; set; }
-        public virtual Food? FoodS { get; set; }
+        public Food? Food { get; set; }
 
         public int Count { get; set; }
 

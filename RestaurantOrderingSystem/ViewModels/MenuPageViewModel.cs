@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
@@ -19,8 +20,8 @@ namespace RestaurantOrderingSystem.ViewModels
 {
     public partial class MenuPageViewModel : ObservableObject, INavigationAware
     {
-        private RestaurantDbContext? _dbContext;
-        private MainWindowViewModel? _mainWindowViewModel;
+        private RestaurantDbContext _dbContext;
+        private MainWindowViewModel _mainWindowViewModel;
         private bool _isInitialized = false;
 
         [ObservableProperty]
@@ -43,6 +44,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private bool _interfaceIsEnabled = false;
+
+        [ObservableProperty]
+        private bool _addToCartBtnIsEnabled = true;
 
         public void OnNavigatedFrom()
         {
@@ -84,22 +88,66 @@ namespace RestaurantOrderingSystem.ViewModels
 
 
         [RelayCommand]
-        private void ToCartClick(string? parameter)
+        private async void ToCartClick(string? parameter)
         {
-            if (_mainWindowViewModel.IsUserAuthorized)
+            try
             {
-                Food SelectedFoodModel;
-                SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
+                if (_mainWindowViewModel.IsUserAuthorized)
+                {
+                    AddToCartBtnIsEnabled = false;
+                    Food SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
 
-                _mainWindowViewModel.BadgeValue++;
+                    //Создание корзины, если ее нет
+                    if (await Task.Run(() => _dbContext.Cart.FirstOrDefault(x => x.UserID == _mainWindowViewModel.UserID)) == null)
+                    {
+                        await _dbContext.Cart.AddAsync(new Cart()
+                        {
+                            UserID = _mainWindowViewModel.UserID
+                        });
 
-                SnackbarMessage = "Товар успешно добавлен в корзину";
-                SnackbarAppearance = "Success";
+                        await _dbContext.SaveChangesAsync();
+                    }
+
+                    //Получение корзины пользователя
+                    Cart CartModel = await Task.Run(() => _dbContext.Cart.FirstOrDefault(x => x.UserID == _mainWindowViewModel.UserID));
+
+                    //Получение контейнера еды для корзины пользователя
+                    FoodContain foodContain = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodID == SelectedFoodModel.FoodID && x.CartID == CartModel.CartID));
+
+                    //Инкремент количества выбранной еды, если она уже добавлена, еслм нет то добавление
+                    if (foodContain == null)
+                    {
+                        await _dbContext.FoodContain.AddAsync(new FoodContain()
+                        {
+                            CartID = CartModel.CartID,
+                            FoodID = SelectedFoodModel.FoodID,
+                            Count = 1
+                        });
+                        _mainWindowViewModel.BadgeValue++;
+                    }
+                    else
+                    {
+                        foodContain.Count++;
+                        _mainWindowViewModel.BadgeValue++;
+                    }
+
+                    await _dbContext.SaveChangesAsync();
+
+                    SnackbarMessage = "Товар успешно добавлен в корзину";
+                    SnackbarAppearance = "Success";
+
+                    AddToCartBtnIsEnabled = true;
+                }
+                else
+                {
+                    SnackbarMessage = "Войдите в аккаунт";
+                    SnackbarAppearance = "Danger";
+                    return;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                SnackbarMessage = "Войдите в аккаунт";
-                SnackbarAppearance = "Danger";
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
         }

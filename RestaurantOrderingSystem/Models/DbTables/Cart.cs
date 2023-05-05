@@ -13,12 +13,9 @@ namespace RestaurantOrderingSystem.Models.DbTables
 
         //User Relationship
         public int UserID { get; set; }
-        public virtual User? User { get; set; }
-
-        public DateTime AddTime { get; set; }
-        public string Status { get; set; }
+        public User? User { get; set; }
 
         //FoodContain Relationship
-        public virtual ICollection<FoodContain>? FoodContain { get; set; }
+        public ICollection<FoodContain>? FoodContain { get; set; }
     }
 }

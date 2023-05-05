@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -24,11 +25,14 @@ namespace RestaurantOrderingSystem.ViewModels
         private MenuPageViewModel _menuPageViewModel;
         private bool _isInitialized = false;
         private INavigationService? navService;
+        private User? userModel;
+        private List<FoodContain> foodContainItems;
 
         [ObservableProperty]
         private ObservableCollection<INavigationControl> _navigationItems = new();
 
-        [ObservableProperty]
+        [ObservableProperty] 
+        [NotifyPropertyChangedFor(nameof(IsLoginFilled))]
         private Visibility _loginGridVisibility = Visibility.Hidden;
 
         [ObservableProperty]
@@ -40,45 +44,28 @@ namespace RestaurantOrderingSystem.ViewModels
         [ObservableProperty]
         private string _snackbarAppearance = "Danger";
 
-        [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
+        [ObservableProperty] 
+        [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
         private string _emailText = string.Empty;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible))]
+        private bool _isUserAuthorized = false;
 
         [ObservableProperty]
         private bool _isCartFilled = false;
 
         [ObservableProperty]
-        private bool _isLoginFilled = false;
+        private int _userID = 0;
 
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(BadgeVisibility))]
         private int _badgeValue;
-        public int BadgeValue
-        {
-            get => _badgeValue;
-            set
-            {
-                _badgeValue = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(BadgeVisibility));
-            }
-        }
-
-        private bool _isUserAuthorized = false;
-        public bool IsUserAuthorized
-        {
-            get => _isUserAuthorized;
-            set
-            {
-                _isUserAuthorized = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsCartVisible));
-                OnPropertyChanged(nameof(IsLoginBtnVisible));
-                OnPropertyChanged(nameof(IsLogoutBtnVisible));
-            }
-        }
-
         public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
         public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
+        public bool IsLoginFilled => LoginGridVisibility == Visibility.Visible ? true : false;
 
         public MainWindowViewModel(INavigationService navigationService)
         {
@@ -153,15 +140,9 @@ namespace RestaurantOrderingSystem.ViewModels
         private void OpenLoginGrid()
         {
             if(LoginGridVisibility == Visibility.Visible)
-            {
-                IsLoginFilled = false;
                 LoginGridVisibility = Visibility.Hidden;
-            }
             else
-            {
-                IsLoginFilled = true;
                 LoginGridVisibility = Visibility.Visible;
-            } 
         }
 
 
@@ -190,7 +171,8 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             try
             {
-                User? userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
+                _dbContext = new RestaurantDbContext();
+                userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
 
                 if (userModel != null)
                 {
@@ -202,12 +184,17 @@ namespace RestaurantOrderingSystem.ViewModels
                         case 1:
                             break;
                         case 2:
+                            foodContainItems = _dbContext.FoodContain.Where(x => x.Cart.UserID == userModel.UserID).ToList();
+
+                            foreach (FoodContain item in foodContainItems)
+                                BadgeValue += item.Count;
+
                             LoginGridVisibility = Visibility.Hidden;
-                            IsLoginFilled = false;
 
                             EmailText = string.Empty;
                             passwordBox.Password = string.Empty;
 
+                            UserID = userModel.UserID;
                             IsUserAuthorized = true;
                             break;
                         case 3:
@@ -238,7 +225,6 @@ namespace RestaurantOrderingSystem.ViewModels
         private void GoToSignUp()
         {
             LoginGridVisibility = Visibility.Hidden;
-            IsLoginFilled = false;
 
             navService = App.GetService<INavigationService>();
             navService.Navigate(typeof(Views.Pages.RegistrationPage));

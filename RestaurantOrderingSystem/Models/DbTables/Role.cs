@@ -12,6 +12,6 @@ namespace RestaurantOrderingSystem.Models.DbTables
         public string? RoleName { get; set; }
 
         //User Relationship
-        public virtual ICollection<User>? Users { get; set; }
+        public ICollection<User>? User { get; set; }
     }
 }

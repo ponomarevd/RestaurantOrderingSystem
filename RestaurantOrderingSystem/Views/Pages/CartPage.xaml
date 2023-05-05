@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:RestaurantOrderingSystem.Models.DbTables"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="Корзина"
     d:Background="{DynamicResource ApplicationBackgroundBrush}"
@@ -16,10 +17,46 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="Корзина" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <ListView
+            Grid.Row="1"
+            Grid.Column="0"
+            MaxHeight="450"
+            ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
+            ScrollViewer.CanContentScroll="True"
+            ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type model:FoodContain}">
+                    <StackPanel Orientation="Horizontal">
+                        <Border
+                            Width="100"
+                            Height="80"
+                            Padding="5">
+                            <Image
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Source="{Binding Food.FoodImage}"
+                                Stretch="Uniform" />
+                        </Border>
+                        <StackPanel Margin="20,0,0,0" Orientation="Vertical">
+                            <TextBlock
+                                FontSize="17"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                Text="{Binding Food.FoodName}" />
+                        </StackPanel>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </ui:UiPage>
