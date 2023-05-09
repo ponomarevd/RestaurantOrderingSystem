@@ -20,6 +20,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<FoodContain> _cartItems;
+
+        [ObservableProperty]
+        private Visibility _progressRingVisibility = Visibility.Hidden;
         public void OnNavigatedFrom()
         {
             _mainWindowViewModel.IsCartFilled = false;
@@ -34,10 +37,14 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             try
             {
+                ProgressRingVisibility = Visibility.Visible;
+
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
                 _mainWindowViewModel = App.GetService<MainWindowViewModel>();
 
-                CartItems = await Task.Run(() => new ObservableCollection<FoodContain>(_dbContext.FoodContain.Include(x => x.Food).Include(x => x.Cart).Where(x => x.Cart.UserID == _mainWindowViewModel.UserID)));  
+                CartItems = await Task.Run(() => new ObservableCollection<FoodContain>(_dbContext.FoodContain.Include(x => x.Food).Include(x => x.Cart).Where(x => x.Cart.UserID == _mainWindowViewModel.UserID)));
+
+                ProgressRingVisibility = Visibility.Hidden;
             }
             catch (Exception ex)
             {

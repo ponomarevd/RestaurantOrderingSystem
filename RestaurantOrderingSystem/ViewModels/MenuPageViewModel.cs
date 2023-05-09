@@ -46,7 +46,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private bool _interfaceIsEnabled = false;
 
         [ObservableProperty]
-        private bool _btnAddIsHitTEstVisible = true;
+        private bool _btnAddIsHitTestVisible = true;
 
         public void OnNavigatedFrom()
         {
@@ -94,7 +94,7 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 if (_mainWindowViewModel.IsUserAuthorized)
                 {
-                    BtnAddIsHitTEstVisible = false;
+                    BtnAddIsHitTestVisible = false;
                     SnackbarMessage = "Товар успешно добавлен в корзину";
                     SnackbarAppearance = "Success";
 
@@ -130,13 +130,21 @@ namespace RestaurantOrderingSystem.ViewModels
                     }
                     else
                     {
-                        foodContain.Count++;
-                        _mainWindowViewModel.BadgeValue++;
+                        if(foodContain.Count == 5)
+                        {
+                            SnackbarMessage = "Достигнут лимит количества в корзине для этого товара";
+                            SnackbarAppearance = "Danger";
+                        }
+                        else
+                        {
+                            foodContain.Count++;
+                            _mainWindowViewModel.BadgeValue++;
+                        }      
                     }
 
                     await _dbContext.SaveChangesAsync();
 
-                    BtnAddIsHitTEstVisible = true;
+                    BtnAddIsHitTestVisible = true;
                 }
                 else
                 {

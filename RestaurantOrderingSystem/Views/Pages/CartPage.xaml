@@ -18,19 +18,20 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="700" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ListView
-            Grid.Row="1"
+        <ui:ProgressRing
+            Grid.RowSpan="2"
             Grid.Column="0"
-            MaxHeight="467"
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
+
+        <ListView
+            Grid.Column="0"
+            MaxHeight="515"
             ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
             ScrollViewer.CanContentScroll="True"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -110,7 +111,8 @@
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 Foreground="Black"
-                                Text="{c:Binding 'Food.FoodPrice * Count', StringFormat={}{0} ₽}" />
+                                Text="{c:Binding 'Food.FoodPrice * Count',
+                                                 StringFormat={}{0} ₽}" />
                             <ui:Button
                                 Width="40"
                                 Height="40"
