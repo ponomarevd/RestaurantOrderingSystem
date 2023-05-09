@@ -392,7 +392,7 @@
                                     FontSize="14"
                                     FontWeight="SemiBold"
                                     Foreground="#188851"
-                                    IsEnabled="{Binding ViewModel.AddToCartBtnIsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuPage}}}" />
+                                    IsHitTestVisible="{Binding ViewModel.BtnAddIsHitTestVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MenuPage}}}" />
                             </StackPanel>
                         </Grid>
                     </Border>

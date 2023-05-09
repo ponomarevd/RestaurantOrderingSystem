@@ -2,6 +2,7 @@
     x:Class="RestaurantOrderingSystem.Views.Pages.CartPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,32 +30,95 @@
         <ListView
             Grid.Row="1"
             Grid.Column="0"
-            MaxHeight="450"
+            MaxHeight="467"
             ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
             ScrollViewer.CanContentScroll="True"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            ScrollViewer.VerticalScrollBarVisibility="Hidden"
+            VirtualizingPanel.ScrollUnit="Pixel">
             <ListView.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:FoodContain}">
-                    <StackPanel Orientation="Horizontal">
-                        <Border
-                            Width="100"
-                            Height="80"
-                            Padding="5">
-                            <Image
-                                HorizontalAlignment="Center"
+                    <Border
+                        Background="#FEFEFE"
+                        BorderBrush="#ededed"
+                        BorderThickness="1"
+                        CornerRadius="15">
+                        <StackPanel Orientation="Horizontal">
+                            <Border
+                                Width="110"
+                                Height="110"
+                                Padding="10">
+                                <Image
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="{Binding Food.FoodImage}"
+                                    Stretch="Uniform">
+                                    <Image.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="10"
+                                            Direction="225"
+                                            ShadowDepth="0.1"
+                                            Color="#FFBFBFBF" />
+                                    </Image.Effect>
+                                </Image>
+                            </Border>
+                            <StackPanel
+                                Width="200"
+                                Margin="20,0,0,0"
                                 VerticalAlignment="Center"
-                                Source="{Binding Food.FoodImage}"
-                                Stretch="Uniform" />
-                        </Border>
-                        <StackPanel Margin="20,0,0,0" Orientation="Vertical">
+                                Orientation="Vertical">
+                                <TextBlock
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    Text="{Binding Food.FoodName}" />
+                                <TextBlock
+                                    Margin="0,7,0,0"
+                                    FontSize="13"
+                                    Foreground="#FF756868">
+                                    <Run Text="{Binding Food.FoodType}" />
+                                    <Run Text=" | " />
+                                    <Run Text="{Binding Food.FoodCategory}" />
+                                </TextBlock>
+                            </StackPanel>
+
+                            <StackPanel
+                                Margin="40,0,0,0"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                                <Button
+                                    Width="35"
+                                    Height="35"
+                                    Margin="0,0,15,0"
+                                    VerticalAlignment="Center"
+                                    Content="-" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    Text="{Binding Count}" />
+                                <Button
+                                    Width="35"
+                                    Height="35"
+                                    Margin="15,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Content="+" />
+                            </StackPanel>
+
                             <TextBlock
-                                FontSize="17"
+                                Width="90"
+                                Margin="45,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="18"
                                 FontWeight="SemiBold"
                                 Foreground="Black"
-                                Text="{Binding Food.FoodName}" />
+                                Text="{c:Binding 'Food.FoodPrice * Count', StringFormat={}{0} ₽}" />
+                            <ui:Button
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,0,0"
+                                VerticalAlignment="Center"
+                                Icon="Delete12" />
                         </StackPanel>
-
-                    </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

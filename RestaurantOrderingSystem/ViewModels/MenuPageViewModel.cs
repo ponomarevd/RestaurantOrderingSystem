@@ -46,7 +46,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private bool _interfaceIsEnabled = false;
 
         [ObservableProperty]
-        private bool _addToCartBtnIsEnabled = true;
+        private bool _btnAddIsHitTEstVisible = true;
 
         public void OnNavigatedFrom()
         {
@@ -94,7 +94,10 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 if (_mainWindowViewModel.IsUserAuthorized)
                 {
-                    AddToCartBtnIsEnabled = false;
+                    BtnAddIsHitTEstVisible = false;
+                    SnackbarMessage = "Товар успешно добавлен в корзину";
+                    SnackbarAppearance = "Success";
+
                     Food SelectedFoodModel = MenuItemsSecondary.FirstOrDefault(x => x.FoodName == parameter);
 
                     //Создание корзины, если ее нет
@@ -114,7 +117,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     //Получение контейнера еды для корзины пользователя
                     FoodContain foodContain = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodID == SelectedFoodModel.FoodID && x.CartID == CartModel.CartID));
 
-                    //Инкремент количества выбранной еды, если она уже добавлена, еслм нет то добавление
+                    //Инкремент количества выбранной еды, если она уже добавлена, если нет то добавление
                     if (foodContain == null)
                     {
                         await _dbContext.FoodContain.AddAsync(new FoodContain()
@@ -133,10 +136,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
                     await _dbContext.SaveChangesAsync();
 
-                    SnackbarMessage = "Товар успешно добавлен в корзину";
-                    SnackbarAppearance = "Success";
-
-                    AddToCartBtnIsEnabled = true;
+                    BtnAddIsHitTEstVisible = true;
                 }
                 else
                 {

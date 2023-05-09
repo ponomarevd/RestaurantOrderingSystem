@@ -15,7 +15,6 @@ namespace RestaurantOrderingSystem.ViewModels
 {
     public partial class CartPageViewModel : ObservableObject, INavigationAware
     {
-        private bool _isInitialized = false;
         private MainWindowViewModel? _mainWindowViewModel;
         private RestaurantDbContext _dbContext;
 
@@ -28,8 +27,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
         public void OnNavigatedTo()
         {
-            if (!_isInitialized)
-                InitializeViewModel();
+            InitializeViewModel();
         }
 
         private async void InitializeViewModel()
@@ -40,7 +38,6 @@ namespace RestaurantOrderingSystem.ViewModels
                 _mainWindowViewModel = App.GetService<MainWindowViewModel>();
 
                 CartItems = await Task.Run(() => new ObservableCollection<FoodContain>(_dbContext.FoodContain.Include(x => x.Food).Include(x => x.Cart).Where(x => x.Cart.UserID == _mainWindowViewModel.UserID)));  
-                _isInitialized = true;
             }
             catch (Exception ex)
             {
