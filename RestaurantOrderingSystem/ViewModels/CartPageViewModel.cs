@@ -41,6 +41,8 @@ namespace RestaurantOrderingSystem.ViewModels
 
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
                 _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+                
+                _mainWindowViewModel.IsCartFilled = true;
 
                 CartItems = await Task.Run(() => new ObservableCollection<FoodContain>(_dbContext.FoodContain.Include(x => x.Food).Include(x => x.Cart).Where(x => x.Cart.UserID == _mainWindowViewModel.UserID)));
 
