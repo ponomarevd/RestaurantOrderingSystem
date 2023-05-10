@@ -29,7 +29,8 @@
         <TextBlock
             Margin="5,0,0,0"
             HorizontalAlignment="Left"
-            VerticalAlignment="Center">
+            VerticalAlignment="Center"
+            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
             <Run
                 FontSize="26"
                 FontWeight="Bold"
@@ -40,12 +41,6 @@
                 Text="{Binding ViewModel.ProductsCount}" />
         </TextBlock>
 
-        <ui:ProgressRing
-            Grid.Row="1"
-            Grid.Column="0"
-            IsIndeterminate="True"
-            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
-
         <Border
             Grid.Row="1"
             Grid.Column="1"
@@ -55,7 +50,8 @@
             Background="#FEFEFE"
             BorderBrush="#ededed"
             BorderThickness="1"
-            CornerRadius="15">
+            CornerRadius="15"
+            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -157,6 +153,7 @@
             Grid.Row="1"
             Grid.Column="0"
             MaxHeight="480"
+            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}"
             ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
             ScrollViewer.CanContentScroll="True"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -188,8 +185,9 @@
                                     </Image.Effect>
                                 </Image>
                             </Border>
+
                             <StackPanel
-                                Width="150"
+                                Width="160"
                                 Margin="20,0,0,0"
                                 VerticalAlignment="Center"
                                 Orientation="Vertical">
@@ -218,6 +216,7 @@
                                     Margin="0,0,10,0"
                                     VerticalAlignment="Center"
                                     Command="{Binding ViewModel.DecrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
+                                    CommandParameter="{Binding FoodContainID}"
                                     Content="-"
                                     Cursor="Hand" />
                                 <TextBlock
@@ -230,12 +229,13 @@
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
                                     Command="{Binding ViewModel.IncrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
+                                    CommandParameter="{Binding FoodContainID}"
                                     Content="+"
                                     Cursor="Hand" />
                             </StackPanel>
 
                             <TextBlock
-                                Width="110"
+                                Width="90"
                                 Margin="45,0,0,0"
                                 VerticalAlignment="Center"
                                 FontSize="18"
@@ -246,7 +246,7 @@
                             <ui:Button
                                 Width="40"
                                 Height="40"
-                                Margin="0,0,0,0"
+                                Margin="10,0,0,0"
                                 VerticalAlignment="Center"
                                 Cursor="Hand"
                                 Icon="Delete12" />
@@ -255,5 +255,11 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <ui:ProgressRing
+            Grid.Row="1"
+            Grid.Column="0"
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
     </Grid>
 </ui:UiPage>

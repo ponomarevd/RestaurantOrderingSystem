@@ -33,6 +33,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private Visibility _progressRingVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
+        private bool _interfaceIsEnabled = true;
         public void OnNavigatedFrom()
         {
             _mainWindowViewModel.IsCartFilled = false;
@@ -50,6 +53,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 ProductsCount = 0;
                 ProductsSummary = 0;
 
+                InterfaceIsEnabled = false;
                 ProgressRingVisibility = Visibility.Visible;
 
                 _dbContext = await Task.Run(() => new RestaurantDbContext());
@@ -65,6 +69,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
                 GetNumEnding(ProductsCount);
 
+                InterfaceIsEnabled = true;
                 ProgressRingVisibility = Visibility.Hidden;
             }
             catch (Exception ex)
@@ -75,15 +80,29 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void DecrementCount()
+        private async void DecrementCount(int foodContainId)
         {
+            FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
+            foodContainModel.Count--;
 
+            _mainWindowViewModel.BadgeValue--;
+            ProductsCount--;
+
+            await _dbContext.SaveChangesAsync();
+            InitializeViewModel();
         }
 
         [RelayCommand]
-        private void IncrementCount()
+        private async void IncrementCount(int foodContainId)
         {
+            FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
+            foodContainModel.Count++;
 
+            _mainWindowViewModel.BadgeValue++;
+            ProductsCount++;
+
+            await _dbContext.SaveChangesAsync();
+            InitializeViewModel();
         }
 
         public void GetNumEnding(int iNumber)
