@@ -16,250 +16,266 @@
     d:DesignWidth="940"
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="60" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="650" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock
-            Margin="5,0,0,0"
-            HorizontalAlignment="Left"
+        <StackPanel
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
-            <Run
-                FontSize="26"
-                FontWeight="Bold"
-                Text="Корзина" />
-            <Run
-                BaselineAlignment="TextTop"
-                Foreground="#FF756868"
-                Text="{Binding ViewModel.ProductsCount}" />
-        </TextBlock>
+            Visibility="{Binding ViewModel.EmptyCartVisibility}">
+            <TextBlock
+                Width="auto"
+                Margin="0,10,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="35"
+                FontWeight="Medium"
+                Foreground="#FF8C8686"
+                Text="Ваша корзина пуста"
+                TextWrapping="Wrap" />
+            <Button
+                Margin="0,15,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                BorderBrush="#188851"
+                BorderThickness="1.5"
+                Command="{Binding ViewModel.GoToMenuCommand}"
+                Content="Открыть меню"
+                FontSize="16"
+                FontWeight="SemiBold"
+                Foreground="#188851"
+                Style="{StaticResource ToolBarButtonBaseStyle}" />
+        </StackPanel>
+        <Grid Visibility="{Binding ViewModel.InterfaceVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="650" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Border
-            Grid.Row="1"
-            Grid.Column="1"
-            Height="270"
-            Margin="5"
-            VerticalAlignment="Top"
-            Background="#FEFEFE"
-            BorderBrush="#ededed"
-            BorderThickness="1"
-            CornerRadius="15"
-            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="20" />
-                    <RowDefinition Height="70" />
-                    <RowDefinition Height="70" />
-                </Grid.RowDefinitions>
-
-                <TextBlock
-                    Margin="15,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontSize="18"
+            <TextBlock
+                Margin="5,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
+                <Run
+                    FontSize="26"
                     FontWeight="Bold"
-                    Text="Ваша корзина" />
-                <TextBlock
-                    Grid.Column="1"
-                    Margin="0,10,20,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Foreground="#FF756868">
-                    <Run Text="{Binding ViewModel.ProductsCount}" />
-                    <Run Text="{Binding ViewModel.CountText}" />
-                </TextBlock>
+                    Text="Корзина" />
+                <Run
+                    BaselineAlignment="TextTop"
+                    Foreground="#FF756868"
+                    Text="{Binding ViewModel.ProductsCount}" />
+            </TextBlock>
 
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="15,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
-                    <Run Text="Товары" />
-                    <Run Text="{Binding ViewModel.ProductsCount, StringFormat=({0})}" />
-                </TextBlock>
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                Height="190"
+                Margin="5"
+                VerticalAlignment="Top"
+                Background="#FEFEFE"
+                BorderBrush="#ededed"
+                BorderThickness="1"
+                CornerRadius="15"
+                IsEnabled="{Binding ViewModel.InterfaceIsEnabled}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                <TextBlock
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="0,10,20,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="{Binding ViewModel.ProductsSummary, StringFormat={}{0} ₽}" />
+                    <TextBlock
+                        Margin="15,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="Ваша корзина" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="0,10,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="#FF756868">
+                        <Run Text="{Binding ViewModel.ProductsCount}" />
+                        <Run Text="{Binding ViewModel.CountText}" />
+                    </TextBlock>
 
-                <Border
-                    Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Height="1"
-                    VerticalAlignment="Bottom"
-                    Background="#FEFEFE"
-                    BorderBrush="#ededed"
-                    BorderThickness="1" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Margin="15,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                        <Run Text="Товары" />
+                        <Run Text="{Binding ViewModel.ProductsCount, StringFormat=({0})}" />
+                    </TextBlock>
 
-                <TextBlock
-                    Grid.Row="3"
-                    Margin="15,10,0,0"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="Итого" />
-                <TextBlock
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Margin="0,10,20,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    FontSize="18"
-                    FontWeight="Bold"
-                    Text="{Binding ViewModel.ProductsSummary, StringFormat={}{0} ₽}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,10,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="{Binding ViewModel.ProductsSummary, StringFormat={}{0} ₽}" />
 
-                <ui:Button
-                    Grid.Row="4"
-                    Grid.ColumnSpan="2"
-                    Width="260"
-                    Height="40"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Background="#188851"
-                    BorderBrush="#188851"
-                    Content="Оформить заказ"
-                    Cursor="Hand"
-                    FontWeight="SemiBold"
-                    Foreground="White"
-                    MouseOverBackground="#2da66a"
-                    MouseOverBorderBrush="#2da66a"
-                    PressedBackground="#2da66a"
-                    PressedBorderBrush="#2da66a"
-                    PressedForeground="LightGray" />
-            </Grid>
-        </Border>
-
-        <ListView
-            Grid.Row="1"
-            Grid.Column="0"
-            MaxHeight="480"
-            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}"
-            ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
-            ScrollViewer.CanContentScroll="True"
-            ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            VirtualizingPanel.ScrollUnit="Pixel">
-
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type model:FoodContain}">
                     <Border
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        Height="1"
+                        VerticalAlignment="Bottom"
                         Background="#FEFEFE"
                         BorderBrush="#ededed"
-                        BorderThickness="1"
-                        CornerRadius="15">
-                        <StackPanel Orientation="Horizontal">
-                            <Border
-                                Width="110"
-                                Height="110"
-                                Padding="10">
-                                <Image
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Source="{Binding Food.FoodImage}"
-                                    Stretch="Uniform">
-                                    <Image.Effect>
-                                        <DropShadowEffect
-                                            BlurRadius="10"
-                                            Direction="225"
-                                            ShadowDepth="0.1"
-                                            Color="#FFBFBFBF" />
-                                    </Image.Effect>
-                                </Image>
-                            </Border>
+                        BorderThickness="1" />
 
-                            <StackPanel
-                                Width="160"
-                                Margin="20,0,0,0"
-                                VerticalAlignment="Center"
-                                Orientation="Vertical">
+                    <ui:Button
+                        Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        Width="260"
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="#188851"
+                        BorderBrush="#188851"
+                        Content="Оформить заказ"
+                        Cursor="Hand"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        MouseOverBackground="#2da66a"
+                        MouseOverBorderBrush="#2da66a"
+                        PressedBackground="#2da66a"
+                        PressedBorderBrush="#2da66a"
+                        PressedForeground="LightGray" />
+                </Grid>
+            </Border>
+
+            <ListView
+                Grid.Row="1"
+                Grid.Column="0"
+                MaxHeight="480"
+                IsEnabled="{Binding ViewModel.InterfaceIsEnabled}"
+                ItemsSource="{Binding ViewModel.CartItems, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.CanContentScroll="True"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                VirtualizingPanel.ScrollUnit="Pixel">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type model:FoodContain}">
+                        <Border
+                            Background="#FEFEFE"
+                            BorderBrush="#ededed"
+                            BorderThickness="1"
+                            CornerRadius="15">
+                            <StackPanel Orientation="Horizontal">
+                                <Border
+                                    Width="110"
+                                    Height="110"
+                                    Padding="10">
+                                    <Image
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding Food.FoodImage}"
+                                        Stretch="Uniform">
+                                        <Image.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="10"
+                                                Direction="225"
+                                                ShadowDepth="0.1"
+                                                Color="#FFBFBFBF" />
+                                        </Image.Effect>
+                                    </Image>
+                                </Border>
+
+                                <StackPanel
+                                    Width="160"
+                                    Margin="20,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        FontSize="20"
+                                        FontWeight="SemiBold"
+                                        Foreground="Black"
+                                        Text="{Binding Food.FoodName}" />
+                                    <TextBlock
+                                        Margin="0,7,0,0"
+                                        FontSize="13"
+                                        Foreground="#FF756868">
+                                        <Run Text="{Binding Food.FoodType}" />
+                                        <Run Text=" | " />
+                                        <Run Text="{Binding Food.FoodCategory}" />
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <StackPanel
+                                    Margin="40,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <Button
+                                        Width="35"
+                                        Height="35"
+                                        Margin="0,0,10,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding ViewModel.DecrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
+                                        CommandParameter="{Binding FoodContainID}"
+                                        Content="-"
+                                        Cursor="Hand"
+                                        IsEnabled="{Binding ViewModel.ButtonsCountIsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}" />
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        Text="{Binding Count}" />
+                                    <Button
+                                        Width="35"
+                                        Height="35"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Command="{Binding ViewModel.IncrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
+                                        CommandParameter="{Binding FoodContainID}"
+                                        Content="+"
+                                        Cursor="Hand"
+                                        IsEnabled="{Binding ViewModel.ButtonsCountIsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}" />
+                                </StackPanel>
+
                                 <TextBlock
-                                    FontSize="20"
+                                    Width="90"
+                                    Margin="45,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="18"
                                     FontWeight="SemiBold"
                                     Foreground="Black"
-                                    Text="{Binding Food.FoodName}" />
-                                <TextBlock
-                                    Margin="0,7,0,0"
-                                    FontSize="13"
-                                    Foreground="#FF756868">
-                                    <Run Text="{Binding Food.FoodType}" />
-                                    <Run Text=" | " />
-                                    <Run Text="{Binding Food.FoodCategory}" />
-                                </TextBlock>
-                            </StackPanel>
-
-                            <StackPanel
-                                Margin="40,0,0,0"
-                                VerticalAlignment="Center"
-                                Orientation="Horizontal">
-                                <Button
-                                    Width="35"
-                                    Height="35"
-                                    Margin="0,0,10,0"
-                                    VerticalAlignment="Center"
-                                    Command="{Binding ViewModel.DecrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
-                                    CommandParameter="{Binding FoodContainID}"
-                                    Content="-"
-                                    Cursor="Hand" />
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontSize="15"
-                                    Text="{Binding Count}" />
-                                <Button
-                                    Width="35"
-                                    Height="35"
+                                    Text="{c:Binding 'Food.FoodPrice * Count',
+                                                     StringFormat={}{0} ₽}" />
+                                <ui:Button
+                                    Width="40"
+                                    Height="40"
                                     Margin="10,0,0,0"
                                     VerticalAlignment="Center"
-                                    Command="{Binding ViewModel.IncrementCountCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
+                                    Command="{Binding ViewModel.DeleteItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}"
                                     CommandParameter="{Binding FoodContainID}"
-                                    Content="+"
-                                    Cursor="Hand" />
+                                    Cursor="Hand"
+                                    Icon="Delete12"
+                                    IsEnabled="{Binding ViewModel.DeleteBtnIsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:CartPage}}}" />
                             </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                            <TextBlock
-                                Width="90"
-                                Margin="45,0,0,0"
-                                VerticalAlignment="Center"
-                                FontSize="18"
-                                FontWeight="SemiBold"
-                                Foreground="Black"
-                                Text="{c:Binding 'Food.FoodPrice * Count',
-                                                 StringFormat={}{0} ₽}" />
-                            <ui:Button
-                                Width="40"
-                                Height="40"
-                                Margin="10,0,0,0"
-                                VerticalAlignment="Center"
-                                Cursor="Hand"
-                                Icon="Delete12" />
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ui:ProgressRing
-            Grid.Row="1"
-            Grid.Column="0"
-            IsIndeterminate="True"
-            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
+            <ui:ProgressRing
+                Grid.Row="1"
+                Grid.Column="0"
+                IsIndeterminate="True"
+                Visibility="{Binding ViewModel.ProgressRingVisibility}" />
+        </Grid>
     </Grid>
 </ui:UiPage>
