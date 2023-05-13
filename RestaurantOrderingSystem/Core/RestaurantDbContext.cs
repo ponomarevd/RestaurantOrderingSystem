@@ -15,8 +15,8 @@ namespace RestaurantOrderingSystem.Core
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //  квартира: DESKTOP-467GVQM   ноут: WIN-5RHJKOR4UQF   дом: WIN-DGO65FJKPJ7
-            optionsBuilder.UseSqlServer(@"Data Source=WIN-5RHJKOR4UQF\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
+            //  квартира: DESKTOP-467GVQM   ноут: HOME-PC   дом: WIN-DGO65FJKPJ7
+            optionsBuilder.UseSqlServer(@"Data Source=HOME-PC\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
         }
         public DbSet<Food> Food { get; set; }
         public DbSet<FoodContain> FoodContain { get; set; }
