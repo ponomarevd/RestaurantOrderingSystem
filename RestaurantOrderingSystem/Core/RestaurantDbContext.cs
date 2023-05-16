@@ -23,5 +23,7 @@ namespace RestaurantOrderingSystem.Core
         public DbSet<Cart> Cart { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<Role> Role { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderContain> OrderContain { get; set; }
     }
 }

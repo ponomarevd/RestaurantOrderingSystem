@@ -24,5 +24,8 @@ namespace RestaurantOrderingSystem.Models.DbTables
 
         //Cart Relationship
         public ICollection<Cart>? Cart { get; set; }
+
+        //Order Relationship
+        public ICollection<Order>? Order { get; set; }
     }
 }

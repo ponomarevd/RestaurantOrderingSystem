@@ -73,7 +73,7 @@
             <Border
                 Grid.Row="1"
                 Grid.Column="1"
-                Height="190"
+                Height="260"
                 Margin="5"
                 VerticalAlignment="Top"
                 Background="#FEFEFE"
@@ -90,6 +90,8 @@
                         <RowDefinition Height="50" />
                         <RowDefinition Height="40" />
                         <RowDefinition Height="20" />
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="40" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -138,8 +140,26 @@
                         BorderBrush="#ededed"
                         BorderThickness="1" />
 
-                    <ui:Button
+                    <TextBlock
+                        Grid.Row="3"
+                        Margin="15,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Text="Оплата" />
+
+                    <StackPanel
                         Grid.Row="4"
+                        Grid.ColumnSpan="2"
+                        Margin="15,0,0,0"
+                        Orientation="Horizontal">
+                        <RadioButton Content="Наличные" IsChecked="True" />
+                        <RadioButton Content="По карте" />
+                    </StackPanel>
+
+                    <ui:Button
+                        Grid.Row="5"
                         Grid.ColumnSpan="2"
                         Width="260"
                         Height="40"
@@ -147,6 +167,7 @@
                         VerticalAlignment="Center"
                         Background="#188851"
                         BorderBrush="#188851"
+                        Command="{Binding ViewModel.CheckoutCommand}"
                         Content="Оформить заказ"
                         Cursor="Hand"
                         FontWeight="SemiBold"

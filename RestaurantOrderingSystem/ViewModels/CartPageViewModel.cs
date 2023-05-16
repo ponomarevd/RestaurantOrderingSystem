@@ -106,6 +106,12 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
+        private void Checkout()
+        {
+            MessageBox.Show("Заказ оплачен");
+        }
+
+        [RelayCommand]
         private async void DecrementCount(int foodContainId)
         {
             ButtonsCountIsEnabled = false;
