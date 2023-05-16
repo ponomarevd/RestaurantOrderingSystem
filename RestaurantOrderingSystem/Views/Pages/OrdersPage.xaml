@@ -140,7 +140,14 @@
                                     Background="#188851"
                                     BorderBrush="LightGray"
                                     BorderThickness="0.3"
-                                    CornerRadius="100" />
+                                    CornerRadius="100">
+                                    <ui:SymbolIcon
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="40"
+                                        Foreground="White"
+                                        Symbol="Food16" />
+                                </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
@@ -161,7 +168,14 @@
                                     Background="LightGray"
                                     BorderBrush="LightGray"
                                     BorderThickness="0.3"
-                                    CornerRadius="100" />
+                                    CornerRadius="100">
+                                    <ui:SymbolIcon
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="40"
+                                        Foreground="Black"
+                                        Symbol="FoodToast16" />
+                                </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
@@ -182,7 +196,14 @@
                                     Background="LightGray"
                                     BorderBrush="LightGray"
                                     BorderThickness="0.3"
-                                    CornerRadius="100" />
+                                    CornerRadius="100">
+                                    <ui:SymbolIcon
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="40"
+                                        Foreground="Black"
+                                        Symbol="Money16" />
+                                </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
@@ -203,7 +224,14 @@
                                     Background="LightGray"
                                     BorderBrush="LightGray"
                                     BorderThickness="0.3"
-                                    CornerRadius="100" />
+                                    CornerRadius="100">
+                                    <ui:SymbolIcon
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="40"
+                                        Foreground="Black"
+                                        Symbol="Checkmark20" />
+                                </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
