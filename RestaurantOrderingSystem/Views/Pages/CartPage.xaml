@@ -116,10 +116,9 @@
                         Grid.Row="1"
                         Margin="15,10,0,0"
                         HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
-                        <Run Text="Товары" />
-                        <Run Text="{Binding ViewModel.ProductsCount, StringFormat=({0})}" />
-                    </TextBlock>
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Итого" />
 
                     <TextBlock
                         Grid.Row="1"
@@ -149,14 +148,34 @@
                         FontWeight="Bold"
                         Text="Оплата" />
 
-                    <StackPanel
+
+                    <Grid
                         Grid.Row="4"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="0"
                         Margin="15,0,0,0"
-                        Orientation="Horizontal">
-                        <RadioButton Content="Наличные" IsChecked="True" />
-                        <RadioButton Content="По карте" />
-                    </StackPanel>
+                        VerticalAlignment="Center">
+                        <RadioButton
+                            Content="Наличные"
+                            GroupName="PaymentMethodRB"
+                            IsChecked="True" />
+                        <ui:SymbolIcon
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            FontSize="17"
+                            FontWeight="Regular"
+                            Foreground="Gray"
+                            Symbol="QuestionCircle12"
+                            ToolTip="Оплата наличными по получении заказа в здании ресторана."
+                            ToolTipService.InitialShowDelay="0" />
+                    </Grid>
+                    <RadioButton
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="По карте"
+                        GroupName="PaymentMethodRB" />
 
                     <ui:Button
                         Grid.Row="5"

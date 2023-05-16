@@ -17,7 +17,7 @@
 
     <Grid>
         <ListView>
-            <ListViewItem>
+            <ListViewItem Margin="10">
                 <Border BorderBrush="LightGray" BorderThickness="1">
                     <StackPanel>
                         <Grid Height="40" Background="#188851">
@@ -27,7 +27,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 Foreground="White"
-                                Text="Заказ номер - 1" />
+                                Text="Заказ #1" />
                             <ui:Button
                                 Margin="0,0,15,0"
                                 HorizontalAlignment="Right"
@@ -36,7 +36,7 @@
                                 BorderBrush="Transparent"
                                 Content="Показать детали заказа"
                                 Cursor="Hand"
-                                FontSize="18"
+                                FontSize="14"
                                 FontWeight="SemiBold"
                                 Foreground="White"
                                 MouseOverBackground="Transparent"
@@ -45,7 +45,7 @@
                                 PressedBorderBrush="Transparent"
                                 PressedForeground="LightGray" />
                         </Grid>
-                        <Grid Height="100" Background="#ededed">
+                        <Grid Height="80" Background="#ededed">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
@@ -75,7 +75,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="16">
                                 <Run Text="Статус: " />
-                                <Run FontWeight="SemiBold" Text="Подтверждено" />
+                                <Run FontWeight="SemiBold" Text="Подтвержден" />
                             </TextBlock>
 
                             <TextBlock
@@ -111,7 +111,7 @@
                                 <Run FontWeight="SemiBold" Text="Наличные" />
                             </TextBlock>
                         </Grid>
-                        <Grid Height="130">
+                        <Grid Height="140">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -120,13 +120,13 @@
                             </Grid.ColumnDefinitions>
                             <ProgressBar
                                 Grid.ColumnSpan="5"
-                                Height="5"
-                                Margin="140,0,140,22"
+                                Height="6"
+                                Margin="140,0,140,25"
                                 VerticalAlignment="Center"
-                                Background="LightGray"
+                                Background="#ededed"
                                 BorderBrush="Transparent"
                                 Foreground="#188851"
-                                Value="13" />
+                                Value="14" />
 
                             <StackPanel
                                 Grid.Column="0"
@@ -138,8 +138,6 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Background="#188851"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="0.3"
                                     CornerRadius="100">
                                     <ui:SymbolIcon
                                         HorizontalAlignment="Center"
@@ -151,9 +149,8 @@
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
-                                    FontWeight="SemiBold"
                                     Foreground="DarkSlateGray"
-                                    Text="Подтверждено" />
+                                    Text="Подтвержден" />
                             </StackPanel>
 
                             <StackPanel
@@ -165,21 +162,18 @@
                                     Height="70"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Background="LightGray"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="0.3"
+                                    Background="#ededed"
                                     CornerRadius="100">
                                     <ui:SymbolIcon
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontSize="40"
                                         Foreground="Black"
-                                        Symbol="FoodToast16" />
+                                        Symbol="Gauge20" />
                                 </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
-                                    FontWeight="SemiBold"
                                     Foreground="DarkSlateGray"
                                     Text="Готовится" />
                             </StackPanel>
@@ -193,23 +187,20 @@
                                     Height="70"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Background="LightGray"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="0.3"
+                                    Background="#ededed"
                                     CornerRadius="100">
                                     <ui:SymbolIcon
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontSize="40"
                                         Foreground="Black"
-                                        Symbol="Money16" />
+                                        Symbol="Payment16" />
                                 </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
-                                    FontWeight="SemiBold"
                                     Foreground="DarkSlateGray"
-                                    Text="Оплачено" />
+                                    Text="Оплачен" />
                             </StackPanel>
 
                             <StackPanel
@@ -221,21 +212,18 @@
                                     Height="70"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Background="LightGray"
-                                    BorderBrush="LightGray"
-                                    BorderThickness="0.3"
+                                    Background="#ededed"
                                     CornerRadius="100">
                                     <ui:SymbolIcon
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         FontSize="40"
                                         Foreground="Black"
-                                        Symbol="Checkmark20" />
+                                        Symbol="Checkmark12" />
                                 </Border>
                                 <TextBlock
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Center"
-                                    FontWeight="SemiBold"
                                     Foreground="DarkSlateGray"
                                     Text="Готово" />
                             </StackPanel>
