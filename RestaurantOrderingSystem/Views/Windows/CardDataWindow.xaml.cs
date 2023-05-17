@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
+using Wpf.Ui.Mvvm.Interfaces;
 
 namespace RestaurantOrderingSystem.Views.Windows
 {
@@ -43,10 +46,10 @@ namespace RestaurantOrderingSystem.Views.Windows
             Hide();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
+        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Cancel = true;
-            this.Hide();
+            if (!Regex.Match(e.Text.ToString(), @"[0-9]").Success)
+                e.Handled = true;
         }
     }
 }
