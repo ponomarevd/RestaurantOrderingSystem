@@ -40,7 +40,7 @@
                     <Grid>
                         <Border
                             Height="40"
-                            Margin="0,56,0,0"
+                            Margin="0,61,0,0"
                             VerticalAlignment="Top"
                             Background="Gray" />
                         <ui:PasswordBox
@@ -58,7 +58,8 @@
                             PlaceholderText="CVV"
                             PreviewTextInput="PreviewTextInput"
                             RevealButtonEnabled="False"
-                            TextAlignment="Center" />
+                            TextAlignment="Center"
+                            TextChanged="PasswordBox_TextChanged" />
                     </Grid>
 
                 </Border>
@@ -73,7 +74,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
-                            <RowDefinition Height="70" />
+                            <RowDefinition Height="80" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Image
@@ -91,7 +92,8 @@
                             FontWeight="Regular"
                             MaxLength="19"
                             PlaceholderText="0000 0000 0000 0000"
-                            PreviewTextInput="PreviewTextInput" />
+                            PreviewTextInput="PreviewTextInput"
+                            Text="{Binding ViewModel.CardNumber}" />
                         <StackPanel
                             Grid.Row="3"
                             Margin="6,0,0,15"
@@ -109,6 +111,7 @@
                                 MaxLength="2"
                                 PlaceholderText="ММ"
                                 PreviewTextInput="PreviewTextInput"
+                                Text="{Binding ViewModel.Month}"
                                 TextAlignment="Center" />
                             <TextBlock
                                 HorizontalAlignment="Center"
@@ -128,6 +131,7 @@
                                 MaxLength="2"
                                 PlaceholderText="ГГ"
                                 PreviewTextInput="PreviewTextInput"
+                                Text="{Binding ViewModel.Year}"
                                 TextAlignment="Center" />
                         </StackPanel>
                     </Grid>
