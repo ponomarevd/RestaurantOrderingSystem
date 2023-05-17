@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
+using RestaurantOrderingSystem.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,7 +47,15 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private bool _deleteBtnIsEnabled = true;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PayNowCheckBoxIsEnabled))]
+        private bool _cashMethodIsChecked = true;
+
+        [ObservableProperty]
+        private bool _cardMethodIsChecked = false;
         public bool InterfaceIsEnabled => ProgressRingVisibility == Visibility.Hidden ? true : false;
+        public bool PayNowCheckBoxIsEnabled => CashMethodIsChecked ? false : true;
         public Visibility EmptyCartVisibility => InterfaceVisibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
 
         public void OnNavigatedFrom()
@@ -108,7 +117,8 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private void Checkout()
         {
-            MessageBox.Show("Заказ оплачен");
+            CardDataWindow CardDataWindow = App.GetService<CardDataWindow>();
+            CardDataWindow.ShowDialog();
         }
 
         [RelayCommand]

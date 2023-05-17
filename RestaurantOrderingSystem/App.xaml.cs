@@ -67,6 +67,9 @@ namespace RestaurantOrderingSystem
                 services.AddScoped<Views.Pages.RegistrationPage>();
                 services.AddScoped<ViewModels.RegistrationPageViewModel>();
 
+                services.AddScoped<Views.Windows.CardDataWindow>();
+                services.AddScoped<ViewModels.CardDataWindowViewModel>();
+
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();

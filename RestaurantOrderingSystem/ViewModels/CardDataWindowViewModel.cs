@@ -1,0 +1,14 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Wpf.Ui.Common.Interfaces;
+
+namespace RestaurantOrderingSystem.ViewModels
+{
+    public class CardDataWindowViewModel : ObservableObject
+    {
+    }
+}
