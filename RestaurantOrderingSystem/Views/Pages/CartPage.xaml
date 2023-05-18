@@ -182,7 +182,7 @@
                             IsChecked="{Binding ViewModel.CardMethodIsChecked}" />
                         <CheckBox
                             Content="Оплатить сразу"
-                            IsChecked="True"
+                            IsChecked="{Binding ViewModel.PayNowCheckBoxIsChecked}"
                             IsEnabled="{Binding ViewModel.PayNowCheckBoxIsEnabled}" />
                     </StackPanel>
 

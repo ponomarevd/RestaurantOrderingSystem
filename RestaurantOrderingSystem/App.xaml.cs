@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Windows.Themes;
@@ -67,8 +68,8 @@ namespace RestaurantOrderingSystem
                 services.AddScoped<Views.Pages.RegistrationPage>();
                 services.AddScoped<ViewModels.RegistrationPageViewModel>();
 
-                services.AddScoped<Views.Windows.CardDataWindow>();
-                services.AddScoped<ViewModels.CardDataWindowViewModel>();
+                services.AddScoped<Views.Pages.CardDataPage>();
+                services.AddScoped<ViewModels.CardDataPageViewModel>();
 
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));

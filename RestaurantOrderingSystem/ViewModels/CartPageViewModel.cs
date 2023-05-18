@@ -54,6 +54,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private bool _cardMethodIsChecked = false;
+
+        [ObservableProperty]
+        private bool _payNowCheckBoxIsChecked = false;
         public bool InterfaceIsEnabled => ProgressRingVisibility == Visibility.Hidden ? true : false;
         public bool PayNowCheckBoxIsEnabled => CashMethodIsChecked ? false : true;
         public Visibility EmptyCartVisibility => InterfaceVisibility == Visibility.Hidden ? Visibility.Visible : Visibility.Hidden;
@@ -115,76 +118,123 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private void Checkout()
+        private async void Checkout()
         {
-            CardDataWindow CardDataWindow = App.GetService<CardDataWindow>();
-            CardDataWindow.ShowDialog();
+            if(PayNowCheckBoxIsChecked && CardMethodIsChecked)
+            {
+                navService = App.GetService<INavigationService>();
+                navService.Navigate(typeof(Views.Pages.CardDataPage));
+            }
+            else
+            {
+                try
+                {
+                    await Task.Run(() => _dbContext.FoodContain.RemoveRange(CartItems));
+                    await _dbContext.SaveChangesAsync();
+
+                    _mainWindowViewModel.BadgeValue = 0;
+                    InitializeViewModel();
+
+                    MessageBox.Show("Заказ оформлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }     
+            }
         }
 
         [RelayCommand]
         private async void DecrementCount(int foodContainId)
         {
-            ButtonsCountIsEnabled = false;
-            FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
-
-            if (foodContainModel.Count == 1)
+            try
             {
+                ButtonsCountIsEnabled = false;
+                FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
+
+                if (foodContainModel.Count == 1)
+                {
+                    ButtonsCountIsEnabled = true;
+                    return;
+                }
+                else
+                {
+                    foodContainModel.Count--;
+
+                    _mainWindowViewModel.BadgeValue--;
+                    ProductsCount--;
+
+                    await _dbContext.SaveChangesAsync();
+                    InitializeViewModel();
+                }
                 ButtonsCountIsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            else
-            {
-                foodContainModel.Count--;
-
-                _mainWindowViewModel.BadgeValue--;
-                ProductsCount--;
-
-                await _dbContext.SaveChangesAsync();
-                InitializeViewModel();
-            }
-            ButtonsCountIsEnabled = true;
+           
         }
 
         [RelayCommand]
         private async void DeleteItem(int foodContainId)
         {
-            DeleteBtnIsEnabled = false;
+            try
+            {
+                DeleteBtnIsEnabled = false;
 
-            FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
+                FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
 
-            _mainWindowViewModel.BadgeValue -= foodContainModel.Count;
-            ProductsCount -= foodContainModel.Count;
+                _mainWindowViewModel.BadgeValue -= foodContainModel.Count;
+                ProductsCount -= foodContainModel.Count;
 
-            _dbContext.FoodContain.Remove(foodContainModel);
-            await _dbContext.SaveChangesAsync();
+                _dbContext.FoodContain.Remove(foodContainModel);
+                await _dbContext.SaveChangesAsync();
 
-            InitializeViewModel();
+                InitializeViewModel();
 
-            DeleteBtnIsEnabled = true;
+                DeleteBtnIsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         [RelayCommand]
         private async void IncrementCount(int foodContainId)
         {
-            ButtonsCountIsEnabled = false;
-            FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
-
-            if (foodContainModel.Count == 5)
+            try
             {
+                ButtonsCountIsEnabled = false;
+                FoodContain foodContainModel = await Task.Run(() => _dbContext.FoodContain.FirstOrDefault(x => x.FoodContainID == foodContainId));
+
+                if (foodContainModel.Count == 5)
+                {
+                    ButtonsCountIsEnabled = true;
+                    return;
+                }
+                else
+                {
+                    foodContainModel.Count++;
+
+                    _mainWindowViewModel.BadgeValue++;
+                    ProductsCount++;
+
+                    await _dbContext.SaveChangesAsync();
+                    InitializeViewModel();
+                }
                 ButtonsCountIsEnabled = true;
-                return;
             }
-            else
+            catch (Exception ex)
             {
-                foodContainModel.Count++;
-
-                _mainWindowViewModel.BadgeValue++;
-                ProductsCount++;
-
-                await _dbContext.SaveChangesAsync();
-                InitializeViewModel();
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return; 
             }
-            ButtonsCountIsEnabled = true;
+            
         }
 
         public void GetNumEnding(int iNumber)
