@@ -129,6 +129,19 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 try
                 {
+
+                    _dbContext.Order.Add(new Order
+                    {
+                        UserID = _mainWindowViewModel.UserID,
+                        OrderDate = DateTime.Now,
+                        OrderStatus = "Подтверждено",
+                        OrderTotal = ProductsSummary,
+                        IsPaid = false,
+                        PaymentMethod = CardMethodIsChecked ? "Карта" : "Наличные"
+                    });
+
+                    
+
                     await Task.Run(() => _dbContext.FoodContain.RemoveRange(CartItems));
                     await _dbContext.SaveChangesAsync();
 
