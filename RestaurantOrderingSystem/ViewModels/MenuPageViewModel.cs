@@ -31,6 +31,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<Food> _menuItemsSecondary;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(InterfaceIsEnabled), nameof(MenuVisibility))]
         private Visibility _progressRingVisibility = Visibility.Visible;
 
         [ObservableProperty]
@@ -43,10 +44,9 @@ namespace RestaurantOrderingSystem.ViewModels
         private string _snackbarAppearance;
 
         [ObservableProperty]
-        private bool _interfaceIsEnabled = false;
-
-        [ObservableProperty]
         private bool _btnAddIsHitTestVisible = true;
+        public bool InterfaceIsEnabled => ProgressRingVisibility == Visibility.Visible ? false : true;
+        public Visibility MenuVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
 
         public void OnNavigatedFrom()
         {
@@ -76,7 +76,6 @@ namespace RestaurantOrderingSystem.ViewModels
 
             _isInitialized = true;
             ProgressRingVisibility = Visibility.Hidden;
-            InterfaceIsEnabled = true;
         }
 
 
@@ -162,52 +161,28 @@ namespace RestaurantOrderingSystem.ViewModels
 
 
         [RelayCommand]
-        private void FilterButtonClick(string? parameter)
+        private async void CategoryFilterButtonClick(string? parameter)
         {
-            switch(parameter)
-            {
-                case "Вся еда": MenuItemsSecondary = MenuItemsMain; break;
-                case "Сбросить": MenuItemsSecondary = MenuItemsMain; break;
-
-                case "Первые блюда": GetFoodByCategory("Первое блюдо"); break;
-                case "Вторые блюда": GetFoodByCategory("Второе блюдо"); break;
-                case "Закуски": GetFoodByCategory("Закуска"); break;
-                case "Деликатесы": GetFoodByCategory("Деликатес"); break;
-                case "Напитки": GetFoodByCategory("Напиток"); break;
-
-                case "Популярное": GetFoodByStatus("Популярное"); break;
-                case "Обычное": GetFoodByStatus("Обычное"); break;
-                case "Удовлетворительное": GetFoodByStatus("Удовлетворительное"); break;
-
-                case "50 - 100 ₽": GetFoodByPrice(50 ,100); break;
-                case "100 - 500 ₽": GetFoodByPrice(100, 500); break;
-                case "500 - 1000 ₽": GetFoodByPrice(500, 1000); break;
-
-                case "Мясное": GetFoodByType("Мясное"); break;
-                case "Овощное": GetFoodByType("Овощное"); break;
-                
-                default:
-                    return;
-            }
+            ProgressRingVisibility = Visibility.Visible;
+            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodCategory == parameter)));
+            ProgressRingVisibility = Visibility.Hidden;
         }
 
-        private void GetFoodByCategory(string Value)
+        [RelayCommand]
+        private async void StatusFilterButtonClick(string? parameter)
         {
-            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodCategory == Value));
-        }
-        private void GetFoodByStatus(string Value)
-        {
-            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodStatus == Value));
-        }
-        private void GetFoodByPrice(int LeftValue, int RightValue)
-        {
-            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodPrice >= LeftValue && x.FoodPrice <= RightValue));
-        }
-        private void GetFoodByType(string Value)
-        {
-            MenuItemsSecondary = new ObservableCollection<Food>(MenuItemsMain.Where(x => x.FoodType == Value));
+            ProgressRingVisibility = Visibility.Visible;
+            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodStatus == parameter)));
+            ProgressRingVisibility = Visibility.Hidden;
         }
 
+        [RelayCommand]
+        private async void PriceFilterButtonClickCommand(string? parameter)
+        {
+            /*ProgressRingVisibility = Visibility.Visible;
+            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodPrice == parameter)));
+            ProgressRingVisibility = Visibility.Hidden;*/
+        }
 
         /*[RelayCommand] //ДОБАВИТЬ КАРТИНКУ В БД
         private void ButtonClick()
