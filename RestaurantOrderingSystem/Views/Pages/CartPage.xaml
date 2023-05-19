@@ -197,6 +197,7 @@
                         Background="#188851"
                         BorderBrush="#188851"
                         Command="{Binding ViewModel.CheckoutCommand}"
+                        CommandParameter="{Binding ElementName=AddSnackbar}"
                         Content="Оформить заказ"
                         Cursor="Hand"
                         FontWeight="SemiBold"
@@ -327,5 +328,18 @@
                 IsIndeterminate="True"
                 Visibility="{Binding ViewModel.ProgressRingVisibility}" />
         </Grid>
+        <ui:Snackbar
+            x:Name="AddSnackbar"
+            Grid.Row="1"
+            Width="500"
+            Appearance="Success"
+            FontSize="15"
+            Icon="Info12"
+            Timeout="1000">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="Заказ оформлен!" />
+        </ui:Snackbar>
     </Grid>
 </ui:UiPage>

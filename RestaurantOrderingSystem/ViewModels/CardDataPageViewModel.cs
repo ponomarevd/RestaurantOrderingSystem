@@ -58,7 +58,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 navService = App.GetService<INavigationService>();
                 navService.Navigate(typeof(Views.Pages.CartPage));
 
-                MessageBox.Show("Заказ оформлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                _cartPageViewModel.SnackBar.Show();
             }
             catch (Exception ex)
             {

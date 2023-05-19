@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using RestaurantOrderingSystem.Views.Windows;
@@ -11,8 +12,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Wpf.Ui.Common;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Mvvm.Contracts;
+using Xceed.Wpf.Toolkit.PropertyGrid.Attributes;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
@@ -24,6 +28,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<FoodContain> _cartItems;
+
+        [ObservableProperty]
+        private Snackbar _snackBar;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(InterfaceIsEnabled))]
@@ -105,7 +112,7 @@ namespace RestaurantOrderingSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }          
         }
@@ -118,9 +125,11 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand]
-        private async void Checkout()
+        private async void Checkout(Snackbar snackbar)
         {
-            if(PayNowCheckBoxIsChecked && CardMethodIsChecked)
+            SnackBar = snackbar;
+
+            if (PayNowCheckBoxIsChecked && CardMethodIsChecked)
             {
                 navService = App.GetService<INavigationService>();
                 navService.Navigate(typeof(Views.Pages.CardDataPage));
@@ -129,8 +138,8 @@ namespace RestaurantOrderingSystem.ViewModels
             {
                 try
                 {
-
-                    _dbContext.Order.Add(new Order
+                    //Создание заказа
+                    Order orderObj = new Order
                     {
                         UserID = _mainWindowViewModel.UserID,
                         OrderDate = DateTime.Now,
@@ -138,9 +147,22 @@ namespace RestaurantOrderingSystem.ViewModels
                         OrderTotal = ProductsSummary,
                         IsPaid = false,
                         PaymentMethod = CardMethodIsChecked ? "Карта" : "Наличные"
-                    });
+                    };
+                    await _dbContext.Order.AddAsync(orderObj);
+                    await _dbContext.SaveChangesAsync();
 
-                    
+                    int OrderObjID = orderObj.OrderID;
+
+                    //Добавление товаров из корзины в контейнер заказа и очистка корзины
+                    foreach (FoodContain item in CartItems)
+                    {
+                        await _dbContext.OrderContain.AddAsync(new OrderContain()
+                        {
+                            OrderID = OrderObjID,
+                            FoodID = item.FoodID,
+                            Count = item.Count
+                        });
+                    }
 
                     await Task.Run(() => _dbContext.FoodContain.RemoveRange(CartItems));
                     await _dbContext.SaveChangesAsync();
@@ -148,11 +170,11 @@ namespace RestaurantOrderingSystem.ViewModels
                     _mainWindowViewModel.BadgeValue = 0;
                     InitializeViewModel();
 
-                    MessageBox.Show("Заказ оформлен!", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                    SnackBar.Show();
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }     
             }
@@ -185,7 +207,7 @@ namespace RestaurantOrderingSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
            
@@ -212,7 +234,7 @@ namespace RestaurantOrderingSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
         }
@@ -244,7 +266,7 @@ namespace RestaurantOrderingSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return; 
             }
             

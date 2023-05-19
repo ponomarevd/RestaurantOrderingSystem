@@ -116,16 +116,6 @@ namespace RestaurantOrderingSystem.ViewModels
                         PageType = typeof(Views.Pages.TablePage),
                         ToolTip = "Столики",
                         IconForeground = Brushes.Black
-                    },
-
-                    new NavigationItem()
-                    {
-                        Content = "Заказы",
-                        PageTag = "orders",
-                        Icon = SymbolRegular.Check20,
-                        PageType = typeof(Views.Pages.OrdersPage),
-                        ToolTip = "Заказы",
-                        IconForeground = Brushes.Black
                     }
                 };
 
@@ -152,6 +142,7 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private async void Logout()
         {
+            NavigationItems.RemoveAt(NavigationItems.Count - 1);
             IsUserAuthorized = false;
             BadgeValue = 0;
 
@@ -187,6 +178,15 @@ namespace RestaurantOrderingSystem.ViewModels
                         case 1:
                             break;
                         case 2:
+                            NavigationItems.Add(new NavigationItem()
+                            {
+                                Content = "Заказы",
+                                PageTag = "orders",
+                                Icon = SymbolRegular.Check20,
+                                PageType = typeof(Views.Pages.OrdersPage),
+                                ToolTip = "Заказы",
+                                IconForeground = Brushes.Black
+                            });
                             foodContainItems = _dbContext.FoodContain.Where(x => x.Cart.UserID == userModel.UserID).ToList();
 
                             foreach (FoodContain item in foodContainItems)
