@@ -143,7 +143,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     {
                         UserID = _mainWindowViewModel.UserID,
                         OrderDate = DateTime.Now,
-                        OrderStatus = "Подтверждено",
+                        OrderStatus = "Подтвержден",
                         OrderTotal = ProductsSummary,
                         IsPaid = false,
                         PaymentMethod = CardMethodIsChecked ? "Карта" : "Наличные"

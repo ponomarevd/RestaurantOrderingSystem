@@ -101,7 +101,7 @@
                                     VerticalAlignment="Center"
                                     FontSize="16">
                                     <Run Text="Дата заказа: " />
-                                    <Run FontWeight="SemiBold" Text="{Binding OrderDate, StringFormat=d}" />
+                                    <Run FontWeight="SemiBold" Text="{Binding OrderDate, StringFormat=dd.MM.yyyy}" />
                                 </TextBlock>
 
                                 <TextBlock
