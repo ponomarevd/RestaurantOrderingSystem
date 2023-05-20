@@ -10,8 +10,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Controls;
 using Wpf.Ui.Mvvm.Contracts;
 
 namespace RestaurantOrderingSystem.ViewModels
@@ -59,6 +59,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 CardNumber = string.Empty;
                 Month = string.Empty;
                 Year = string.Empty;
+                passwordBox.Password = string.Empty;
 
                 navService = App.GetService<INavigationService>();
                 navService.Navigate(typeof(Views.Pages.CartPage));
@@ -67,7 +68,7 @@ namespace RestaurantOrderingSystem.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             

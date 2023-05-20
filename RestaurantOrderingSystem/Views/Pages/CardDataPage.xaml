@@ -145,6 +145,7 @@
                 Background="#188851"
                 BorderBrush="#188851"
                 Command="{Binding ViewModel.ConfirmCommand}"
+                CommandParameter="{Binding ElementName=CvvPB}"
                 Content="Подтвердить"
                 Cursor="Hand"
                 FontWeight="SemiBold"
