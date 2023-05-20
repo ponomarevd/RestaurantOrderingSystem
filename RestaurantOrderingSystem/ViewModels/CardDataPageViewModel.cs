@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -46,7 +47,7 @@ namespace RestaurantOrderingSystem.ViewModels
         }
 
         [RelayCommand(CanExecute = nameof(CheckFields))]
-        private async void Confirm()
+        private async void Confirm(PasswordBox passwordBox)
         {
             try
             {
@@ -54,6 +55,10 @@ namespace RestaurantOrderingSystem.ViewModels
                 await _dbContext.SaveChangesAsync();
 
                 _mainWindowViewModel.BadgeValue = 0;
+
+                CardNumber = string.Empty;
+                Month = string.Empty;
+                Year = string.Empty;
 
                 navService = App.GetService<INavigationService>();
                 navService.Navigate(typeof(Views.Pages.CartPage));
