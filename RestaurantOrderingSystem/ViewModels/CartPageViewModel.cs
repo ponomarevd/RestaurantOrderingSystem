@@ -164,6 +164,7 @@ namespace RestaurantOrderingSystem.ViewModels
                         });
                     }
 
+                    //Удаление элементов корзины
                     await Task.Run(() => _dbContext.FoodContain.RemoveRange(CartItems));
                     await _dbContext.SaveChangesAsync();
 

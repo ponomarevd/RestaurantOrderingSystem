@@ -163,6 +163,7 @@
                             Width="200"
                             FontSize="14"
                             MaxLength="20"
+                            Password="parkour45"
                             PasswordChar="•" />
 
                         <ui:Button

@@ -49,7 +49,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty] 
         [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
-        private string _emailText = string.Empty;
+        private string _emailText = "pnomarevd38@mail.ru";
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible))]

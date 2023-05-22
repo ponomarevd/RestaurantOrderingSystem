@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,32 @@ namespace RestaurantOrderingSystem.ViewModels
         {
             try
             {
+                Order orderObj = new Order
+                {
+                    UserID = _mainWindowViewModel.UserID,
+                    OrderDate = DateTime.Now,
+                    OrderStatus = "Подтвержден",
+                    OrderTotal = _cartPageViewModel.ProductsSummary,
+                    IsPaid = true,
+                    PaymentMethod = "Карта"
+                };
+                await _dbContext.Order.AddAsync(orderObj);
+                await _dbContext.SaveChangesAsync();
+
+                int OrderObjID = orderObj.OrderID;
+
+                //Добавление товаров из корзины в контейнер заказа и очистка корзины
+                foreach (FoodContain item in _cartPageViewModel.CartItems)
+                {
+                    await _dbContext.OrderContain.AddAsync(new OrderContain()
+                    {
+                        OrderID = OrderObjID,
+                        FoodID = item.FoodID,
+                        Count = item.Count
+                    });
+                }
+
+                //Удаление элементов корзины
                 await Task.Run(() => _dbContext.FoodContain.RemoveRange(_cartPageViewModel.CartItems));
                 await _dbContext.SaveChangesAsync();
 

@@ -22,16 +22,18 @@
             TrueValue="Да" />
     </ui:UiPage.Resources>
     <Grid>
+        <ui:ProgressRing IsIndeterminate="True" Visibility="{Binding ViewModel.ProgressRingVisibility}" />
         <ListView
             Margin="10"
             ItemsSource="{Binding ViewModel.OrderItems}"
             ScrollViewer.CanContentScroll="True"
             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-            VirtualizingPanel.ScrollUnit="Pixel">
+            VirtualizingPanel.ScrollUnit="Pixel"
+            Visibility="{Binding ViewModel.OrdersVisibility}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        Margin="5"
+                        Margin="10"
                         BorderBrush="LightGray"
                         BorderThickness="1">
                         <StackPanel>
@@ -49,6 +51,8 @@
                                     VerticalAlignment="Center"
                                     Background="Transparent"
                                     BorderBrush="Transparent"
+                                    Command="{Binding ViewModel.ShowDetailsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
+                                    CommandParameter="{Binding OrderID}"
                                     Content="Показать детали заказа"
                                     Cursor="Hand"
                                     FontSize="14"
@@ -141,7 +145,7 @@
                                     Background="#ededed"
                                     BorderBrush="Transparent"
                                     Foreground="#188851"
-                                    Value="14" />
+                                    Value="{Binding ViewModel.ProgressBarValue, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}" />
 
                                 <StackPanel
                                     Grid.Column="0"
@@ -177,13 +181,13 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ViewModel.PreparingBorderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ViewModel.PreparingIconForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                             Symbol="Gauge20" />
                                     </Border>
                                     <TextBlock
@@ -202,13 +206,13 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ViewModel.IsPaidBorderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ViewModel.IsPaidIconForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                             Symbol="Payment16" />
                                     </Border>
                                     <TextBlock
@@ -227,20 +231,20 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ViewModel.ReadyBorderBackground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ViewModel.ReadyIconForeground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:OrdersPage}}}"
                                             Symbol="Checkmark12" />
                                     </Border>
                                     <TextBlock
                                         Margin="0,10,0,0"
                                         HorizontalAlignment="Center"
                                         Foreground="DarkSlateGray"
-                                        Text="Готово" />
+                                        Text="Готов к выдаче" />
                                 </StackPanel>
 
                             </Grid>
