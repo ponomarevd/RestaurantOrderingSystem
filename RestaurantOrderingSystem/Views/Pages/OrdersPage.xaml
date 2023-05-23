@@ -21,6 +21,8 @@
             FalseValue="Нет"
             TrueValue="Да" />
         <cnvs:StringToValueConverter x:Key="StringToValueConverter" />
+        <cnvs:ProgressBarValueToBackgroundConverter x:Key="ProgressBarValueToBackgroundConverter" />
+        <cnvs:ProgressBarValueToForegroundConverter x:Key="ProgressBarValueToForegroundConverter" />
     </ui:UiPage.Resources>
     <Grid>
         <ui:ProgressRing IsIndeterminate="True" Visibility="{Binding ViewModel.ProgressRingVisibility}" />
@@ -134,6 +136,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <ProgressBar
+                                    x:Name="ProgressBar"
                                     Grid.ColumnSpan="5"
                                     Height="6"
                                     Margin="140,0,140,25"
@@ -152,13 +155,13 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToBackgroundConverter}, ConverterParameter=Confirm}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToForegroundConverter}, ConverterParameter=Confirm}"
                                             Symbol="Food16" />
                                     </Border>
                                     <TextBlock
@@ -177,13 +180,13 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToBackgroundConverter}, ConverterParameter=Cooking}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToForegroundConverter}, ConverterParameter=Cooking}"
                                             Symbol="Gauge20" />
                                     </Border>
                                     <TextBlock
@@ -202,13 +205,13 @@
                                         Height="70"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Background="#ededed"
+                                        Background="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToBackgroundConverter}, ConverterParameter=Ready}"
                                         CornerRadius="100">
                                         <ui:SymbolIcon
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             FontSize="40"
-                                            Foreground="Black"
+                                            Foreground="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToForegroundConverter}, ConverterParameter=Ready}"
                                             Symbol="Checkmark12" />
                                     </Border>
                                     <TextBlock
