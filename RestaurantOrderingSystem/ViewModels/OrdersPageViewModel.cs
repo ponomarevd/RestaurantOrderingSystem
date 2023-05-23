@@ -28,29 +28,9 @@ namespace RestaurantOrderingSystem.ViewModels
         private ObservableCollection<Order> _orderItems;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(PreparingBorderBackground), nameof(PreparingIconForeground), nameof(IsPaidBorderBackground), nameof(IsPaidIconForeground), nameof(ReadyBorderBackground), nameof(ReadyIconForeground))]
-        private int _progressBarValue = 50;
-
-        [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(OrdersVisibility))]
         private Visibility _progressRingVisibility = Visibility.Visible;
-
         public Visibility OrdersVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
-        public Brush PreparingBorderBackground => ProgressBarValue >= 50 ? (Brush)new BrushConverter().ConvertFrom("#188851") : (Brush)new BrushConverter().ConvertFrom("#ededed");
-        public Brush PreparingIconForeground => ProgressBarValue >= 50 ? Brushes.White : Brushes.Black;
-        public Brush IsPaidBorderBackground => ProgressBarValue >= 86 ? (Brush)new BrushConverter().ConvertFrom("#188851") : (Brush)new BrushConverter().ConvertFrom("#ededed");
-        public Brush IsPaidIconForeground => ProgressBarValue >= 86 ? Brushes.White : Brushes.Black;
-        public Brush ReadyBorderBackground => ProgressBarValue == 100 ? (Brush)new BrushConverter().ConvertFrom("#188851") : (Brush)new BrushConverter().ConvertFrom("#ededed");
-        public Brush ReadyIconForeground => ProgressBarValue == 100 ? Brushes.White : Brushes.Black;
-
-        public void OnNavigatedFrom()
-        {
-        }
-
-        public void OnNavigatedTo()
-        {
-            InitializeViewModel();
-        }
 
         private async void InitializeViewModel()
         {
@@ -72,6 +52,15 @@ namespace RestaurantOrderingSystem.ViewModels
 
             _orderDetailsPageViewModel = App.GetService<OrderDetailsPageViewModel>();
             _orderDetailsPageViewModel.OrderID = OrderId;
+        }
+
+        public void OnNavigatedFrom()
+        {
+        }
+
+        public void OnNavigatedTo()
+        {
+            InitializeViewModel();
         }
     }
 }

@@ -22,13 +22,17 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <ui:ProgressRing
+            Grid.Row="1"
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
         <StackPanel Orientation="Horizontal">
             <ui:Button
                 Background="{DynamicResource ApplicationBackgroundBrush}"
                 BorderBrush="Transparent"
                 Command="{Binding ViewModel.GoToOrdersCommand}"
                 Cursor="Hand"
-                ToolTip="Выйти"
+                ToolTip="Назад"
                 ToolTipService.InitialShowDelay="1">
                 <ui:SymbolIcon
                     Margin="0,3,0,0"
@@ -51,10 +55,17 @@
             </TextBlock>
         </StackPanel>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding ViewModel.OrderDetailItems}">
-            <ListView.ItemTemplate>
+        <ui:VirtualizingItemsControl
+            Grid.Row="1"
+            Margin="5"
+            ItemsSource="{Binding ViewModel.OrderDetailItems}"
+            ScrollViewer.CanContentScroll="True"
+            VirtualizingPanel.ScrollUnit="Pixel"
+            Visibility="{Binding ViewModel.DetailsVisibility}">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type model:OrderContain}">
                     <Border
+                        Margin="3"
                         Background="#FEFEFE"
                         BorderBrush="#ededed"
                         BorderThickness="1"
@@ -78,10 +89,37 @@
                                     </Image.Effect>
                                 </Image>
                             </Border>
+
+                            <StackPanel
+                                Width="160"
+                                Margin="20,0,0,0"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    FontSize="20"
+                                    FontWeight="SemiBold"
+                                    Foreground="Black"
+                                    Text="{Binding Food.FoodName}" />
+                                <TextBlock
+                                    Margin="0,7,0,0"
+                                    FontSize="13"
+                                    Foreground="#FF756868"
+                                    Text="{Binding Count, StringFormat={}{0} шт.}" />
+                            </StackPanel>
+
+                            <TextBlock
+                                Width="90"
+                                Margin="45,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                FontWeight="SemiBold"
+                                Foreground="Black"
+                                Text="{c:Binding 'Food.FoodPrice * Count',
+                                                 StringFormat={}{0} ₽}" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ItemsControl.ItemTemplate>
+        </ui:VirtualizingItemsControl>
     </Grid>
 </ui:UiPage>

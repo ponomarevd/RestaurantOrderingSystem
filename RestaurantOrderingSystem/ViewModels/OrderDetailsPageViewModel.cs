@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
@@ -8,19 +9,44 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Wpf.Ui.Common.Interfaces;
+using Wpf.Ui.Mvvm.Contracts;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
     public partial class OrderDetailsPageViewModel : ObservableObject, INavigationAware
     {
         private RestaurantDbContext _dbContext;
+        private INavigationService? navService;
 
         [ObservableProperty]
         private ObservableCollection<OrderContain> _orderDetailItems;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(DetailsVisibility))]
+        private Visibility _progressRingVisibility = Visibility.Visible;
+
+        [ObservableProperty]
         private int _orderID;
+        public Visibility DetailsVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+
+        private async void InitializeViewModel()
+        {
+            ProgressRingVisibility = Visibility.Visible;
+
+            _dbContext = await Task.Run(() => new RestaurantDbContext());
+            OrderDetailItems = await Task.Run(() => new ObservableCollection<OrderContain>(_dbContext.OrderContain.Include(x => x.Food).Where(x => x.OrderID == OrderID)));
+
+            ProgressRingVisibility = Visibility.Hidden;
+        }
+
+        [RelayCommand]
+        private void GoToOrders()
+        {
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.OrdersPage));
+        }
         public void OnNavigatedFrom()
         {
         }
@@ -28,12 +54,6 @@ namespace RestaurantOrderingSystem.ViewModels
         public void OnNavigatedTo()
         {
             InitializeViewModel();
-        }
-
-        private async void InitializeViewModel()
-        {
-            _dbContext = await Task.Run(() => new RestaurantDbContext());
-            OrderDetailItems = await Task.Run(() => new ObservableCollection<OrderContain>(_dbContext.OrderContain.Include(x => x.Food).Where(x => x.OrderID == OrderID)));
         }
     }
 }
