@@ -65,9 +65,10 @@ namespace RestaurantOrderingSystem.Views.Windows
             Application.Current.Shutdown();
         }
 
-        private async void BtnLogin_Click(object sender, RoutedEventArgs e)
+        private void PasswordPB_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            await LoginSnackbar.ShowAsync();
+            if (ViewModel != null)
+            { ViewModel.PasswordText = PasswordPB.Password; }
         }
     }
 }

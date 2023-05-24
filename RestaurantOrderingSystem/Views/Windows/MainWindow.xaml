@@ -139,76 +139,84 @@
                     BorderBrush="LightGray"
                     BorderThickness="1.5"
                     CornerRadius="10">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Label
-                            Width="200"
-                            Margin="0,5,0,0"
-                            Content="Email"
-                            Target="{Binding ElementName=Email, UpdateSourceTrigger=PropertyChanged}" />
-                        <ui:TextBox
-                            x:Name="Email"
-                            Width="200"
-                            FontSize="14"
-                            MaxLength="100"
-                            PlaceholderText="example@mail.ru"
-                            Text="{Binding ViewModel.EmailText, UpdateSourceTrigger=PropertyChanged}" />
+                    <Grid>
+                        <ui:ProgressRing
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            IsIndeterminate="True"
+                            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
+                        <Grid Visibility="{Binding ViewModel.LoginInterfaceVisibility}">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label
+                                    Width="200"
+                                    Margin="0,5,0,0"
+                                    Content="Email"
+                                    Target="{Binding ElementName=Email, UpdateSourceTrigger=PropertyChanged}" />
+                                <ui:TextBox
+                                    x:Name="Email"
+                                    Width="200"
+                                    FontSize="14"
+                                    MaxLength="100"
+                                    PlaceholderText="example@mail.ru"
+                                    Text="{Binding ViewModel.EmailText, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <Label
-                            Width="200"
-                            Margin="0,10,0,0"
-                            Content="Пароль"
-                            Target="{Binding ElementName=Password}" />
-                        <ui:PasswordBox
-                            x:Name="Password"
-                            Width="200"
-                            FontSize="14"
-                            MaxLength="20"
-                            Password="parkour45"
-                            PasswordChar="•" />
+                                <Label
+                                    Width="200"
+                                    Margin="0,10,0,0"
+                                    Content="Пароль"
+                                    Target="{Binding ElementName=Password}" />
+                                <ui:PasswordBox
+                                    x:Name="PasswordPB"
+                                    Width="200"
+                                    FontSize="14"
+                                    MaxLength="20"
+                                    PasswordChanged="PasswordPB_PasswordChanged"
+                                    PasswordChar="•" />
 
-                        <ui:Button
-                            x:Name="BtnLogin"
-                            Width="200"
-                            Height="33"
-                            Margin="0,15,0,0"
-                            HorizontalAlignment="Center"
-                            BorderBrush="#188851"
-                            BorderThickness="1.5"
-                            Click="BtnLogin_Click"
-                            Command="{Binding ViewModel.LoginCommand}"
-                            CommandParameter="{Binding ElementName=Password}"
-                            Content="Войти"
-                            Cursor="Hand"
-                            FontSize="15"
-                            FontWeight="SemiBold"
-                            Foreground="#188851"
-                            MouseOverBackground="Transparent"
-                            MouseOverBorderBrush="#2da66a"
-                            PressedBackground="Transparent"
-                            PressedBorderBrush="#2da66a"
-                            PressedForeground="#2da66a" />
-                        <StackPanel
-                            Margin="30,10,0,0"
-                            HorizontalAlignment="Center"
-                            Orientation="Horizontal">
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="11"
-                                Text="Нет аккаунта? " />
-                            <Button
-                                Padding="0"
-                                VerticalAlignment="Center"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                Command="{Binding ViewModel.GoToSignUpCommand}"
-                                Content="Создайте его"
-                                Cursor="Hand"
-                                FontSize="11"
-                                FontWeight="SemiBold"
-                                Foreground="#188851"
-                                Style="{DynamicResource DefaultDragIndicatorStyleStyle}" />
-                        </StackPanel>
-                    </StackPanel>
+                                <ui:Button
+                                    x:Name="BtnLogin"
+                                    Width="200"
+                                    Height="33"
+                                    Margin="0,15,0,0"
+                                    HorizontalAlignment="Center"
+                                    BorderBrush="#188851"
+                                    BorderThickness="1.5"
+                                    Command="{Binding ViewModel.LoginCommand}"
+                                    CommandParameter="{Binding ElementName=LoginSnackbar}"
+                                    Content="Войти"
+                                    Cursor="Hand"
+                                    FontSize="15"
+                                    FontWeight="SemiBold"
+                                    Foreground="#188851"
+                                    MouseOverBackground="Transparent"
+                                    MouseOverBorderBrush="#2da66a"
+                                    PressedBackground="Transparent"
+                                    PressedBorderBrush="#2da66a"
+                                    PressedForeground="#2da66a" />
+                                <StackPanel
+                                    Margin="30,10,0,0"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <TextBlock
+                                        VerticalAlignment="Center"
+                                        FontSize="11"
+                                        Text="Нет аккаунта? " />
+                                    <Button
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Command="{Binding ViewModel.GoToSignUpCommand}"
+                                        Content="Создайте его"
+                                        Cursor="Hand"
+                                        FontSize="11"
+                                        FontWeight="SemiBold"
+                                        Foreground="#188851"
+                                        Style="{DynamicResource DefaultDragIndicatorStyleStyle}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>
@@ -216,7 +224,6 @@
             x:Name="LoginSnackbar"
             Grid.Row="1"
             Width="250"
-            Appearance="{Binding ViewModel.SnackbarAppearance}"
             CloseButtonEnabled="False"
             FontSize="15"
             Icon="Info12"

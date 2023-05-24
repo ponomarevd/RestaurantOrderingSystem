@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using RestaurantOrderingSystem.Views.Windows;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,17 +41,21 @@ namespace RestaurantOrderingSystem.ViewModels
         private Visibility _loginGridVisibility = Visibility.Hidden;
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(LoginInterfaceVisibility))]
+        private Visibility _progressRingVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
         private string _applicationTitle = String.Empty;
 
         [ObservableProperty]
         private string _snackbarMessage = string.Empty;
 
         [ObservableProperty]
-        private string _snackbarAppearance = "Danger";
-
-        [ObservableProperty] 
         [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
-        private string _emailText = "pnomarevd38@mail.ru";
+        private string _emailText = string.Empty;
+
+        [ObservableProperty]
+        private string _passwordText;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible))]
@@ -68,6 +74,7 @@ namespace RestaurantOrderingSystem.ViewModels
         public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
         public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
+        public Visibility LoginInterfaceVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         public bool IsLoginFilled => LoginGridVisibility == Visibility.Visible ? true : false;
 
         public MainWindowViewModel(INavigationService navigationService)
@@ -161,18 +168,17 @@ namespace RestaurantOrderingSystem.ViewModels
 
 
         [RelayCommand(CanExecute = nameof(CheckFields))]
-        private void Login(PasswordBox? passwordBox)
+        private async void Login(Snackbar snackbar)
         {
             try
             {
+                ProgressRingVisibility = Visibility.Visible;
+
                 _dbContext = new RestaurantDbContext();
-                userModel = _dbContext.User.FirstOrDefault(u => u.UserMail == EmailText && u.UserPassword == passwordBox.Password);
+                userModel =  await Task.Run(() => _dbContext.User.FirstOrDefaultAsync(u => u.UserMail == EmailText && u.UserPassword == PasswordText));
 
                 if (userModel != null)
                 {
-                    SnackbarAppearance = "Success";
-                    SnackbarMessage = "Успешный вход!";
-
                     switch (userModel.RoleID)
                     {
                         case 1:
@@ -187,18 +193,21 @@ namespace RestaurantOrderingSystem.ViewModels
                                 ToolTip = "Заказы",
                                 IconForeground = Brushes.Black
                             });
-                            foodContainItems = _dbContext.FoodContain.Where(x => x.Cart.UserID == userModel.UserID).ToList();
-
+                            
+                            foodContainItems = await Task.Run(() => _dbContext.FoodContain.Where(x => x.Cart.UserID == userModel.UserID).ToList());
                             foreach (FoodContain item in foodContainItems)
-                                BadgeValue += item.Count;
-
-                            LoginGridVisibility = Visibility.Hidden;
+                                BadgeValue += item.Count;                
 
                             EmailText = string.Empty;
-                            passwordBox.Password = string.Empty;
-
                             UserID = userModel.UserID;
                             IsUserAuthorized = true;
+
+                            SnackbarMessage = "Успешный вход!";
+                            snackbar.Appearance = ControlAppearance.Success;
+                            snackbar.ShowAsync();
+
+                            ProgressRingVisibility = Visibility.Hidden;
+                            LoginGridVisibility = Visibility.Hidden;
                             break;
                         case 3:
                             break;
@@ -206,8 +215,10 @@ namespace RestaurantOrderingSystem.ViewModels
                 }
                 else
                 {
-                    SnackbarAppearance = "Danger";
+                    ProgressRingVisibility = Visibility.Hidden;
+                    snackbar.Appearance = ControlAppearance.Danger;
                     SnackbarMessage = "Неверные данные!";
+                    snackbar.ShowAsync();
                     return;
                 }
                     

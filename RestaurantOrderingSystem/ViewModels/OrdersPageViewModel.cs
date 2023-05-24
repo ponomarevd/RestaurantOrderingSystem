@@ -29,7 +29,10 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(OrdersVisibility))]
-        private Visibility _progressRingVisibility = Visibility.Visible;
+        private Visibility _progressRingVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
+        private Visibility _emptyOrdersVisibility = Visibility.Hidden;
         public Visibility OrdersVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
 
         private async void InitializeViewModel()
@@ -41,7 +44,12 @@ namespace RestaurantOrderingSystem.ViewModels
 
             OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID)));
 
-            ProgressRingVisibility = Visibility.Hidden;
+            if(OrderItems.Count == 0)
+            {
+                ProgressRingVisibility = Visibility.Hidden;
+                EmptyOrdersVisibility = Visibility.Visible;
+            }
+            else ProgressRingVisibility = Visibility.Hidden;
         }
 
         [RelayCommand]
@@ -52,6 +60,13 @@ namespace RestaurantOrderingSystem.ViewModels
 
             _orderDetailsPageViewModel = App.GetService<OrderDetailsPageViewModel>();
             _orderDetailsPageViewModel.OrderID = OrderId;
+        }
+
+        [RelayCommand]
+        private void GoToMenu()
+        {
+            navService = App.GetService<INavigationService>();
+            navService.Navigate(typeof(Views.Pages.MenuPage));
         }
 
         public void OnNavigatedFrom()
