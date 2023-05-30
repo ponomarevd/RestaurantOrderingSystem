@@ -16,10 +16,90 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="50"
-            Text="Регистрация" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="1" Padding="0,0,0,50">
+            <Image VerticalAlignment="Top" Source="/Assets/povar.png" />
+        </Border>
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label
+                Width="300"
+                Margin="0,15,0,0"
+                Content="Фамилия и Имя"
+                FontSize="13"
+                Target="{Binding ElementName=Name, UpdateSourceTrigger=PropertyChanged}" />
+            <ui:TextBox
+                x:Name="Name"
+                Width="300"
+                FontSize="17"
+                MaxLength="100"
+                PlaceholderText="Иванов Иван"
+                Text="{Binding ViewModel.UserName, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label
+                Width="300"
+                Margin="0,15,0,0"
+                Content="Электронная почта"
+                FontSize="13"
+                Target="{Binding ElementName=Email, UpdateSourceTrigger=PropertyChanged}" />
+            <ui:TextBox
+                x:Name="Email"
+                Width="300"
+                FontSize="17"
+                MaxLength="100"
+                PlaceholderText="example@mail.ru"
+                Text="{Binding ViewModel.UserMail, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label
+                Width="300"
+                Margin="0,15,0,0"
+                Content="Дата рождения"
+                FontSize="13"
+                Target="{Binding ElementName=Birthday, UpdateSourceTrigger=PropertyChanged}" />
+            <DatePicker
+                x:Name="Birthday"
+                Width="300"
+                FontSize="17"
+                SelectedDate="{Binding ViewModel.Birthday, UpdateSourceTrigger=PropertyChanged}" />
+
+            <Label
+                Width="300"
+                Margin="0,15,0,0"
+                Content="Пароль"
+                FontSize="13"
+                Target="{Binding ElementName=PasswordPB, UpdateSourceTrigger=PropertyChanged}" />
+            <ui:PasswordBox
+                x:Name="PasswordPB"
+                Width="300"
+                VerticalContentAlignment="Center"
+                FontSize="17"
+                MaxLength="20"
+                PasswordChanged="PasswordPB_PasswordChanged"
+                PasswordChar="•"
+                PlaceholderText="Придумайте пароль" />
+
+            <ui:Button
+                x:Name="BtnLogin"
+                Width="300"
+                Height="45"
+                Margin="0,30,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="#188851"
+                BorderThickness="2"
+                Command="{Binding ViewModel.CreateAccountCommand}"
+                Content="Создать"
+                Cursor="Hand"
+                FontSize="17"
+                FontWeight="SemiBold"
+                Foreground="#188851"
+                MouseOverBackground="Transparent"
+                MouseOverBorderBrush="#2da66a"
+                PressedBackground="Transparent"
+                PressedBorderBrush="#2da66a"
+                PressedForeground="#2da66a" />
+        </StackPanel>
     </Grid>
 </ui:UiPage>

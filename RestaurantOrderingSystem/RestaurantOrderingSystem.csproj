@@ -33,6 +33,7 @@
     <None Remove="Assets\applicationIcon-1024.png" />
     <None Remove="Assets\applicationIcon-256.png" />
     <None Remove="Assets\pay-card.png" />
+    <None Remove="Assets\povar.png" />
     <None Remove="Assets\vegetables.png" />
   </ItemGroup>
 
@@ -44,7 +45,23 @@
     <Resource Include="Assets\applicationIcon-1024.png" />
     <Resource Include="Assets\applicationIcon-256.png" />
     <Resource Include="Assets\pay-card.png" />
+    <Resource Include="Assets\povar.png" />
     <Resource Include="Assets\vegetables.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

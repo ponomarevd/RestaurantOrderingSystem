@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:RestaurantOrderingSystem.Properties"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding ViewModel.ApplicationTitle, Mode=OneWay}"
     Width="1000"
@@ -129,7 +130,7 @@
             <Grid
                 Grid.Column="1"
                 Width="230"
-                Height="240"
+                Height="260"
                 Margin="0,0,45,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
@@ -170,14 +171,20 @@
                                     Width="200"
                                     FontSize="14"
                                     MaxLength="20"
+                                    Password="{Binding Source={x:Static properties:Settings.Default}, Path=UserPassword}"
                                     PasswordChanged="PasswordPB_PasswordChanged"
                                     PasswordChar="•" />
+
+                                <CheckBox
+                                    Margin="5,5,0,0"
+                                    Content="Запомнить меня"
+                                    IsChecked="{Binding ViewModel.RememberMeIsChecked}" />
 
                                 <ui:Button
                                     x:Name="BtnLogin"
                                     Width="200"
                                     Height="33"
-                                    Margin="0,15,0,0"
+                                    Margin="0,5,0,0"
                                     HorizontalAlignment="Center"
                                     BorderBrush="#188851"
                                     BorderThickness="1.5"

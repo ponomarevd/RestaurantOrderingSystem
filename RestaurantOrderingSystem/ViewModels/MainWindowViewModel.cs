@@ -3,18 +3,13 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
-using RestaurantOrderingSystem.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Interop;
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Common;
@@ -52,7 +47,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         [NotifyCanExecuteChangedFor(nameof(LoginCommand))]
-        private string _emailText = string.Empty;
+        private string _emailText = Properties.Settings.Default.UserMail;
 
         [ObservableProperty]
         private string _passwordText;
@@ -63,6 +58,9 @@ namespace RestaurantOrderingSystem.ViewModels
 
         [ObservableProperty]
         private bool _isCartFilled = false;
+
+        [ObservableProperty]
+        private bool _rememberMeIsChecked = true;
 
         [ObservableProperty]
         private int _userID = 0;
@@ -112,16 +110,6 @@ namespace RestaurantOrderingSystem.ViewModels
                         Icon = SymbolRegular.Food16,
                         PageType = typeof(Views.Pages.MenuPage),
                         ToolTip = "Меню",
-                        IconForeground = Brushes.Black
-                    },
-
-                    new NavigationItem()
-                    {
-                        Content = "Столики",
-                        PageTag = "tables",
-                        Icon = SymbolRegular.Table48,
-                        PageType = typeof(Views.Pages.TablePage),
-                        ToolTip = "Столики",
                         IconForeground = Brushes.Black
                     }
                 };
@@ -179,6 +167,12 @@ namespace RestaurantOrderingSystem.ViewModels
 
                 if (userModel != null)
                 {
+                    if (RememberMeIsChecked)
+                    {
+                        Properties.Settings.Default.UserMail = userModel.UserMail;
+                        Properties.Settings.Default.UserPassword = userModel.UserPassword;
+                        Properties.Settings.Default.Save();
+                    }
                     switch (userModel.RoleID)
                     {
                         case 1:
@@ -198,7 +192,6 @@ namespace RestaurantOrderingSystem.ViewModels
                             foreach (FoodContain item in foodContainItems)
                                 BadgeValue += item.Count;                
 
-                            EmailText = string.Empty;
                             UserID = userModel.UserID;
                             IsUserAuthorized = true;
 
@@ -242,6 +235,6 @@ namespace RestaurantOrderingSystem.ViewModels
 
             navService = App.GetService<INavigationService>();
             navService.Navigate(typeof(Views.Pages.RegistrationPage));
-        }  
+        }
     }
 }

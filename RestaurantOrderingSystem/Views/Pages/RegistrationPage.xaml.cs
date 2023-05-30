@@ -31,5 +31,11 @@ namespace RestaurantOrderingSystem.Views.Pages
         ViewModel = viewModel;
         InitializeComponent();
     }
-}
+
+        private void PasswordPB_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (ViewModel != null)
+            { ViewModel.UserPassword = PasswordPB.Password; }
+        }
+    }
 }

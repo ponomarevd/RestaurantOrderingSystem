@@ -44,12 +44,16 @@ namespace RestaurantOrderingSystem.ViewModels
 
             OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID)));
 
-            if(OrderItems.Count == 0)
+            if (OrderItems.Count == 0)
             {
                 ProgressRingVisibility = Visibility.Hidden;
                 EmptyOrdersVisibility = Visibility.Visible;
             }
-            else ProgressRingVisibility = Visibility.Hidden;
+            else
+            {
+                ProgressRingVisibility = Visibility.Hidden;
+                EmptyOrdersVisibility = Visibility.Hidden;
+            }
         }
 
         [RelayCommand]
