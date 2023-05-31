@@ -76,6 +76,7 @@
                 </ui:Badge>
             </Grid>
 
+
             <Grid
                 Grid.Row="0"
                 Width="60"
@@ -109,9 +110,28 @@
                         Symbol="ArrowExit20" />
                 </ui:Button>
             </Grid>
-
         </StackPanel>
 
+        <StackPanel
+            Grid.Row="0"
+            MaxWidth="300"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Visibility="{Binding ViewModel.LoginStateVisibility}">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="15"
+                Foreground="#FF8C8686"
+                Text="{Binding ViewModel.RoleName, StringFormat='{}{0}:\&#x20;'}" />
+            <TextBlock
+                Padding="0"
+                VerticalAlignment="Center"
+                FontSize="15"
+                FontWeight="Bold"
+                Foreground="#FF8C8686"
+                Text="{Binding ViewModel.UserMail}" />
+        </StackPanel>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -157,7 +177,7 @@
                                     x:Name="Email"
                                     Width="200"
                                     FontSize="14"
-                                    MaxLength="100"
+                                    MaxLength="50"
                                     PlaceholderText="example@mail.ru"
                                     Text="{Binding ViewModel.EmailText, UpdateSourceTrigger=PropertyChanged}" />
 

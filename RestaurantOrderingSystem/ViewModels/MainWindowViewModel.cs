@@ -53,7 +53,13 @@ namespace RestaurantOrderingSystem.ViewModels
         private string _passwordText;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible))]
+        private string _roleName = string.Empty;
+
+        [ObservableProperty]
+        private string _userMail = string.Empty;
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible), nameof(LoginStateVisibility))]
         private bool _isUserAuthorized = false;
 
         [ObservableProperty]
@@ -73,6 +79,7 @@ namespace RestaurantOrderingSystem.ViewModels
         public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
         public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility LoginInterfaceVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+        public Visibility LoginStateVisibility => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public bool IsLoginFilled => LoginGridVisibility == Visibility.Visible ? true : false;
 
         public MainWindowViewModel(INavigationService navigationService)
@@ -163,10 +170,13 @@ namespace RestaurantOrderingSystem.ViewModels
                 ProgressRingVisibility = Visibility.Visible;
 
                 _dbContext = new RestaurantDbContext();
-                userModel =  await Task.Run(() => _dbContext.User.FirstOrDefaultAsync(u => u.UserMail == EmailText && u.UserPassword == PasswordText));
+                userModel =  await Task.Run(() => _dbContext.User.Include(x=>x.Role).FirstOrDefaultAsync(u => u.UserMail == EmailText && u.UserPassword == PasswordText));
 
                 if (userModel != null)
                 {
+                    RoleName = userModel.Role.RoleName;
+                    UserMail = userModel.UserMail.Substring(0, userModel.UserMail.IndexOf('@'));
+
                     if (RememberMeIsChecked)
                     {
                         Properties.Settings.Default.UserMail = userModel.UserMail;

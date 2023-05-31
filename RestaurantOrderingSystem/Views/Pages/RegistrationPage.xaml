@@ -24,7 +24,10 @@
             <Image VerticalAlignment="Top" Source="/Assets/povar.png" />
         </Border>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding ViewModel.FieldsVisibility}">
             <Label
                 Width="300"
                 Margin="0,15,0,0"
@@ -35,7 +38,7 @@
                 x:Name="Name"
                 Width="300"
                 FontSize="17"
-                MaxLength="100"
+                MaxLength="50"
                 PlaceholderText="Иванов Иван"
                 Text="{Binding ViewModel.UserName, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -49,7 +52,7 @@
                 x:Name="Email"
                 Width="300"
                 FontSize="17"
-                MaxLength="100"
+                MaxLength="50"
                 PlaceholderText="example@mail.ru"
                 Text="{Binding ViewModel.UserMail, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -63,7 +66,7 @@
                 x:Name="Birthday"
                 Width="300"
                 FontSize="17"
-                SelectedDate="{Binding ViewModel.Birthday, UpdateSourceTrigger=PropertyChanged}" />
+                SelectedDate="{Binding ViewModel.UserBirthday, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label
                 Width="300"
@@ -90,6 +93,7 @@
                 BorderBrush="#188851"
                 BorderThickness="2"
                 Command="{Binding ViewModel.CreateAccountCommand}"
+                CommandParameter="{Binding ElementName=AddSnackbar}"
                 Content="Создать"
                 Cursor="Hand"
                 FontSize="17"
@@ -101,5 +105,20 @@
                 PressedBorderBrush="#2da66a"
                 PressedForeground="#2da66a" />
         </StackPanel>
+
+        <ui:ProgressRing IsIndeterminate="True" Visibility="{Binding ViewModel.ProgressRingVisibility}" />
+
+        <ui:Snackbar
+            x:Name="AddSnackbar"
+            Grid.ColumnSpan="2"
+            Width="500"
+            FontSize="15"
+            Icon="Info12"
+            Timeout="1000">
+            <TextBlock
+                VerticalAlignment="Center"
+                FontWeight="SemiBold"
+                Text="{Binding ViewModel.SnackbarMessage}" />
+        </ui:Snackbar>
     </Grid>
 </ui:UiPage>
