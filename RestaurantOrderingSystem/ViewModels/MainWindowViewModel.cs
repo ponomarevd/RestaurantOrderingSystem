@@ -40,6 +40,9 @@ namespace RestaurantOrderingSystem.ViewModels
         private Visibility _progressRingVisibility = Visibility.Hidden;
 
         [ObservableProperty]
+        private Visibility _cartVisibility = Visibility.Hidden;
+
+        [ObservableProperty]
         private string _applicationTitle = String.Empty;
 
         [ObservableProperty]
@@ -59,7 +62,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private string _userMail = string.Empty;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(IsCartVisible), nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible), nameof(LoginStateVisibility))]
+        [NotifyPropertyChangedFor(nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible), nameof(LoginStateVisibility))]
         private bool _isUserAuthorized = false;
 
         [ObservableProperty]
@@ -75,7 +78,6 @@ namespace RestaurantOrderingSystem.ViewModels
         [NotifyPropertyChangedFor(nameof(BadgeVisibility))]
         private int _badgeValue;
         public Visibility BadgeVisibility => BadgeValue > 0 ? Visibility.Visible : Visibility.Hidden;
-        public Visibility IsCartVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility IsLoginBtnVisible => IsUserAuthorized == true ? Visibility.Hidden : Visibility.Visible;
         public Visibility IsLogoutBtnVisible => IsUserAuthorized == true ? Visibility.Visible : Visibility.Hidden;
         public Visibility LoginInterfaceVisibility => ProgressRingVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
@@ -144,7 +146,33 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private async void Logout()
         {
-            NavigationItems.RemoveAt(NavigationItems.Count - 1);
+            NavigationItems.Clear();
+
+            NavigationItems = new ObservableCollection<INavigationControl>
+            {
+                new NavigationItem()
+                {
+                    Content = "Главная",
+                    PageTag = "home",
+                    Icon = SymbolRegular.Home20,
+                    PageType = typeof(Views.Pages.HomePage),
+                    ToolTip = "Главная",
+                    IconForeground = Brushes.Black,
+                    IsActive = true
+                },
+
+                new NavigationItem()
+                {
+                    Content = "Меню",
+                    PageTag = "menu",
+                    Icon = SymbolRegular.Food16,
+                    PageType = typeof(Views.Pages.MenuPage),
+                    ToolTip = "Меню",
+                    IconForeground = Brushes.Black
+                }
+            };
+
+            CartVisibility = Visibility.Hidden;
             IsUserAuthorized = false;
             BadgeValue = 0;
 
@@ -204,6 +232,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
                             UserID = userModel.UserID;
                             IsUserAuthorized = true;
+                            CartVisibility = Visibility.Visible;
 
                             SnackbarMessage = "Успешный вход!";
                             snackbar.Appearance = ControlAppearance.Success;
@@ -213,6 +242,20 @@ namespace RestaurantOrderingSystem.ViewModels
                             LoginGridVisibility = Visibility.Hidden;
                             break;
                         case 3:
+                            NavigationItems.Clear();
+
+                            UserID = userModel.UserID;
+                            IsUserAuthorized = true;
+
+                            SnackbarMessage = "Успешный вход!";
+                            snackbar.Appearance = ControlAppearance.Success;
+                            snackbar.ShowAsync();
+
+                            navService = App.GetService<INavigationService>();
+                            navService.Navigate(typeof(Views.Pages.EmployeePage));
+
+                            ProgressRingVisibility = Visibility.Hidden;
+                            LoginGridVisibility = Visibility.Hidden;
                             break;
                     }
                 }

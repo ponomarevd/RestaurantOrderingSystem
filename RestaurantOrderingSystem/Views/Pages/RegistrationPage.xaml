@@ -31,7 +31,7 @@
             <Label
                 Width="300"
                 Margin="0,15,0,0"
-                Content="Фамилия и Имя"
+                Content="Имя"
                 FontSize="13"
                 Target="{Binding ElementName=Name, UpdateSourceTrigger=PropertyChanged}" />
             <ui:TextBox
@@ -39,7 +39,7 @@
                 Width="300"
                 FontSize="17"
                 MaxLength="50"
-                PlaceholderText="Иванов Иван"
+                PlaceholderText="Например: Иван"
                 Text="{Binding ViewModel.UserName, UpdateSourceTrigger=PropertyChanged}" />
 
             <Label

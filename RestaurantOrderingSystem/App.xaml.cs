@@ -71,6 +71,9 @@ namespace RestaurantOrderingSystem
                 services.AddScoped<Views.Pages.OrderDetailsPage>();
                 services.AddScoped<ViewModels.OrderDetailsPageViewModel>();
 
+                services.AddScoped<Views.Pages.EmployeePage>();
+                services.AddScoped<ViewModels.EmployeePageViewModel>();
+
                 // Configuration
                 services.Configure<AppConfig>(context.Configuration.GetSection(nameof(AppConfig)));
             }).Build();
