@@ -8,31 +8,31 @@ using System.Windows.Data;
 
 namespace RestaurantOrderingSystem.Converters
 {
-    public class StringToValueConverter : IValueConverter
+    public class OrderStatusToIndexConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((string)value == "Подтвержден")
-                return 13;
+                return 0;
             if ((string)value == "Готовится")
-                return 50;
+                return 1;
             if ((string)value == "Готов к выдаче")
-                return 87;
+                return 2;
             if ((string)value == "Получен")
-                return 100;
+                return 3;
             else
                 return 0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)value == 13)
+            if ((int)value == 0)
                 return "Подтвержден";
-            if ((int)value == 50)
+            if ((int)value == 1)
                 return "Готовится";
-            if ((int)value == 87)
+            if ((int)value == 2)
                 return "Готов к выдаче";
-            if ((int)value == 100)
+            if ((int)value == 3)
                 return "Получен";
             else
                 return "Подтвержден";

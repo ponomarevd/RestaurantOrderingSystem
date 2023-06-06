@@ -35,7 +35,7 @@ namespace RestaurantOrderingSystem.ViewModels
             _mainWindowViewModel = App.GetService<MainWindowViewModel>();
             _dbContext = await Task.Run(() => new RestaurantDbContext());
 
-            OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Include(x => x.User).Where(x => x.OrderStatus != "Готов к выдаче")));
+            OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Include(x => x.User).Where(x => x.OrderStatus != "Получен")));
         }
     }
 }

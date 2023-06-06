@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
+using RestaurantOrderingSystem.Extensions;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,10 @@ namespace RestaurantOrderingSystem.ViewModels
             _mainWindowViewModel = App.GetService<MainWindowViewModel>();
             _dbContext = await Task.Run(() => new RestaurantDbContext());
 
-            OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID)));
+            OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus== "Готов к выдаче"))); 
+            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Готовится")))); 
+            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Подтвержден")))); 
+            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Получен")))); 
 
             if (OrderItems.Count == 0)
             {

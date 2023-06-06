@@ -22,6 +22,7 @@
             x:Key="BooleanToStringConverter"
             FalseValue="Нет"
             TrueValue="Да" />
+        <cnvs:OrderStatusToIndexConverter x:Key="OrderStatusToIndexConverter" />
     </ui:UiPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -79,7 +80,7 @@
                                     MinWidth="150"
                                     Margin="5,0,0,0"
                                     Padding="5"
-                                    SelectedValue="{Binding OrderStatus}">
+                                    SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
                                     <ComboBoxItem Content="Подтвержден" />
                                     <ComboBoxItem Content="Готовится" />
                                     <ComboBoxItem Content="Готов к выдаче" />

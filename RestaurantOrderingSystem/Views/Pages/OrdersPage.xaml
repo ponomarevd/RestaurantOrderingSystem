@@ -134,6 +134,7 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <ProgressBar
                                     x:Name="ProgressBar"
@@ -212,7 +213,7 @@
                                             VerticalAlignment="Center"
                                             FontSize="40"
                                             Foreground="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToForegroundConverter}, ConverterParameter=Ready}"
-                                            Symbol="Checkmark12" />
+                                            Symbol="Receipt20" />
                                     </Border>
                                     <TextBlock
                                         Margin="0,10,0,0"
@@ -221,6 +222,30 @@
                                         Text="Готов к выдаче" />
                                 </StackPanel>
 
+                                <StackPanel
+                                    Grid.Column="3"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Border
+                                        Width="70"
+                                        Height="70"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Background="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToBackgroundConverter}, ConverterParameter=Got}"
+                                        CornerRadius="100">
+                                        <ui:SymbolIcon
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="40"
+                                            Foreground="{Binding ElementName=ProgressBar, Path=Value, Converter={StaticResource ProgressBarValueToForegroundConverter}, ConverterParameter=Got}"
+                                            Symbol="Checkmark12" />
+                                    </Border>
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Center"
+                                        Foreground="DarkSlateGray"
+                                        Text="Получен" />
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>

@@ -16,14 +16,18 @@ namespace RestaurantOrderingSystem.Converters
             switch ((string)parameter)
             {
                 case "Confirm":
-                    if ((double)value == 25 || (double)value == 75 || (double)value == 100)
+                    if ((double)value == 13 || (double)value == 50 || (double)value == 87 || (double)value == 100)
                         return Brushes.White;
                     break;
                 case "Cooking":
-                    if ((double)value == 75 || (double)value == 100)
+                    if ((double)value == 50 || (double)value == 87 || (double)value == 100)
                         return Brushes.White;
                     break;
                 case "Ready":
+                    if ((double)value == 87 || (double)value == 100)
+                        return Brushes.White;
+                    break;
+                case "Got":
                     if ((double)value == 100)
                         return Brushes.White;
                     break;
