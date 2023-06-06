@@ -30,16 +30,26 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Margin="0,0,20,0" Orientation="Horizontal">
-            <ToggleButton
+            <ui:Button
+                x:Name="BtnLogin"
+                Height="33"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="#188851"
+                BorderThickness="1.5"
                 Content="Все заказы"
                 Cursor="Hand"
-                FontSize="16"
+                FontSize="15"
                 FontWeight="SemiBold"
-                IsChecked="True" />
+                Foreground="#188851"
+                MouseOverBackground="Transparent"
+                MouseOverBorderBrush="#2da66a"
+                PressedBackground="Transparent"
+                PressedBorderBrush="#2da66a"
+                PressedForeground="#2da66a" />
         </StackPanel>
         <ListView
             Grid.Row="1"
-            Margin="0,0,20,0"
             ItemsSource="{Binding ViewModel.OrderItems}"
             ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.ScrollUnit="Pixel">
@@ -51,7 +61,10 @@
                         BorderThickness="1"
                         CornerRadius="5">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel VerticalAlignment="Center">
+                            <StackPanel
+                                MinWidth="300"
+                                MaxWidth="300"
+                                VerticalAlignment="Center">
                                 <TextBlock
                                     Margin="15,0,0,0"
                                     HorizontalAlignment="Left"
@@ -68,42 +81,23 @@
                                     Foreground="Gray"
                                     Text="{Binding User.UserMail, StringFormat=От: {0}}" />
                             </StackPanel>
-                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
-                                <TextBlock
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontSize="16"
-                                    FontWeight="SemiBold"
-                                    Foreground="Black"
-                                    Text="Статус заказа: " />
+                            <StackPanel VerticalAlignment="Center">
+                                <Label
+                                    Width="200"
+                                    Margin="5,0,0,0"
+                                    Content="Статус заказа"
+                                    Target="{Binding ElementName=StatusCB}" />
                                 <ComboBox
+                                    x:Name="StatusCB"
                                     MinWidth="150"
                                     Margin="5,0,0,0"
-                                    Padding="5"
                                     SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
                                     <ComboBoxItem Content="Подтвержден" />
                                     <ComboBoxItem Content="Готовится" />
                                     <ComboBoxItem Content="Готов к выдаче" />
+                                    <ComboBoxItem Content="Получен" />
                                 </ComboBox>
                             </StackPanel>
-
-                            <ui:Button
-                                Margin="0,0,15,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                CommandParameter="{Binding OrderID}"
-                                Content="Показать детали заказа"
-                                Cursor="Hand"
-                                FontSize="16"
-                                FontWeight="SemiBold"
-                                Foreground="#188851"
-                                MouseOverBackground="Transparent"
-                                MouseOverBorderBrush="Transparent"
-                                PressedBackground="Transparent"
-                                PressedBorderBrush="Transparent"
-                                PressedForeground="#2da66a" />
                         </StackPanel>
                     </Border>
                 </DataTemplate>

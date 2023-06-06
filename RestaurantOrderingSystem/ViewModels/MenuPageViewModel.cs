@@ -206,25 +206,5 @@ namespace RestaurantOrderingSystem.ViewModels
             MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food));
             ProgressRingVisibility = Visibility.Hidden;
         }
-
-
-        /*[RelayCommand] //ДОБАВИТЬ КАРТИНКУ В БД
-        private void ButtonClick()
-        {
-            try
-            {
-                OpenFileDialog ofd = new OpenFileDialog();
-                ofd.ShowDialog();
-                byte[] imageB = File.ReadAllBytes(ofd.FileName);
-
-                var foodModel = _dbContext.Food.FirstOrDefault(x => x.FoodName == "Улитки");
-                foodModel.FoodImage = imageB;
-                _dbContext.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-                return;
-            }
-        }*/
     }
 }

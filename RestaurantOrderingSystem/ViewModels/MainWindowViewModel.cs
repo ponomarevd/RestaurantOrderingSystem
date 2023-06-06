@@ -214,6 +214,7 @@ namespace RestaurantOrderingSystem.ViewModels
                     switch (userModel.RoleID)
                     {
                         case 1:
+                            //Логика входа администратора (на диплом)
                             break;
                         case 2:
                             NavigationItems.Add(new NavigationItem()
@@ -243,6 +244,16 @@ namespace RestaurantOrderingSystem.ViewModels
                             break;
                         case 3:
                             NavigationItems.Clear();
+
+                            NavigationItems.Add(new NavigationItem()
+                            {
+                                Content = "Заказы",
+                                PageTag = "ordersEmp",
+                                Icon = SymbolRegular.Check20,
+                                PageType = typeof(Views.Pages.EmployeePage),
+                                ToolTip = "Управление заказами",
+                                IconForeground = Brushes.Black
+                            });
 
                             UserID = userModel.UserID;
                             IsUserAuthorized = true;
