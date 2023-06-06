@@ -118,7 +118,7 @@
                                 Foreground="Black">
                                 <Run Text="{Binding Count}" />
                                 <Run Text="x" />
-                                <Run Text="{Binding Food.FoodPrice}" />
+                                <Run Text="{Binding Food.FoodPrice, StringFormat={}{0} ₽}" />
                             </TextBlock>
                         </StackPanel>
                     </Border>
