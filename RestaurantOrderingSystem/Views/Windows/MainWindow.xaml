@@ -130,7 +130,7 @@
                 FontSize="15"
                 FontWeight="Bold"
                 Foreground="#FF8C8686"
-                Text="{Binding ViewModel.UserMail}" />
+                Text="{Binding ViewModel.UserName}" />
         </StackPanel>
 
         <Grid Grid.Row="1">

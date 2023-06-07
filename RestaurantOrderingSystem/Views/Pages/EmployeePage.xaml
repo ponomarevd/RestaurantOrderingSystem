@@ -28,9 +28,22 @@
             <RowDefinition Height="75" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock
+            Grid.RowSpan="2"
+            Width="auto"
+            Margin="0,10,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="35"
+            FontWeight="Medium"
+            Foreground="#FF8C8686"
+            Text="Заказов пока что нет"
+            TextWrapping="Wrap"
+            Visibility="{Binding ViewModel.EmptyOrderVisibility}" />
         <StackPanel
             Margin="0,0,20,0"
             HorizontalAlignment="Center"
+            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}"
             Orientation="Horizontal">
             <ui:Button
                 Height="35"
@@ -38,6 +51,7 @@
                 HorizontalAlignment="Center"
                 BorderBrush="#188851"
                 BorderThickness="1.5"
+                Command="{Binding ViewModel.GetAllOrdersCommand}"
                 Content="Все заказы"
                 Cursor="Hand"
                 FontSize="15"
@@ -54,6 +68,7 @@
                 HorizontalAlignment="Center"
                 BorderBrush="#188851"
                 BorderThickness="1.5"
+                Command="{Binding ViewModel.GetTodayOrdersCommand}"
                 Content="Заказы за сегодня"
                 Cursor="Hand"
                 FontSize="15"
@@ -66,16 +81,23 @@
                 PressedForeground="#2da66a" />
             <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
                 <Label Content="Поиск по ID клиента" />
-                <ui:TextBox MinHeight="35" PlaceholderText="ID клиента" />
-            </StackPanel>
-            <StackPanel Margin="10,0,0,0">
-                <Label Content="Поиск по дате заказа" />
-                <DatePicker />
+                <ui:TextBox
+                    MinHeight="35"
+                    PlaceholderText="ID клиента"
+                    PreviewTextInput="CheckNums"
+                    Text="{Binding ViewModel.UserIDText}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding ViewModel.IDTextChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EmployeePage}}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ui:TextBox>
             </StackPanel>
         </StackPanel>
 
         <ListView
             Grid.Row="1"
+            IsEnabled="{Binding ViewModel.InterfaceIsEnabled}"
             ItemsSource="{Binding ViewModel.OrderItems}"
             ScrollViewer.CanContentScroll="True"
             VirtualizingPanel.ScrollUnit="Pixel">
@@ -185,7 +207,24 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                                 <Label Content="Статус заказа" />
-                                <ComboBox Width="150" SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
+                                <ComboBox
+                                    x:Name="StatusCB"
+                                    Width="150"
+                                    SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ViewModel.StatusChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EmployeePage}}}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                        <Binding Path="OrderID" />
+                                                        <Binding ElementName="StatusCB" Path="SelectedValue" />
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
                                     <ComboBoxItem Content="Подтвержден" />
                                     <ComboBoxItem Content="Готовится" />
                                     <ComboBoxItem Content="Готов к выдаче" />
@@ -197,5 +236,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <ui:ProgressRing
+            Grid.RowSpan="2"
+            IsIndeterminate="True"
+            Visibility="{Binding ViewModel.ProgressRingVisibility}" />
     </Grid>
 </ui:UiPage>

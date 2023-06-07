@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,6 +25,12 @@ namespace RestaurantOrderingSystem.Views.Pages
         public ViewModels.EmployeePageViewModel ViewModel
         {
             get;
+        }
+
+        private void CheckNums(object sender, TextCompositionEventArgs e)
+        {
+            if (!Regex.Match(e.Text.ToString(), @"[0-9]").Success)
+                e.Handled = true;
         }
         public EmployeePage(ViewModels.EmployeePageViewModel viewModel)
         {

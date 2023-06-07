@@ -38,7 +38,7 @@
                 x:Name="Name"
                 Width="300"
                 FontSize="17"
-                MaxLength="50"
+                MaxLength="30"
                 PlaceholderText="Например: Иван"
                 Text="{Binding ViewModel.UserName, UpdateSourceTrigger=PropertyChanged}" />
 

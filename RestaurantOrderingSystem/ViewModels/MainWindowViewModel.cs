@@ -60,7 +60,7 @@ namespace RestaurantOrderingSystem.ViewModels
         private string _roleName = string.Empty;
 
         [ObservableProperty]
-        private string _userMail = string.Empty;
+        private string _userName = string.Empty;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsLoginBtnVisible), nameof(IsLogoutBtnVisible), nameof(LoginStateVisibility))]
@@ -204,7 +204,7 @@ namespace RestaurantOrderingSystem.ViewModels
                 if (userModel != null)
                 {
                     RoleName = userModel.Role.RoleName;
-                    UserMail = userModel.UserMail.Substring(0, userModel.UserMail.IndexOf('@'));
+                    UserName = userModel.UserName;
 
                     if (RememberMeIsChecked)
                     {
