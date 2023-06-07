@@ -6,6 +6,7 @@ using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -244,16 +245,6 @@ namespace RestaurantOrderingSystem.ViewModels
                             break;
                         case 3:
                             NavigationItems.Clear();
-
-                            NavigationItems.Add(new NavigationItem()
-                            {
-                                Content = "Заказы",
-                                PageTag = "ordersEmp",
-                                Icon = SymbolRegular.Check20,
-                                PageType = typeof(Views.Pages.EmployeePage),
-                                ToolTip = "Управление заказами",
-                                IconForeground = Brushes.Black
-                            });
 
                             UserID = userModel.UserID;
                             IsUserAuthorized = true;

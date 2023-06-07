@@ -5,6 +5,7 @@
     xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
     xmlns:cnvs="clr-namespace:RestaurantOrderingSystem.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:RestaurantOrderingSystem.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:RestaurantOrderingSystem.Models.DbTables"
@@ -18,21 +19,21 @@
     Foreground="{DynamicResource TextFillColorPrimaryBrush}"
     mc:Ignorable="d">
     <ui:UiPage.Resources>
-        <cnvs:BoolToStringConverter
-            x:Key="BooleanToStringConverter"
-            FalseValue="Нет"
-            TrueValue="Да" />
+        <cnvs:MultiValueConverter x:Key="MultiValueConverter" />
+        <cnvs:IsPaidToIndexConverter x:Key="IsPaidToIndexConverter" />
         <cnvs:OrderStatusToIndexConverter x:Key="OrderStatusToIndexConverter" />
     </ui:UiPage.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
+            <RowDefinition Height="75" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Margin="0,0,20,0" Orientation="Horizontal">
+        <StackPanel
+            Margin="0,0,20,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
             <ui:Button
-                x:Name="BtnLogin"
-                Height="33"
+                Height="35"
                 Margin="5,0,0,0"
                 HorizontalAlignment="Center"
                 BorderBrush="#188851"
@@ -47,7 +48,32 @@
                 PressedBackground="Transparent"
                 PressedBorderBrush="#2da66a"
                 PressedForeground="#2da66a" />
+            <ui:Button
+                Height="35"
+                Margin="5,0,0,0"
+                HorizontalAlignment="Center"
+                BorderBrush="#188851"
+                BorderThickness="1.5"
+                Content="Заказы за сегодня"
+                Cursor="Hand"
+                FontSize="15"
+                FontWeight="SemiBold"
+                Foreground="#188851"
+                MouseOverBackground="Transparent"
+                MouseOverBorderBrush="#2da66a"
+                PressedBackground="Transparent"
+                PressedBorderBrush="#2da66a"
+                PressedForeground="#2da66a" />
+            <StackPanel Margin="10,0,0,0" VerticalAlignment="Top">
+                <Label Content="Поиск по ID клиента" />
+                <ui:TextBox MinHeight="35" PlaceholderText="ID клиента" />
+            </StackPanel>
+            <StackPanel Margin="10,0,0,0">
+                <Label Content="Поиск по дате заказа" />
+                <DatePicker />
+            </StackPanel>
         </StackPanel>
+
         <ListView
             Grid.Row="1"
             ItemsSource="{Binding ViewModel.OrderItems}"
@@ -56,49 +82,117 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border
-                        Height="100"
+                        Height="80"
                         BorderBrush="LightGray"
                         BorderThickness="1"
                         CornerRadius="5">
-                        <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="125" />
+                                <ColumnDefinition Width="175" />
+                            </Grid.ColumnDefinitions>
                             <StackPanel
-                                MinWidth="300"
-                                MaxWidth="300"
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
+                                <Label Content="ID заказа" />
                                 <TextBlock
-                                    Margin="15,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
                                     FontSize="18"
-                                    FontWeight="SemiBold"
                                     Foreground="Black"
-                                    Text="{Binding OrderID, StringFormat=Заказ #{0}}" />
-                                <TextBlock
-                                    Margin="15,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    FontSize="18"
-                                    Foreground="Gray"
-                                    Text="{Binding User.UserMail, StringFormat=От: {0}}" />
+                                    Text="{Binding OrderID, StringFormat=#{0}}" />
                             </StackPanel>
-                            <StackPanel VerticalAlignment="Center">
-                                <Label
-                                    Width="200"
-                                    Margin="5,0,0,0"
-                                    Content="Статус заказа"
-                                    Target="{Binding ElementName=StatusCB}" />
+
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="Дата заказа" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="Black"
+                                    Text="{Binding OrderDate, StringFormat={}{0:dd.MM.yyyy}}" />
+                            </StackPanel>
+
+
+                            <StackPanel
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="ID клиента" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="Black"
+                                    Text="{Binding User.UserID}" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="3"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="Имя клиента" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="Black"
+                                    Text="{Binding User.UserName}" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="4"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="Сумма заказа" />
+                                <TextBlock
+                                    FontSize="18"
+                                    Foreground="Black"
+                                    Text="{Binding OrderTotal, StringFormat={}{0} ₽}" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="Оплачен" />
                                 <ComboBox
-                                    x:Name="StatusCB"
-                                    MinWidth="150"
-                                    Margin="5,0,0,0"
-                                    SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
+                                    x:Name="IsPaidCB"
+                                    Width="100"
+                                    SelectedIndex="{Binding IsPaid, Converter={StaticResource IsPaidToIndexConverter}}">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding ViewModel.IsPaidChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EmployeePage}}}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                        <Binding Path="OrderID" />
+                                                        <Binding ElementName="IsPaidCB" Path="SelectedValue" />
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                    <ComboBoxItem Content="Да" />
+                                    <ComboBoxItem Content="Нет" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="6"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <Label Content="Статус заказа" />
+                                <ComboBox Width="150" SelectedIndex="{Binding OrderStatus, Converter={StaticResource OrderStatusToIndexConverter}}">
                                     <ComboBoxItem Content="Подтвержден" />
                                     <ComboBoxItem Content="Готовится" />
                                     <ComboBoxItem Content="Готов к выдаче" />
                                     <ComboBoxItem Content="Получен" />
                                 </ComboBox>
                             </StackPanel>
-                        </StackPanel>
+                        </Grid>
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>

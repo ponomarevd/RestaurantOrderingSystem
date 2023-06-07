@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
@@ -36,6 +37,12 @@ namespace RestaurantOrderingSystem.ViewModels
             _dbContext = await Task.Run(() => new RestaurantDbContext());
 
             OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Include(x => x.User).Where(x => x.OrderStatus != "Получен")));
+        }
+
+        [RelayCommand]
+        private async void IsPaidChanged(object parameter)
+        {
+            //Order orderModel = await Task.Run(() => _dbContext.Order.FirstOrDefault(x => x.OrderID == OrderID));
         }
     }
 }
