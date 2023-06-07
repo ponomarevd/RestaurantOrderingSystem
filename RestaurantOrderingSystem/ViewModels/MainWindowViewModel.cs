@@ -6,7 +6,6 @@ using RestaurantOrderingSystem.Models.DbTables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -145,7 +144,7 @@ namespace RestaurantOrderingSystem.ViewModels
 
 
         [RelayCommand]
-        private async void Logout()
+        private void Logout()
         {
             NavigationItems.Clear();
 

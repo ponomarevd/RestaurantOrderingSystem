@@ -1,13 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RestaurantOrderingSystem.Models.DbTables;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace RestaurantOrderingSystem.Core
 {
@@ -16,7 +8,7 @@ namespace RestaurantOrderingSystem.Core
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //  квартира: DESKTOP-467GVQM   ноут: HOME-PC   дом: WIN-DGO65FJKPJ7
-            optionsBuilder.UseSqlServer(@"Data Source=HOME-PC\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-467GVQM\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
         }
         public DbSet<Food> Food { get; set; }
         public DbSet<FoodContain> FoodContain { get; set; }

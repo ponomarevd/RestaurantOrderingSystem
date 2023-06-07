@@ -1,14 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using Wpf.Ui.Common.Interfaces;
@@ -42,9 +36,18 @@ namespace RestaurantOrderingSystem.ViewModels
 
         private async void InitializeViewModel()
         {
-            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
-            _cartPageViewModel = App.GetService<CartPageViewModel>();
-            _dbContext = await Task.Run(() => new RestaurantDbContext());
+            try
+            {
+                _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+                _cartPageViewModel = App.GetService<CartPageViewModel>();
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            
         }
 
         [RelayCommand(CanExecute = nameof(CheckFields))]

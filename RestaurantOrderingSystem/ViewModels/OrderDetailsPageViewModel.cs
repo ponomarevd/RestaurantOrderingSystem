@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Wpf.Ui.Common.Interfaces;
@@ -33,12 +31,20 @@ namespace RestaurantOrderingSystem.ViewModels
 
         private async void InitializeViewModel()
         {
-            ProgressRingVisibility = Visibility.Visible;
+            try
+            {
+                ProgressRingVisibility = Visibility.Visible;
 
-            _dbContext = await Task.Run(() => new RestaurantDbContext());
-            OrderDetailItems = await Task.Run(() => new ObservableCollection<OrderContain>(_dbContext.OrderContain.Include(x => x.Food).Where(x => x.OrderID == OrderID)));
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+                OrderDetailItems = await Task.Run(() => new ObservableCollection<OrderContain>(_dbContext.OrderContain.Include(x => x.Food).Where(x => x.OrderID == OrderID)));
 
-            ProgressRingVisibility = Visibility.Hidden;
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         [RelayCommand]

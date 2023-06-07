@@ -35,7 +35,6 @@
                 FontSize="13"
                 Target="{Binding ElementName=Name, UpdateSourceTrigger=PropertyChanged}" />
             <ui:TextBox
-                x:Name="Name"
                 Width="300"
                 FontSize="17"
                 MaxLength="30"

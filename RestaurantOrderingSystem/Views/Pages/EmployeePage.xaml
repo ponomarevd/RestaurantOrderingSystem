@@ -37,7 +37,7 @@
             FontSize="35"
             FontWeight="Medium"
             Foreground="#FF8C8686"
-            Text="Заказов пока что нет"
+            Text="{Binding ViewModel.EmptyText}"
             TextWrapping="Wrap"
             Visibility="{Binding ViewModel.EmptyOrderVisibility}" />
         <StackPanel
@@ -83,9 +83,10 @@
                 <Label Content="Поиск по ID клиента" />
                 <ui:TextBox
                     MinHeight="35"
+                    MaxLength="7"
                     PlaceholderText="ID клиента"
                     PreviewTextInput="CheckNums"
-                    Text="{Binding ViewModel.UserIDText}">
+                    Text="{Binding ViewModel.UserIDText, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction Command="{Binding ViewModel.IDTextChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EmployeePage}}}" />

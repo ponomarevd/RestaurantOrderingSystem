@@ -4,9 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,7 +49,15 @@ namespace RestaurantOrderingSystem.ViewModels
         }
         private async void InitializeViewModel()
         {
-            _dbContext = await Task.Run(() => new RestaurantDbContext());
+            try
+            {
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
 

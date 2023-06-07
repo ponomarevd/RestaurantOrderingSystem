@@ -1,20 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using RestaurantOrderingSystem.Core;
-using RestaurantOrderingSystem.Models;
 using RestaurantOrderingSystem.Models.DbTables;
-using RestaurantOrderingSystem.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 using Wpf.Ui.Common.Interfaces;
-using Wpf.Ui.Mvvm.Contracts;
 
 namespace RestaurantOrderingSystem.ViewModels
 {
@@ -86,7 +79,11 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private async void TextChanged()
         {
+            ProgressRingVisibility = Visibility.Visible;
+
             MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(MenuItemsMain.Where(u => u.FoodName.ToLower().Contains(SearchText.ToLower())).ToList()));
+
+            ProgressRingVisibility = Visibility.Hidden;
         }
 
 
@@ -167,44 +164,85 @@ namespace RestaurantOrderingSystem.ViewModels
         [RelayCommand]
         private async void CategoryFilterButtonClick(string? parameter)
         {
-            ProgressRingVisibility = Visibility.Visible;
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodCategory == parameter)));
-            ProgressRingVisibility = Visibility.Hidden;
+            try
+            {
+                ProgressRingVisibility = Visibility.Visible;
+                MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodCategory == parameter)));
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         [RelayCommand]
         private async void StatusFilterButtonClick(string? parameter)
         {
-            ProgressRingVisibility = Visibility.Visible;
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodStatus == parameter)));
-            ProgressRingVisibility = Visibility.Hidden;
+            try
+            {
+                ProgressRingVisibility = Visibility.Visible;
+                MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodStatus == parameter)));
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         [RelayCommand]
         private async void PriceFilterButtonClick(string? parameter)
         {
-            parameter = parameter.Replace(" ₽", "");
-            string[] strSplit = parameter.Split(" - ");
+            try
+            {
+                parameter = parameter.Replace(" ₽", "");
+                string[] strSplit = parameter.Split(" - ");
 
-            ProgressRingVisibility = Visibility.Visible;
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodPrice >= int.Parse(strSplit[0]) && x.FoodPrice <= int.Parse(strSplit[1]))));
-            ProgressRingVisibility = Visibility.Hidden;
+                ProgressRingVisibility = Visibility.Visible;
+                MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodPrice >= int.Parse(strSplit[0]) && x.FoodPrice <= int.Parse(strSplit[1]))));
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }      
         }
 
         [RelayCommand]
         private async void TypeFilterButtonClick(string? parameter)
         {
-            ProgressRingVisibility = Visibility.Visible;
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodType == parameter)));
-            ProgressRingVisibility = Visibility.Hidden;
+            try
+            {
+                ProgressRingVisibility = Visibility.Visible;
+                MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food.Where(x => x.FoodType == parameter)));
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
         }
 
         [RelayCommand]
         private async void ClearFilters(string? parameter)
         {
-            ProgressRingVisibility = Visibility.Visible;
-            MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food));
-            ProgressRingVisibility = Visibility.Hidden;
+            try
+            {
+                ProgressRingVisibility = Visibility.Visible;
+                MenuItemsSecondary = await Task.Run(() => new ObservableCollection<Food>(_dbContext.Food));
+                ProgressRingVisibility = Visibility.Hidden;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
         }
     }
 }

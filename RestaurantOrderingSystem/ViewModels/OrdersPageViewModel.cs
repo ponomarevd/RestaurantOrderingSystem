@@ -5,14 +5,10 @@ using RestaurantOrderingSystem.Core;
 using RestaurantOrderingSystem.Extensions;
 using RestaurantOrderingSystem.Models.DbTables;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 using Wpf.Ui.Common.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 
@@ -38,25 +34,33 @@ namespace RestaurantOrderingSystem.ViewModels
 
         private async void InitializeViewModel()
         {
-            ProgressRingVisibility = Visibility.Visible;
-
-            _mainWindowViewModel = App.GetService<MainWindowViewModel>();
-            _dbContext = await Task.Run(() => new RestaurantDbContext());
-
-            OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus== "Готов к выдаче"))); 
-            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Готовится")))); 
-            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Подтвержден")))); 
-            OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Получен")))); 
-
-            if (OrderItems.Count == 0)
+            try
             {
-                ProgressRingVisibility = Visibility.Hidden;
-                EmptyOrdersVisibility = Visibility.Visible;
+                ProgressRingVisibility = Visibility.Visible;
+
+                _mainWindowViewModel = App.GetService<MainWindowViewModel>();
+                _dbContext = await Task.Run(() => new RestaurantDbContext());
+
+                OrderItems = await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Готов к выдаче")));
+                OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Готовится"))));
+                OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Подтвержден"))));
+                OrderItems.InsertRange(await Task.Run(() => new ObservableCollection<Order>(_dbContext.Order.Include(x => x.OrderContain).Where(x => x.UserID == _mainWindowViewModel.UserID && x.OrderStatus == "Получен"))));
+
+                if (OrderItems.Count == 0)
+                {
+                    ProgressRingVisibility = Visibility.Hidden;
+                    EmptyOrdersVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    ProgressRingVisibility = Visibility.Hidden;
+                    EmptyOrdersVisibility = Visibility.Hidden;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ProgressRingVisibility = Visibility.Hidden;
-                EmptyOrdersVisibility = Visibility.Hidden;
+                System.Windows.MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
         }
 
