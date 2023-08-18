@@ -7,12 +7,12 @@ namespace RestaurantOrderingSystem.Core
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            /*//local
+            //local
             string hostname = System.Environment.GetEnvironmentVariable("COMPUTERNAME");
-            optionsBuilder.UseSqlServer(@$"Data Source={hostname}\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");*/
+            optionsBuilder.UseSqlServer(@$"Data Source={hostname}\SQLEXPRESS;Initial Catalog=restaurant_ordering_system_db;Integrated security=True;TrustServerCertificate=True");
 
-            //cluster
-            optionsBuilder.UseSqlServer(@$"Data Source=mssql-131410-0.cloudclusters.net,18553;Initial Catalog=restaurant_ordering_system_db;TrustServerCertificate=True;User=admin;Password=JMMXXZ_99-ae");
+            /*//cluster
+            optionsBuilder.UseSqlServer(@$"Data Source=mssql-131410-0.cloudclusters.net,18553;Initial Catalog=restaurant_ordering_system_db;TrustServerCertificate=True;User=admin;Password=JMMXXZ_99-ae");*/
         }
         public DbSet<Food> Food { get; set; }
         public DbSet<FoodContain> FoodContain { get; set; }
